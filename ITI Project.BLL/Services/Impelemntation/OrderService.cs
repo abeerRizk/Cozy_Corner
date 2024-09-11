@@ -16,13 +16,13 @@ namespace ITI_Project.BLL.Services.Impelemntation
     {
         private readonly IOrderRepo _orderRepository;
         private readonly IMapper _mapper;
-        private readonly InvoiceRepo invoiceRepo;
+        private readonly IINvoiceRepo invoiceRepo;
 
-        public OrderService(IOrderRepo orderRepository, IMapper mapper , InvoiceRepo invoiceRepo)
+        public OrderService(IOrderRepo orderRepository, IMapper mapper , IINvoiceRepo invoiceRepo)
         {
             _orderRepository = orderRepository;
             _mapper = mapper;
-            this.invoiceRepo = invoiceRepo;
+            this.invoiceRepo = invoiceRepo ?? throw new ArgumentNullException(nameof(invoiceRepo)); 
         }
 
         public OrderModelVM GetOrderById(int id)
@@ -62,7 +62,8 @@ namespace ITI_Project.BLL.Services.Impelemntation
             invoice.Order = order;
             invoice.TotallPrice = order.TotalPrice;
             invoice.IsPaid = false;
-            invoiceRepo.Create(invoice);
+
+           invoiceRepo.Create(invoice);
         }
 
     }
