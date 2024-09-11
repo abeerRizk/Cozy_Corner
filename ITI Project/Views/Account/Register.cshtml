@@ -1,67 +1,163 @@
-﻿@model ITI_Project.BLL.ModelVM.RegisterUserVM
+﻿@model ITI_Project.BLL.ModelVM.RegisterUserVM 
 
-@{
+@{ 
     ViewData["Title"] = "Register";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+    ViewData["HideHeaderFooter"] = true;
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
+} 
 
-<h1>Register</h1>
 
-<h4>RegisterUserVM</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Register">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="UserName" class="control-label"></label>
-                <input asp-for="UserName" class="form-control" />
-                <span asp-validation-for="UserName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ConfirmPassword" class="control-label"></label>
-                <input asp-for="ConfirmPassword" class="form-control" />
-                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <!-- Add Role Selection: Vendor or Client -->
-            <div class="form-group">
-                <label>Are you registering as:</label>
-                <div class="form-check">
-                    <input asp-for="IsVendor" class="form-check-input" type="radio" value="true" id="vendorOption" />
-                    <label class="form-check-label" for="vendorOption">Vendor</label>
-                </div>
-                <div class="form-check">
-                    <input asp-for="IsVendor" class="form-check-input" type="radio" value="false" id="clientOption" />
-                    <label class="form-check-label" for="clientOption">Client</label>
-                </div>
-                <span asp-validation-for="IsVendor" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="row justify-content-center align-items-center" style="min-height: 100vh;">
+    <p class="text-brown text-center" style="font-family: 'Times New Roman', serif; font-size: 30px; color: #865439; margin-top: 10px;">Create An Account</p>
+
+    <div class="col-md-6 p-4 shadow-sm rounded"> 
+        <form asp-action="Register" style="border: none; padding: 20px;"> <!-- No background color for form -->
+            <div asp-validation-summary="ModelOnly" class="text-dark-brown"></div> 
+            <div class="form-group mb-4 "> <!-- Added margin-bottom for spacing -->
+                <label asp-for="UserName" class="control-label text-darker-brown"></label> 
+                <input asp-for="UserName" class="form-control transparent-input border-dark-brown " autocomplete="off"/> 
+                <span asp-validation-for="UserName" class="text-dark-brown"></span> 
+            </div> 
+            <div class="form-group mb-4"> <!-- Added margin-bottom for spacing -->
+                <label asp-for="Password" class="control-label text-darker-brown"></label> 
+                <input asp-for="Password" class="form-control transparent-input border-dark-brown" type="password" autocomplete="new-password" /> 
+                <span asp-validation-for="Password" class="text-dark-brown"></span> 
+            </div> 
+            <div class="form-group mb-4"> <!-- Added margin-bottom for spacing -->
+                <label asp-for="ConfirmPassword" class="control-label text-darker-brown"></label> 
+                <input asp-for="ConfirmPassword" class="form-control transparent-input border-dark-brown" type="password" autocomplete="new-password" /> 
+                <span asp-validation-for="ConfirmPassword" class="text-dark-brown"></span> 
+            </div> 
+            <div class="form-group mb-4"> <!-- Added margin-bottom for spacing -->
+                <label asp-for="Address" class="control-label text-darker-brown"></label> 
+                <input asp-for="Address" class="form-control transparent-input border-dark-brown"autocomplete="off" /> 
+                <span asp-validation-for="Address" class="text-dark-brown"></span> 
+            </div> 
+            <div class="form-group mb-4"> <!-- Added margin-bottom for spacing -->
+                <label asp-for="Email" class="control-label text-darker-brown"></label> 
+                <input asp-for="Email" class="form-control transparent-input border-dark-brown"autocomplete="off" /> 
+                <span asp-validation-for="Email" class="text-dark-brown"></span> 
+            </div> 
+            <!-- Role Selection: Vendor or Client -->
+            <div class="form-group mb-4"> <!-- Added margin-bottom for spacing -->
+                <label class="text-darker-brown">Are you registering as:</label> 
+                <div class="form-check"> 
+                    <input asp-for="IsVendor" class="form-check-input transparent-input" type="radio" value="true" id="vendorOption" /> 
+                    <label class="form-check-label text-darker-brown" for="vendorOption">Vendor</label> 
+                </div> 
+                <div class="form-check"> 
+                    <input asp-for="IsVendor" class="form-check-input transparent-input" type="radio" value="false" id="clientOption" /> 
+                    <label class="form-check-label text-darker-brown" for="clientOption">Client</label> 
+                </div> 
+                <span asp-validation-for="IsVendor" class="text-dark-brown"></span> 
+            </div> 
+            <div class="form-group mb-4"> <!-- Added margin-bottom for spacing -->
+               <input  class="button1" type="submit" value="Create"  /> 
+           </div>
+
+        </form> 
     </div>
-</div>
+</div> 
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+<div class="text-center mt-3"> 
+    <a asp-action="Index" class="text-brown">Back to List</a> 
+</div> 
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+@section Scripts { 
+    @await Html.PartialAsync("_ValidationScriptsPartial") 
 }
+
+<style>
+    /* Full page background */
+  .button1{
+  background-color: #865439; /* Green */
+  border: none;
+  color: #FFF8E7 ;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  width:485px;
+  border-radius:10px;
+}
+.button1:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+.btn-brown:hover {
+    background-color: #6B3E1A; /* Darker shade for hover effect */
+}
+    body {
+        background-image: url('https://images.pexels.com/photos/4352247/pexels-photo-4352247.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        padding-top:50px;
+    }
+
+    .text-brown {
+        color: #8B4513;
+    }
+
+    .text-darker-brown {
+        color: #4A2D12; /* Darker brown for labels */
+    }
+
+    .text-dark-brown {
+        color: #4A2D12; /* Dark brown for validation text */
+    }
+
+    .border-dark-brown {
+        border-color: #654321;
+    }
+
+    .btn-brown {
+        background-color: #8B4513;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+    }
+
+    .btn-brown:hover {
+        background-color: #6B3E1A;
+    }
+
+    /* Transparent inputs */
+    .transparent-input {
+        background-color: rgba(255, 255, 255, 0.1); /* Transparent background */
+        color: #654321; /* Text color */
+        border: 1px solid #654321; /* Dark brown border */
+        transition: background-color 0.3s ease;
+    }
+
+    /* Ensure input background stays the same on focus (when typing) */
+    .transparent-input:focus {
+        background-color:rgba(255, 255, 255, 0.1); /* Maintain transparency on focus */
+        color: #654321; /* Keep text color consistent */
+        outline: none; /* Remove browser-specific focus outline */
+        box-shadow: none; /* Remove any box-shadow */
+        border-color:#FFF8E7;
+    }
+
+    /* Placeholder text color */
+    .transparent-input::placeholder {
+        color: #888888; /* Lighter placeholder text */
+    }
+
+    .row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* For form box shadow */
+    .shadow-sm {
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Add spacing between form elements */
+    .form-group {
+        margin-bottom: 20px;
+    }
+</style>
