@@ -2,6 +2,7 @@
 using ITI_Project.BLL.ModelVM;
 using ITI_Project.BLL.Services.Interface;
 using ITI_Project.DAL.Entites;
+using ITI_Project.DAL.Repo.Impelemntation;
 using ITI_Project.DAL.Repo.Interface;
 using System;
 using System.Collections.Generic;
@@ -15,11 +16,13 @@ namespace ITI_Project.BLL.Services.Impelemntation
     {
         private readonly IOrderRepo _orderRepository;
         private readonly IMapper _mapper;
+        private readonly InvoiceRepo invoiceRepo;
 
-        public OrderService(IOrderRepo orderRepository, IMapper mapper)
+        public OrderService(IOrderRepo orderRepository, IMapper mapper , InvoiceRepo invoiceRepo)
         {
             _orderRepository = orderRepository;
             _mapper = mapper;
+            this.invoiceRepo = invoiceRepo;
         }
 
         public OrderModelVM GetOrderById(int id)
@@ -50,5 +53,17 @@ namespace ITI_Project.BLL.Services.Impelemntation
         {
             _orderRepository.DeleteOrder(id);
         }
+
+        public void ConfirmOrder(int OrderId)
+        {
+            Order order = _orderRepository.GetOrderById(OrderId);
+            Invoice invoice = new Invoice();
+            invoice.OrderId = OrderId;
+            invoice.Order = order;
+            invoice.TotallPrice = order.TotalPrice;
+            invoice.IsPaid = false;
+            invoiceRepo.Create(invoice);
+        }
+
     }
 }

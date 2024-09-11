@@ -26,6 +26,7 @@ namespace ITI_Project.Controllers
             }
             return View(order);
         }
+
         [HttpGet]
         public IActionResult Create()
         {

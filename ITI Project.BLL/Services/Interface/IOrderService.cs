@@ -14,5 +14,6 @@ namespace ITI_Project.BLL.Services.Interface
         void AddOrder(OrderModelVM orderViewModel);
         void UpdateOrder(OrderModelVM orderViewModel);
         void DeleteOrder(int id);
+        public void ConfirmOrder(int OrderId);
     }
 }

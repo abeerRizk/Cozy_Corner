@@ -15,6 +15,7 @@ namespace ITI_Project.DAL.Repo.Interface
         public List<Invoice> GetAll();
 
         public Invoice GetByInvoiceId(int id);
-
+        public Invoice GetInvoiceByOrderId(int orderId);
+  
     }
 }

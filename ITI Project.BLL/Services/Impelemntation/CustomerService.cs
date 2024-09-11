@@ -98,10 +98,13 @@ namespace ITI_Project.BLL.Services.Impelemntation
             else
             {
                 Order new_order = new Order();
+                
                 new_order.CustomerId = CustomerId;
                 orderRepo.AddOrderItem(new_order.Id, new_product);
+                orderRepo.AddOrder(new_order);
                 customer.hasOrder = true;
                 customer.CurrentOrderId = new_order.Id;
+
                 customer.Orders.Add(new_order);
                
             }

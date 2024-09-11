@@ -64,6 +64,12 @@ namespace ITI_Project.BLL.Services.Impelemntation
             return mapper.Map<GetInvoiceVM>(invoice);
         }
 
+        public GetInvoiceVM GetInvoiceByOrderId(int orderId)
+        {
+            Invoice invoice = iNvoiceRepo.GetInvoiceByOrderId(orderId);
+            return mapper.Map<GetInvoiceVM>(invoice);
+        }
+
         public bool Update(UpdateInvoiceVM invoice)
         {
             try

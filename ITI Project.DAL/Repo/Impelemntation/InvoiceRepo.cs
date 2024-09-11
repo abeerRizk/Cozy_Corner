@@ -63,6 +63,13 @@ namespace ITI_Project.DAL.Repo.Impelemntation
             return data;
         }
 
+        public Invoice GetInvoiceByOrderId(int orderId)
+        {
+           return db.Invoices.Where(a=> a.OrderId == orderId).FirstOrDefault();
+        }
+
+
+
         public bool Update(Invoice invoice)
         {
             try
@@ -71,10 +78,10 @@ namespace ITI_Project.DAL.Repo.Impelemntation
 
                 data.OrderId = invoice.OrderId; 
                 data.TotallPrice    = invoice.TotallPrice;
-                data.TotallPrice = invoice.TotallPrice;
+              
                 data.PaymentMethod =  invoice.PaymentMethod;
-                data.IsPaid = invoice.IsPaid;
-                data.PaymentDate = invoice.PaymentDate;
+                data.IsPaid = true;
+                data.PaymentDate = DateTime.Now;
                 db.SaveChanges();
                 return true;
             }
