@@ -1,0 +1,44 @@
+﻿@model ITI_Project.BLL.ModelVM.OrderModelVM
+
+@{
+    ViewData["Title"] = "Order Details";
+}
+
+<h1>Order Details</h1>
+
+<table class="table">
+    <tr>
+        <th>Id</th>
+        <td>@Model.Id</td>
+    </tr>
+    <tr>
+        <th>Shipping Address</th>
+        <td>@Model.ShippingAddress</td>
+    </tr>
+    <tr>
+        <th>Order Date</th>
+        <td>@Model.OrderDate</td>
+    </tr>
+    <tr>
+        <th>Status</th>
+        <td>@Model.Status</td>
+    </tr>
+    <tr>
+        <th>Expected Delivery Date</th>
+        <td>@Model.ExpectedDeliveryDate</td>
+    </tr>
+    <tr>
+        <th>Payment Method</th>
+        <td>@Model.PaymentMethod</td>
+    </tr>
+    <tr>
+        <th>Total Price</th>
+        <td>@Model.TotalPrice</td>
+    </tr>
+    <tr>
+        <th>Customer Id</th>
+        <td>@Model.CustomerId</td>
+    </tr>
+</table>
+
+<a asp-action="Index">Back to List</a>

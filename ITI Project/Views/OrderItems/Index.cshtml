@@ -1,0 +1,38 @@
+﻿@model IEnumerable<ITI_Project.BLL.ModelVM.OrderItemsVM>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<center><i><b>Order Items</b></i></center>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Quantity</th>
+            <th>Status</th>
+            <th>Unit Price</th>
+            <th>Total Price</th>
+            <th>Delete It ?</th>
+            <th>Edit It ?</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        
+        @foreach(var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Quantity</td>
+                <td>@item.Status</td>
+                <td>@item.UnitPrice</td>
+                <td>@item.TotalPrice</td>
+                <td><a asp-action="Delete" asp-controller="OrderItems" asp-route-id="@item.Id" class="btn btn-danger">Delete</a></td>
+                <td><a asp-action="Edit" asp-controller="OrderItems" asp-route-id="@item.Id" class="btn btn-success">Edit</a></td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+
