@@ -5,43 +5,70 @@
     ViewData["HideHeaderFooter"] = true;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="row justify-content-center align-items-center" style="min-height: 100vh;">
-    <p class="text-brown text-center" style="font-family: 'Times New Roman', serif; font-size: 30px; color: #865439; margin-top: auto;"><b>Login To Account </b></p>
 
-    <div class="col-md-6 p-4 shadow-sm rounded">
-        <form asp-action="Login"  style=" border: none; padding: 20px;">
-            <!-- No background color for form -->
-            <div asp-validation-summary="ModelOnly" class="text-dark-brown"></div>
-            <div class="form-group mb-4 ">
-                <!-- Added margin-bottom for spacing -->
-                <b><label asp-for="UserName" class="control-label text-darker-brown"></label></b>
-                <input asp-for="UserName" class="form-control transparent-input border-dark-brown " autocomplete="off" />
-                <span asp-validation-for="UserName" class="text-dark-brown"></span>
-            </div>
-            <div class="form-group mb-4">
-                <!-- Added margin-bottom for spacing -->
-                <b><label asp-for="Password" class="control-label text-darker-brown"></label></b>
-                <input asp-for="Password" class="form-control transparent-input border-dark-brown" type="password" autocomplete="off" />
-                <span asp-validation-for="Password" class="text-dark-brown"></span>
-            </div>
-            <div class="form-group form-check mb-4">
-               <b>
-                    <label class="form-check-label">
-                        <input class="form-check-input" asp-for="RemenberMe" /> @Html.DisplayNameFor(model => model.RemenberMe)
-                    </label>
-               </b> 
-            </div>
-            <div class="form-group mb-4">
-                <!-- Added margin-bottom for spacing -->
-                <input class="button1" type="submit" value="login" />
-            </div>
-
-        </form>
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-brown w-100">
+    <div class="container-fluid">
+        <a class="navbar-brand text-light" href="#">Furniture Store</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link text-light" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="#">Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="#">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="#">Contact</a>
+                </li>
+            </ul>
+        </div>
     </div>
-</div>
+</nav>
 
-<div class="text-center mt-3">
-    <a asp-action="Index" asp-controller="Home" class="button2">Back to List</a>
+<div class="blurred-background">
+    <div class="row justify-content-center align-items-center" style="min-height: 100vh;">
+      
+        <div class="col-md-6 p-4 shadow-sm rounded">
+            <p class="text-brown text-center" style="font-family: 'Times New Roman', serif; font-size: 35px; color: #865439; margin-top: auto;">Login</p>
+
+            <form asp-action="Login" style=" border: none; padding: 20px;">
+                <!-- No background color for form -->
+                <div asp-validation-summary="ModelOnly" class="text-dark-brown"></div>
+                <div class="form-group mb-4 ">
+                    <!-- Added margin-bottom for spacing -->
+                    <label asp-for="UserName" class="control-label text-darker-brown"></label>
+                    <input asp-for="UserName" class="form-control transparent-input border-dark-brown " autocomplete="off" />
+                    <span asp-validation-for="UserName" class="text-dark-brown"></span>
+                </div>
+                <div class="form-group mb-4">
+                    <!-- Added margin-bottom for spacing -->
+                    <label asp-for="Password" class="control-label text-darker-brown"></label>
+                    <input asp-for="Password" class="form-control transparent-input border-dark-brown" type="password" autocomplete="off" />
+                    <span asp-validation-for="Password" class="text-dark-brown"></span>
+                </div>
+                <div class="form-group form-check mb-4">
+                    
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="RemenberMe" /> @Html.DisplayNameFor(model => model.RemenberMe)
+                        </label>
+                    
+                </div>
+                <div class="form-group mb-4">
+                    <!-- Added margin-bottom for spacing -->
+                    <input class="button1 w-100" type="submit" value="login" />
+                </div>
+
+            </form>
+        </div>
+    </div>
+
 </div>
 
 @section Scripts {
@@ -49,120 +76,162 @@
 }
 
 <style>
-        /* Full page background */
-      .button1{
-      background-color: #865439; /* Green */
-      border: none;
-      color: #FFF8E7 ;
-      padding: 15px 32px;
-      text-align: center;
-      font-weight: bold;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 16px;
-      width:485px;
-      border-radius:10px;
-    }
-    .button1:hover {
-      box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    /* Adjusting navbar height */
+    .navbar {
+        padding: 5px;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
     }
 
-    .btn-brown:hover {
-        background-color: #6B3E1A; /* Darker shade for hover effect */
+    .bg-brown {
+        background-color: #865439;
     }
 
-    .button2 {
-        background-color: #865439; /* Green */
+    .navbar-brand, .nav-link {
+        font-size: 18px;
+    }
+
+        .nav-link:hover {
+            color: #FFF8E7 !important;
+        }
+
+    .create-account-heading {
+        margin-top: 0;
+        font-size: 24px;
+    }
+
+    .form-section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .button1 {
+        background-color: #865439;
         border: none;
         color: #FFF8E7;
-        padding: 15px 32px;
         text-align: center;
-        font-weight: bold;
         text-decoration: none;
         display: inline-block;
-        font-size: 16px;
-        width: 385px;
+        padding: 10px 20px;
+        font-size: 14px;
+        width: 100%;
         border-radius: 10px;
     }
 
-        .button2:hover {
-            box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+        .button1:hover {
+            box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
         }
 
-    .btn-brown:hover {
-        background-color: #6B3E1A; /* Darker shade for hover effect */
+    body {
+        height: 100%;
+        overflow-x: hidden;
+        margin: 0;
+        padding: 0;
+        padding-top: 100px;
+        padding-bottom: 100px;
+        padding-right: 120px;
     }
 
-        body {
-        background-image: url('https://plus.unsplash.com/premium_photo-1681031465676-995faaaac5bf?q=80&w=1444&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+    .blurred-background {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        z-index: 1;
+    }
+
+        .blurred-background::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('https://images.pexels.com/photos/4352247/pexels-photo-4352247.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            padding-top:50px;
+            filter: blur(4px);
+            z-index: -1;
+            opacity: 0.8;
+            width: 100vw;
+            height: 100vh;
         }
 
-        .text-brown {
-            color: #8B4513;
-        }
+    .form-section {
+        position: relative;
+        z-index: 1;
+    }
 
-        .text-darker-brown {
-            color: #4A2D12; /* Darker brown for labels */
-        }
+    .text-brown {
+        color: #8B4513;
+    }
 
-        .text-dark-brown {
-            color: #4A2D12; /* Dark brown for validation text */
-        }
+    .text-darker-brown {
+        color: #4A2D12;
+    }
 
-        .border-dark-brown {
-            border-color: #654321;
-        }
+    .text-dark-brown {
+        color: #4A2D12;
+    }
 
-        .btn-brown {
-            background-color: #8B4513;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-        }
+    .border-dark-brown {
+        border-color: #654321;
+    }
 
-        .btn-brown:hover {
-            background-color: #6B3E1A;
-        }
+    .transparent-input {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: #654321;
+        border: 1px solid #654321;
+        transition: background-color 0.3s ease;
+    }
 
-        /* Transparent inputs */
-        .transparent-input {
-            background-color: rgba(255, 255, 255, 0.1); /* Transparent background */
-            color: #654321; /* Text color */
-            border: 1px solid #654321; /* Dark brown border */
-            transition: background-color 0.3s ease;
-        }
-
-        /* Ensure input background stays the same on focus (when typing) */
         .transparent-input:focus {
-            background-color:rgba(255, 255, 255, 0.1); /* Maintain transparency on focus */
-            color: #654321; /* Keep text color consistent */
-            outline: none; /* Remove browser-specific focus outline */
-            box-shadow: none; /* Remove any box-shadow */
-            border-color:#FFF8E7;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #654321;
+            outline: none;
+            box-shadow: none;
+            border-color: #FFF8E7;
         }
 
-        /* Placeholder text color */
         .transparent-input::placeholder {
-            color: #888888; /* Lighter placeholder text */
+            color: #888888;
         }
 
-        .row {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+    .row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-        /* For form box shadow */
-        .shadow-sm {
+    .shadow-sm {
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+        a:hover {
+            color: #8B4513;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        /* Add spacing between form elements */
-        .form-group {
-            margin-bottom: 20px;
-        }
+    .form-container {
+        max-width: 600px;
+        padding: 20px;
+    }
+
+
+
+
+
 </style>
