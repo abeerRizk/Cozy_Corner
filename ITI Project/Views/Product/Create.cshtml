@@ -6,6 +6,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<!-- Navigation Bar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-brown w-100">
     <div class="container-fluid">
         <a class="navbar-brand text-light" href="#">Furniture Store</a>
@@ -31,147 +32,66 @@
     </div>
 </nav>
 
+<div class="row justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="col-md-6 p-4 shadow-sm rounded">
+        <p class="text-brown text-center" style="font-family: 'Times New Roman', serif; font-size: 30px; color: #674636;"> Create A New Product</p>
+        <form asp-action="Create" style="border: none; padding: 20px;">
+            <div asp-validation-summary="ModelOnly" class="text-dark-brown"></div>
+            <div class="form-group mb-4">
+                <label asp-for="Name" class="control-label text-darker-brown"></label>
+                <input asp-for="Name" placeholder="Enter Name" class="form-control transparent-input border-dark-brown" autocomplete="off" />
+                <span asp-validation-for="Name" class="text-dark-brown"></span>
+            </div>
 
-<div>
+            <div class="form-group mb-4">
+                <label asp-for="Description" class="control-label text-darker-brown"></label>
+                <input asp-for="Description" placeholder="Write Description For Product" class="form-control transparent-input border-dark-brown" type="text" autocomplete="off" />
+                <span asp-validation-for="Description" class="text-dark-brown"></span>
+            </div>
 
-    <form asp-action="Create" style="border: none; padding: 20px;" enctype="multipart/form-data">
-        <!-- Product Name -->
+            <div class="form-group mb-4">
+                <label asp-for="Quantity" class="control-label text-darker-brown"></label>
+                <input asp-for="Quantity" placeholder="Enter available quantity" class="form-control transparent-input border-dark-brown" type="number" autocomplete="off" />
+                <span asp-validation-for="Quantity" class="text-dark-brown"></span>
+            </div>
 
-        <label asp-for="Name">Product Name:</label>
-        <input type="text" asp-for="Name" placeholder="Enter product name">
-        <span asp-validation-for="Name" class="text-dark-brown"></span>
+            <div class="form-group mb-4">
+                <label asp-for="Price" class="control-label text-darker-brown"></label>
+                <input asp-for="Price" placeholder="Enter Price " class="form-control transparent-input border-dark-brown" type="text" autocomplete="off" />
+                <span asp-validation-for="Price" class="text-dark-brown"></span>
+            </div>
 
-        <!-- Product Description -->
-        <label asp-for="Description">Product Description:</label>
-        <textarea type="text" asp-for="Description" placeholder="Enter product description" style="height:140px"></textarea>
-        <span asp-validation-for="Description" class="text-dark-brown"></span>
+            <div class="form-group mb-4">
+                <label asp-for="Category" class="control-label text-darker-brown"></label>
+                <input asp-for="Category" placeholder="Enter Category" class="form-control transparent-input border-dark-brown" type="text" autocomplete="off" />
+                <span asp-validation-for="Category" class="text-dark-brown"></span>
+            </div>
 
-        <!-- Price -->
-        <label asp-for="Price">Price ($):</label>
-        <input type="number" asp-for="Price" step="0.01" placeholder="Enter price">
-        <span asp-validation-for="Price" class="text-dark-brown"></span>
+            <!-- Custom Image Upload input-->
+            <div class="input-group mb-3 px-2 py-2 input-group-custom">
+                <input asp-for="Image" id="upload" type="file" onchange="readURL(this);" class="form-control border-0">
+                <label id="upload-label" for="upload" class="font-weight-light text-muted">Choose Image</label>
+                <div class="input-group-append">
+                    <label for="upload" class="btn btn-light m-0 px-4 label-custom choose-file-large">
+                        <i class="fa fa-cloud-upload mr-2 text-muted"></i>
+                        <small class=" font-weight-bold text-muted choose-image-text">Choose Image</small>
+                    </label>
+                </div>
+            </div>
 
-        <label asp-for="Image">Image :</label>
-        <input type="file" asp-for="Image" step="0.01" placeholder="Add Image">
-        <span asp-validation-for="Image" class="text-dark-brown"></span>
+            <div class="form-group mb-4">
+                <input class="button1 w-100" type="submit" value="Create" />
+            </div>
 
-        <label asp-for="Available">Available :</label>
-        <input type="text" asp-for="Available" step="0.01" placeholder="Available or Not">
-        <span asp-validation-for="Available" class="text-dark-brown"></span>
-
-        <label asp-for="Quantity">Quantity :</label>
-        <input type="number" asp-for="Quantity" step="0.01" placeholder="Enter Quantity">
-        <span asp-validation-for="Quantity" class="text-dark-brown"></span>
-
-        <label asp-for="VendorID">Vendor Id :</label>
-        <input type="number" asp-for="VendorID" step="0.01" placeholder="Add Vendor Id">
-        <span asp-validation-for="VendorID" class="text-dark-brown"></span>
-
-
-        <!-- Category -->
-        <label asp-for="Category">Category:</label>
-        <select asp-for="Category">
-            <option value="table">Table</option>
-            <option value="table">Bed Room</option>
-            <option value="table">Child Room</option>
-            <option value="chair">Chair</option>
-            <option value="bed">Bed</option>
-            <option value="wardrobe">Wardrobe</option>
-            <option value="other">Other</option>
-        </select>
-
-        <!-- Submit Button -->
-
-        <div class="text-center mt-3">
-            <!-- Added margin-bottom for spacing -->
-            <input class="button1" type="submit" value="Create" />
-        </div>
-
-        <div class="text-center mt-3">
-            <a asp-action="Read" asp-controller="Product" class="button2">Back to List</a>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
 
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #E2E1B9;
-    }
-
-    form {
-        max-width: 1000px;
-        margin: 0 auto;
-        padding: 20px;
-        background: linear-gradient(90deg, hsla(51, 64%, 84%, 1) 0%, hsla(45, 37%, 72%, 1) 100%);
-        border-radius: 25px;
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
-    }
-
-    h2 {
-        text-align: center;
-        color: #ff4500; /* OrangeRed */
-    }
-
-    label {
-        display: block;
-        margin-top: 10px;
-        font-weight: bold;
-        color: #825B32; /* SteelBlue for labels */
-    }
-
-    input, textarea, select {
-        width: 100%;
-        padding: 10px;
-        margin-top: 5px;
-        margin-bottom: 15px;
-        background-color: rgba(255, 255, 224, 0.8); /* Light yellow input fields */
-        border: 1px solid #181C14; /* IndianRed border */
-        border-radius: 15px;
-        color: #2f4f4f; /* DarkSlateGray text color */
-    }
-
-        input::placeholder, textarea::placeholder {
-            color: #708090; /* SlateGray for placeholder text */
-        }
-
-    .button1 {
-        padding: 10px 20px;
-        background: #865439;
-        color: white;
-        border: none;
-        font-weight: bold;
-        cursor: pointer;
-        width: 285px;
-        border-radius: 15px;
-    }
-
-        .button1:hover {
-            box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
-        }
-
-    .button2 {
-        background: #865439;
-        border: none;
-        color: #FFF8E7;
-        padding: 10px 20px;
-        text-align: center;
-        font-weight: bold;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        width: 185px;
-        border-radius: 10px;
-    }
-
-        .button2:hover {
-            box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
-        }
-
-    .btn-brown:hover {
-        background-color: #6B3E1A; /* Darker shade for hover effect */
-    }
-
     .navbar {
         padding: 5px;
         width: 100%;
@@ -182,7 +102,7 @@
     }
 
     .bg-brown {
-        background-color: #865439;
+        background-color: #674636;
     }
 
     .navbar-brand, .nav-link {
@@ -193,7 +113,112 @@
             color: #FFF8E7 !important;
         }
 
+    .button1 {
+        background-color: #C89595;
+        color: #FFF8E7;
+        padding: 10px 32px;
+        text-align: center;
+        font-weight: bold;
+        display: inline-block;
+        font-size: 20px;
+        width: 485px;
+        border-radius: 10px;
+        border: none;
+    }
 
+        .button1:hover {
+            box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+            transition: all 0.3s ease;
+        }
+
+    body {
+        background-color: #FFFBF5; /* Light beige */
+        padding-top: 100px;
+    }
+
+    .text-brown {
+        color: #674636; /* Dark brown for headings */
+    }
+
+    .text-darker-brown {
+        color: #674636; /* Darker brown for labels */
+    }
+
+    .text-dark-brown {
+        color: #674636; /* Dark brown for validation text */
+    }
+
+    .border-dark-brown {
+        border-color: #674636; /* Dark brown border */
+    }
+
+    .transparent-input {
+        background-color: #F7EFE5; /* Cream background */
+        color: #674636; /* Dark brown text */
+        border-radius: 10px; /* Rounded corners */
+        border: none;
+        transition: background-color 0.3s ease;
+    }
+
+        .transparent-input:focus {
+            background-color: #F7EFE5; /* Maintain the cream background on focus */
+            color: #674636;
+            outline: none;
+            box-shadow: none;
+            border: solid 0.5px #674636;
+        }
+
+        .transparent-input::placeholder {
+            color: #888888;
+        }
+
+    .row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .shadow-sm {
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    /* Image input style adjustments */
+    #upload {
+        position: absolute;
+        left: -9999px; /* Hide original input */
+    }
+
+    #upload-label {
+        position: absolute;
+        top: 50%;
+        left: 1rem;
+        transform: translateY(-50%);
+    }
+
+    .input-group-append label {
+        cursor: pointer;
+        background-color: #C89595 !important;
+        border-radius: 10px; /* Add rounded corners */
+        color: #FFF8E7; /* Text color set to #FFF8E7 */
+        padding: 7px 32px;
+        text-align: center;
+  
+        display: inline-block;
+        font-size: 20px;
+     
+    }
+
+    .choose-image-text {
+        color: #FFF8E7 !important; /* Set text color to #FFF8E7 */
+    }
+
+    .input-group {
+        border-radius: 10px; /* Add rounded corners */
+        box-shadow: none; /* Remove shadow */
+        border: none; /* Remove border */
+    }
 </style>
-
-

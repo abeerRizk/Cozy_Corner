@@ -71,8 +71,8 @@
                         <label class="form-check-label text-darker-brown" for="vendorOption">Vendor</label>
                     </div>
                     <div class="form-check">
-                        <input asp-for="IsVendor" class="form-check-input transparent-input" type="radio" value="false" id="clientOption" />
-                        <label class="form-check-label text-darker-brown" for="clientOption">Client</label>
+                        <input asp-for="IsVendor" class="form-check-input transparent-input" type="radio" value="false" id="customerOption" />
+                        <label class="form-check-label text-darker-brown" for="customerOption">Customer</label>
                     </div>
                     <span asp-validation-for="IsVendor" class="text-dark-brown"></span>
                 </div>
@@ -140,6 +140,7 @@
 
     .button1:hover {
         box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+            transition: all 0.3s ease;
     }
 
     body {
