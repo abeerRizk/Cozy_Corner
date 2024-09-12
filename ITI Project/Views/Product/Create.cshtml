@@ -2,69 +2,199 @@
 
 @{
     ViewData["Title"] = "Create";
+    ViewData["HideHeaderFooter"] = true;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<div class="row justify-content-center align-items-center" style="min-height: 100vh;">
+    <p class="text-brown text-center" style="font-family: 'Times New Roman', serif; font-size: 30px; color: #865439; margin-top: auto;"><b> Create Product</b></p>
 
-<h4>CreateProductVM</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
- 
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+    <div class="col-md-6 p-4 shadow-sm rounded">
+        <form asp-action="Create" style="border: none; padding: 20px;">
+            <!-- No background color for form -->
+            <div asp-validation-summary="ModelOnly" class="text-dark-brown"></div>
+            <div class="form-group mb-4 ">
+                <!-- Added margin-bottom for spacing -->
+                <b><label asp-for="Name" class="control-label text-darker-brown"></label></b>
+                <input asp-for="Name" placeholder="Enter Name" class="form-control transparent-input border-dark-brown " autocomplete="off" />
+                <span asp-validation-for="Name" class="text-dark-brown"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Image" class="control-label"></label>
-                <input asp-for="Image" class="form-control" />
-                <span asp-validation-for="Image" class="text-danger"></span>
+            <div class="form-group mb-4">
+                <!-- Added margin-bottom for spacing -->
+                <b><label asp-for="Image" class="control-label text-darker-brown"></label></b>
+                <input asp-for="Image" placeholder="Add Image" class="form-control transparent-input border-dark-brown" type="file" autocomplete="off" />
+                <span asp-validation-for="Image" class="text-dark-brown"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
+            <div class="form-group mb-4">
+                <!-- Added margin-bottom for spacing -->
+                <b><label asp-for="Description" class="control-label text-darker-brown"></label></b>
+                <input asp-for="Description" placeholder="Write Description For Product" class="form-control transparent-input border-dark-brown" type="text" autocomplete="off" />
+                <span asp-validation-for="Description" class="text-dark-brown"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Available" class="control-label"></label>
-                <input asp-for="Available" class="form-control" />
-                <span asp-validation-for="Available" class="text-danger"></span>
+            <div class="form-group mb-4">
+                <!-- Added margin-bottom for spacing -->
+                <b><label asp-for="Available" class="control-label text-darker-brown"></label></b>
+                <input asp-for="Available" placeholder="Available or Not" class="form-control transparent-input border-dark-brown" type="text" autocomplete="off" />
+                <span asp-validation-for="Available" class="text-dark-brown"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Quantity" class="control-label"></label>
-                <input asp-for="Quantity" class="form-control" />
-                <span asp-validation-for="Quantity" class="text-danger"></span>
+            <div class="form-group mb-4">
+                <!-- Added margin-bottom for spacing -->
+                <b><label asp-for="Quantity" class="control-label text-darker-brown"></label></b>
+                <input asp-for="Quantity" placeholder="Available or Not" class="form-control transparent-input border-dark-brown" type="number" autocomplete="off" />
+                <span asp-validation-for="Quantity" class="text-dark-brown"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
+            <div class="form-group mb-4">
+                <!-- Added margin-bottom for spacing -->
+                <b><label asp-for="Price" class="control-label text-darker-brown"></label></b>
+                <input asp-for="Price" placeholder="Enter The Price $" class="form-control transparent-input border-dark-brown" type="text" autocomplete="off" />
+                <span asp-validation-for="Price" class="text-dark-brown"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Category" class="control-label"></label>
-                <input asp-for="Category" class="form-control" />
-                <span asp-validation-for="Category" class="text-danger"></span>
+            <div class="form-group mb-4">
+                <!-- Added margin-bottom for spacing -->
+                <b><label asp-for="Category" class="control-label text-darker-brown"></label></b>
+                <input asp-for="Category" placeholder="Add Category" class="form-control transparent-input border-dark-brown" type="text" autocomplete="off" />
+                <span asp-validation-for="Category" class="text-dark-brown"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="VendorID" class="control-label"></label>
-                <input asp-for="VendorID" class="form-control" />
-                <span asp-validation-for="VendorID" class="text-danger"></span>
+
+            <div class="form-group mb-4">
+                <!-- Added margin-bottom for spacing -->
+                <b><label asp-for="VendorID" class="control-label text-darker-brown"></label></b>
+                <input asp-for="VendorID" placeholder="To which vendor" class="form-control transparent-input border-dark-brown" type="number" autocomplete="off" />
+                <span asp-validation-for="VendorID" class="text-dark-brown"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="form-group mb-4">
+                <!-- Added margin-bottom for spacing -->
+                <input class="button1" type="submit" value="ADD" />
             </div>
+
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Read">Back to List</a>
+<div class="text-center mt-3">
+    <a asp-action="Index" asp-controller="Home" class="button2">Back to List</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @await Html.PartialAsync("_ValidationScriptsPartial")
 }
+
+<style>
+    /* Full page background */
+    .button1 {
+        background-color: #865439; /* Green */
+        border: none;
+        color: #FFF8E7;
+        padding: 15px 32px;
+        text-align: center;
+        font-weight: bold;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        width: 485px;
+        border-radius: 10px;
+    }
+
+        .button1:hover {
+            box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+        }
+
+    .btn-brown:hover {
+        background-color: #6B3E1A; /* Darker shade for hover effect */
+    }
+
+    .button2 {
+        background-color: #865439; /* Green */
+        border: none;
+        color: #FFF8E7;
+        padding: 15px 32px;
+        text-align: center;
+        font-weight: bold;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        width: 385px;
+        border-radius: 10px;
+    }
+
+        .button2:hover {
+            box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+        }
+
+    .btn-brown:hover {
+        background-color: #6B3E1A; /* Darker shade for hover effect */
+    }
+
+    body {
+        background-image: url('https://plus.unsplash.com/premium_photo-1681031465676-995faaaac5bf?q=80&w=1444&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        padding-top: 50px;
+    }
+
+    .text-brown {
+        color: #8B4513;
+    }
+
+    .text-darker-brown {
+        color: #4A2D12; /* Darker brown for labels */
+    }
+
+    .text-dark-brown {
+        color: #4A2D12; /* Dark brown for validation text */
+    }
+
+    .border-dark-brown {
+        border-color: #654321;
+    }
+
+    .btn-brown {
+        background-color: #8B4513;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+    }
+
+        .btn-brown:hover {
+            background-color: #6B3E1A;
+        }
+
+    /* Transparent inputs */
+    .transparent-input {
+        background-color: rgba(255, 255, 255, 0.1); /* Transparent background */
+        color: #654321; /* Text color */
+        border: 1px solid #654321; /* Dark brown border */
+        transition: background-color 0.3s ease;
+    }
+
+        /* Ensure input background stays the same on focus (when typing) */
+        .transparent-input:focus {
+            background-color: rgba(255, 255, 255, 0.1); /* Maintain transparency on focus */
+            color: #654321; /* Keep text color consistent */
+            outline: none; /* Remove browser-specific focus outline */
+            box-shadow: none; /* Remove any box-shadow */
+            border-color: #FFF8E7;
+        }
+
+        /* Placeholder text color */
+        .transparent-input::placeholder {
+            color: #888888; /* Lighter placeholder text */
+        }
+
+    .row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* For form box shadow */
+    .shadow-sm {
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Add spacing between form elements */
+    .form-group {
+        margin-bottom: 20px;
+    }
+</style>
