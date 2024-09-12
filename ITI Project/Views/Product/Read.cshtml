@@ -1,79 +1,172 @@
 ﻿@model IEnumerable<ITI_Project.BLL.ModelVM.GetProductVM>
 
+@using  ITI_Project.BLL.Services.Impelemntation;
+
 @{
-    ViewData["Title"] = "Read";
+    ViewData["Title"] = "Product View";
+    ViewData["HideHeaderFooter"] = true;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Read</h1>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-@* <p>
-    <a asp-action="Create">Create New</a>
-</p> *@
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-brown w-100">
+    <div class="container-fluid">
+        <a class="navbar-brand text-light" href="#">Furniture Store</a>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown custom-dropdown">
+                    <a class="navbar-brand text-light dropdown-toggle d-flex align-items-center" href="#" id="myAccountDropdown" role="button">
+                        <i class="fa fa-user-circle" aria-hidden="true"></i> My Account
+                    </a>
+                    <ul class="dropdown-menu dropdown-custom" aria-labelledby="myAccountDropdown">
+                        <li><a class="dropdown-item" asp-controller="Account" asp-action="Login">Login</a></li>
+                        <li><a class="dropdown-item" asp-controller="Account" asp-action="Register">Register</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Image)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Available)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Quantity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Image)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Available)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category)
-            </td>
-            <td>
-                    @Html.ActionLink("Update", "Update", new { item.Id }) |
-               @*  @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) | *@
-                @Html.ActionLink("Delete", "Delete", new { item.Id })
-            </td>
-        </tr>
+<!-- Search Bar -->
+<div class="container mt-4 SearchBar">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Search for products" aria-label="Search" aria-describedby="button-search">
+                <button class="btn btn-outline-secondary" type="button" id="button-search">Search</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Category Filters -->
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <ul class="nav nav-pills justify-content-center" id="categoryMenu">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#" data-category="Chairs">Chairs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-category="Tables">Tables</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-category="Beds">Beds</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-category="Others">Others</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Product Blocks -->
+<div class="container mt-4">
+    <div class="row" id="productContainer">
+        @foreach (var product in Model)
+        {
+            <div class="col-md-4 product-block" data-category="@product.Category">
+                <div class="card">
+                    <img src="@product.Image" class="card-img-top" alt="@product.Name">
+                    <div class="card-body">
+                        <h5 class="card-title">@product.Name</h5>
+                        <p class="card-text">@product.Description</p>
+                        <p><strong>Price:</strong> @product.Price</p>
+                        <a href="@Url.Action("Details", "Product", new { id = product.Id })" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- CSS for the layout -->
+<style>
+    .navbar {
+        padding: 5px;
+        width: 100%;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+    }
+
+    .bg-brown {
+        background-color: #865439;
+    }
+
+    .navbar-brand, .nav-link {
+        font-size: 18px;
+    }
+
+        .nav-link:hover {
+            color: #FFF8E7 !important;
+        }
+
+    .card {
+        margin-bottom: 20px;
+    }
+
+        .card img {
+            height: 200px;
+            object-fit: cover;
+        }
+
+    .SearchBar {
+        padding-top: 50px;
+    }
+
+    a:hover {
+        color: #8B4513;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-block {
+        display: none;
+    }
+
+    .nav-link.active {
+        background-color: #654321 !important;
+        color: white !important;
+    }
+</style>
+
+<!-- JavaScript to handle category selection -->
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Show products based on the active category when the page loads
+            var activeCategory = $('.nav-link.active').data('category');
+            showProductsByCategory(activeCategory);
+
+            // Handle category click
+            $('.nav-link').click(function (e) {
+                e.preventDefault();
+
+                // Remove the active class from all links
+                $('.nav-link').removeClass('active');
+
+                // Add the active class to the clicked link
+                $(this).addClass('active');
+
+                // Get the selected category
+                var category = $(this).data('category');
+
+                // Show products for the selected category
+                showProductsByCategory(category);
+            });
+
+            // Function to filter and display products by category
+            function showProductsByCategory(category) {
+                $('.product-block').hide(); // Hide all products
+
+                // Show products that match the selected category
+                $('.product-block[data-category="' + category + '"]').fadeIn();
+            }
+        });
+    </script>
 }
-    </tbody>
-</table>
