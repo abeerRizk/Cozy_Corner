@@ -5,27 +5,20 @@
     ViewData["HideHeaderFooter"] = true;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<!-- Navigation Bar -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <nav class="navbar navbar-expand-lg navbar-light bg-brown w-100">
     <div class="container-fluid">
         <a class="navbar-brand text-light" href="#">Furniture Store</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link text-light" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-light" href="#">Products</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-light" href="#">About Us</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-light" href="#">Contact</a>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown custom-dropdown">
+                    <a class="navbar-brand text-light dropdown-toggle d-flex align-items-center" href="#" id="myAccountDropdown" role="button">
+                        <i class="fa fa-user-circle" aria-hidden="true"></i> My Account
+                    </a>
+                    <ul class="dropdown-menu dropdown-custom" aria-labelledby="myAccountDropdown">
+                        <li><a class="dropdown-item" asp-controller="Account" asp-action="Login">Login</a></li>
+                        <li><a class="dropdown-item" asp-controller="Account" asp-action="Register">Register</a></li>
+                    </ul>
                 </li>
             </ul>
         </div>
@@ -34,7 +27,7 @@
 
 <div class="row justify-content-center align-items-center" style="min-height: 100vh;">
     <div class="col-md-6 p-4 shadow-sm rounded">
-        <p class="text-brown text-center" style="font-family: 'Times New Roman', serif; font-size: 30px; color: #674636;"> Create A New Product</p>
+        <p class="text-brown text-center" style="font-family: 'Times New Roman', serif; font-size: 30px; color: #674636;"> Create New Product</p>
         <form asp-action="Create" style="border: none; padding: 20px;">
             <div asp-validation-summary="ModelOnly" class="text-dark-brown"></div>
             <div class="form-group mb-4">
@@ -95,23 +88,26 @@
     .navbar {
         padding: 5px;
         width: 100%;
-        position: fixed;
-        top: 0;
+        position: absolute;
         left: 0;
-        z-index: 1000;
+        right: 0;
+        top: 0;
     }
 
     .bg-brown {
-        background-color: #674636;
+        background-color: #865439;
     }
 
     .navbar-brand, .nav-link {
         font-size: 18px;
+        color: #FFF8E7 !important;
     }
 
-        .nav-link:hover {
+        .nav-link:hover, .dropdown-item:hover {
             color: #FFF8E7 !important;
+            background-color: #654321 !important;
         }
+
 
     .button1 {
         background-color: #C89595;
@@ -220,5 +216,10 @@
         border-radius: 10px; /* Add rounded corners */
         box-shadow: none; /* Remove shadow */
         border: none; /* Remove border */
+    }
+
+    a:hover {
+        color: #8B4513;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     }
 </style>
