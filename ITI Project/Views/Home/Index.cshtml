@@ -1,8 +1,227 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
+    ViewData["HideHeaderFooter"] = true;
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<nav class="navbar navbar-expand-lg navbar-light bg-brown w-100">
+    <div class="container-fluid">
+        <a class="navbar-brand text-light" href="#">Furniture Store</a>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown custom-dropdown">
+                    <a class="navbar-brand text-light dropdown-toggle d-flex align-items-center" href="#" id="myAccountDropdown" role="button">
+                        <i class="fa fa-user-circle" aria-hidden="true"></i> My Account
+                    </a>
+                    <ul class="dropdown-menu dropdown-custom" aria-labelledby="myAccountDropdown">
+                        <li><a class="dropdown-item" asp-controller="Account" asp-action="Login">Login</a></li>
+                        <li><a class="dropdown-item" asp-controller="Account" asp-action="Register">Register</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!-- Main content -->
+<div class="blurred-background">
+    <div class="container-fluid main-content">
+        <div class="content-fixed">
+            <!-- Welcome Text on the left -->
+            <div class="welcome-message-container">
+                <h1 class="welcome-message">Welcome To  Our</h1>
+                <h1 class="welcome-message"> Furniture WebSite</h1>
+            </div>
+            <!-- Overview Button on the right -->
+            <div class="overview-button-container">
+                <button class="btn btn-outline-dark overview-btn">Overview</button>
+            </div>
+        </div>
+    </div>
 </div>
+
+<style>
+    /* Navbar styling */
+    .navbar {
+        padding: 5px;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+    }
+
+    .bg-brown {
+        background-color: #865439;
+    }
+
+    .navbar-brand, .nav-link {
+        font-size: 18px;
+        color: #FFF8E7 !important;
+    }
+
+        .nav-link:hover, .dropdown-item:hover {
+            color: #FFF8E7 !important;
+            background-color: #654321 !important;
+        }
+
+    /* Custom Dropdown Styling */
+    .custom-dropdown:hover .dropdown-menu {
+        display: block; /* Dropdown opens on hover */
+    }
+
+    .dropdown-toggle {
+        background-color: #865439;
+        color: #FFF8E7 !important;
+        border-radius: 8px;
+        padding: 5px 10px;
+        display: flex;
+        align-items: center;
+        font-size: 18px;
+        text-decoration: none;
+    }
+
+        .dropdown-toggle i {
+            margin-right: 5px;
+            font-size: 20px;
+        }
+
+    /* Dropdown Menu */
+    .dropdown-menu {
+        background-color: #FFF8E7; /* Dark brown for dropdown menu */
+        border-radius: 8px;
+        border: none;
+        min-width: 200px;
+        padding: 10px 0;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        opacity: 0.95;
+        display: none;
+    }
+
+    .dropdown-item {
+        color: #865439; 
+        padding: 10px 20px;
+        font-size: 16px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+        .dropdown-item:hover {
+            background-color: #865439 !important;
+            color: #FFF8E7 !important;
+            border-radius: 40px;
+        }
+
+        /* Hover styling for Instagram with icon */
+        .dropdown-item.d-flex.justify-content-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dropdown-item i {
+            color: #FFF8E7;
+           
+        }
+
+        .dropdown-item.d-flex.justify-content-between:hover {
+            background-color: #FFF8E7 !important;
+            border-radius: 4px;
+        }
+
+            .dropdown-item.d-flex.justify-content-between:hover i {
+                color: #FFF8E7 !important;
+                border-radius: 70px;
+            }
+
+    /* Adjust the arrow position and color */
+    .dropdown-toggle::after {
+        display: inline-block;
+        margin-left: 0.255em;
+        vertical-align: 0.255em;
+        border-top: 0.3em solid #FFF8E7;
+        border-right: 0.3em solid transparent;
+        border-left: 0.3em solid transparent;
+    }
+
+    /* Body and overflow adjustments */
+    body {
+        font-family: 'Times New Roman', serif;
+        height: 100%;
+        overflow: hidden; /* Disable scroll */
+        margin: 0;
+        padding: 0;
+    }
+
+    .blurred-background {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        z-index: 1;
+    }
+
+        .blurred-background::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('https://cdn.pixabay.com/photo/2021/12/23/03/58/da-guojing-6888603_1280.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            width: 100vw;
+            z-index: -1;
+            height: 100vh;
+        }
+
+    /* Fixed Content (Position Adjustments for Top Left) */
+    .content-fixed {
+        position: absolute;
+        top: 20%; /* Move to top */
+        left: 5%; /* Move to left */
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        width: auto; /* Adjusted width */
+    }
+
+    .welcome-message-container {
+        margin-right: 20px; /* Spacing between the text and the button */
+    }
+
+    /* Main content styling */
+    .welcome-message {
+        font-family: 'Times New Roman', serif;
+        font-size: 40px;
+        color: #865439;
+    }
+
+    .overview-btn {
+        background-color: #865439;
+        border: none;
+        color: #FFF8E7;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        padding: 10px;
+        font-size: 20px;
+        width:150px;
+        border-radius: 3px;
+        margin-top:25px;
+        margin-left:10px;
+        margin-right:10px;
+    }
+
+        .overview-btn:hover {
+        box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+    }
+        .overview-btn:hover {
+            background-color: #865439;
+            color: #FFF8E7;
+        }
+</style>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
