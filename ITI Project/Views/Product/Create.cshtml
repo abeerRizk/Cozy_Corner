@@ -6,97 +6,37 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #FFFAE9;
-        }
+<nav class="navbar navbar-expand-lg navbar-light bg-brown w-100">
+    <div class="container-fluid">
+        <a class="navbar-brand text-light" href="#">Furniture Store</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link text-light" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="#">Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="#">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="#">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
-        form {
-            max-width: 750px;
-            margin: 0 auto;
-            padding: 20px;
-            background: linear-gradient(90deg, hsla(51, 64%, 84%, 1) 0%, hsla(45, 37%, 72%, 1) 100%);
-            border-radius: 25px;
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
-        }
 
-        h2 {
-            text-align: center;
-            color: #ff4500; /* OrangeRed */
-        }
-
-        label {
-            display: block;
-            margin-top: 10px;
-            font-weight: bold;
-            color: #825B32; /* SteelBlue for labels */
-        }
-
-        input, textarea, select {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            margin-bottom: 15px;
-            background-color: rgba(255, 255, 224, 0.8); /* Light yellow input fields */
-            border: 1px solid #181C14; /* IndianRed border */
-            border-radius: 15px;
-            color: #2f4f4f; /* DarkSlateGray text color */
-        }
-
-            input::placeholder, textarea::placeholder {
-                color: #708090; /* SlateGray for placeholder text */
-            }
-
-        .button1 {
-            padding: 10px 20px;
-            background: linear-gradient(90deg, hsla(50, 43%, 19%, 1) 0%, hsla(45, 24%, 49%, 1) 71%, hsla(45, 29%, 57%, 1) 86%, hsla(45, 35%, 63%, 1) 100%); /* LimeGreen for button */
-            color: white;
-            border: none;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 15px;
-        }
-
-            .button1:hover {
-                box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
-            }
-
-        .button2 {
-            background: linear-gradient(90deg, hsla(50, 43%, 19%, 1) 0%, hsla(45, 24%, 49%, 1) 71%, hsla(45, 29%, 57%, 1) 86%, hsla(45, 35%, 63%, 1) 100%); /* LimeGreen for button */
-            border: none;
-            color: #FFF8E7;
-            padding: 10px 20px;
-            text-align: center;
-            font-weight: bold;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            width: 185px;
-            border-radius: 10px;
-        }
-
-            .button2:hover {
-                box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
-            }
-
-        .btn-brown:hover {
-            background-color: #6B3E1A; /* Darker shade for hover effect */
-        }
-
-    </style>
-</head>
-<body>
-
-    <h1><p class="text-brown text-center" style="font-family: 'Audiowide', sans-serif; font-size: 30px; color: #865439; margin-top: auto;"><b> Create Product</b></p></h1>
+<div>
 
     <form asp-action="Create" style="border: none; padding: 20px;" enctype="multipart/form-data">
         <!-- Product Name -->
+
         <label asp-for="Name">Product Name:</label>
         <input type="text" asp-for="Name" placeholder="Enter product name">
         <span asp-validation-for="Name" class="text-dark-brown"></span>
@@ -108,7 +48,7 @@
 
         <!-- Price -->
         <label asp-for="Price">Price ($):</label>
-        <input type="number" asp-for="Price" step="0.01" placeholder="Enter price" >
+        <input type="number" asp-for="Price" step="0.01" placeholder="Enter price">
         <span asp-validation-for="Price" class="text-dark-brown"></span>
 
         <label asp-for="Image">Image :</label>
@@ -130,7 +70,7 @@
 
         <!-- Category -->
         <label asp-for="Category">Category:</label>
-        <select  asp-for="Category" >
+        <select asp-for="Category">
             <option value="table">Table</option>
             <option value="table">Bed Room</option>
             <option value="table">Child Room</option>
@@ -141,7 +81,8 @@
         </select>
 
         <!-- Submit Button -->
-        <div class="form-group mt-3">
+
+        <div class="text-center mt-3">
             <!-- Added margin-bottom for spacing -->
             <input class="button1" type="submit" value="Create" />
         </div>
@@ -150,7 +91,109 @@
             <a asp-action="Read" asp-controller="Product" class="button2">Back to List</a>
         </div>
     </form>
+</div>
 
-</body>
-</html>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #E2E1B9;
+    }
+
+    form {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 20px;
+        background: linear-gradient(90deg, hsla(51, 64%, 84%, 1) 0%, hsla(45, 37%, 72%, 1) 100%);
+        border-radius: 25px;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    h2 {
+        text-align: center;
+        color: #ff4500; /* OrangeRed */
+    }
+
+    label {
+        display: block;
+        margin-top: 10px;
+        font-weight: bold;
+        color: #825B32; /* SteelBlue for labels */
+    }
+
+    input, textarea, select {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 15px;
+        background-color: rgba(255, 255, 224, 0.8); /* Light yellow input fields */
+        border: 1px solid #181C14; /* IndianRed border */
+        border-radius: 15px;
+        color: #2f4f4f; /* DarkSlateGray text color */
+    }
+
+        input::placeholder, textarea::placeholder {
+            color: #708090; /* SlateGray for placeholder text */
+        }
+
+    .button1 {
+        padding: 10px 20px;
+        background: #865439;
+        color: white;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+        width: 285px;
+        border-radius: 15px;
+    }
+
+        .button1:hover {
+            box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+        }
+
+    .button2 {
+        background: #865439;
+        border: none;
+        color: #FFF8E7;
+        padding: 10px 20px;
+        text-align: center;
+        font-weight: bold;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        width: 185px;
+        border-radius: 10px;
+    }
+
+        .button2:hover {
+            box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+        }
+
+    .btn-brown:hover {
+        background-color: #6B3E1A; /* Darker shade for hover effect */
+    }
+
+    .navbar {
+        padding: 5px;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+    }
+
+    .bg-brown {
+        background-color: #865439;
+    }
+
+    .navbar-brand, .nav-link {
+        font-size: 18px;
+    }
+
+        .nav-link:hover {
+            color: #FFF8E7 !important;
+        }
+
+
+</style>
+
 
