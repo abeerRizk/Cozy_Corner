@@ -19,7 +19,7 @@ namespace ITI_Project.DAL.Entites
         public  string  Email { get; set; }
         public int? Age { get; set; }
         public DateTime? Createdon { get; set; } = DateTime.Now;
-        public bool? IsDeleted { get; set; }
+        public bool IsDeleted { get; set; }
         public string? Phone_Number { get; set; }
         public string? Location { get; set; } 
         public List<Product>? Products { get; set; }

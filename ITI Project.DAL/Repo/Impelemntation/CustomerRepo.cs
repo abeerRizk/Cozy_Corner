@@ -54,7 +54,7 @@ namespace ITI_Project.DAL.Repo.Impelemntation
 
         public List<Customer> GetAll()
         {
-            var result = db.Customers.ToList();
+            var result = db.Customers.Where(a=>a.IsDeleted != true).ToList();
             return result;
         }
 

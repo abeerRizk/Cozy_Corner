@@ -16,12 +16,16 @@ namespace ITI_Project.DAL.Entites
         public int? Quantity { get; set; }
         public double? UnitPrice { get; set; }
         public double? TotalPrice { get; set; }
+
         public int? OrderId { get; set; }
         public Order? Order { get; set; }
+
         public int? ProductId { get; set; }
         public Product? Product { get; set; }
+        public string ProductName {  get; set; }
         public int? VendorId { get; set; }
         public Vendor? Vendor { get; set; }
+        public bool IsDeleted {  get; set; }
 
 
     }

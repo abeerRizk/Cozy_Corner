@@ -107,5 +107,11 @@ namespace ITI_Project.BLL.Services.Implementation
                 return false;
             }
         }
+
+        public int GetVendorId_ByUserId(string userId)
+        {
+
+            return _vendorRepo.GetVendorId_ByUserId(userId);
+        }
     }
 }
