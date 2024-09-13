@@ -4,66 +4,246 @@
     ViewData["Title"] = "Update";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<nav class="navbar navbar-expand-lg navbar-light bg-brown w-100">
+    <div class="container-fluid">
+        <a class="navbar-brand text-light" href="#">Furniture Store</a>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown custom-dropdown">
+                    <a class="navbar-brand text-light dropdown-toggle d-flex align-items-center" href="#" id="myAccountDropdown" role="button">
+                        <i class="fa fa-user-circle" aria-hidden="true"></i> My Account
+                    </a>
+                    <ul class="dropdown-menu dropdown-custom" aria-labelledby="myAccountDropdown">
+                        <li><a class="dropdown-item" asp-controller="Account" asp-action="Login">Login</a></li>
+                        <li><a class="dropdown-item" asp-controller="Account" asp-action="Register">Register</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
-<h1>Update</h1>
+<div class="row justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="col-md-6 p-4 shadow-sm rounded">
+        <p class="text-brown text-center" style="font-family: 'Times New Roman', serif; font-size: 30px; color: #674636;"> <b>Edit Product</b> <i class="fas fa-marker"></i></p>
+        <form asp-action="Update" style="border: none; padding: 20px;">
+            <div asp-validation-summary="ModelOnly" class="text-dark-brown"></div>
+   
 
-<h4>UpdateProductVM</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Update">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
-                <span asp-validation-for="Id" class="text-danger"></span>
+            <div class="form-group mb-4">
+                <label asp-for="Name" class="control-label text-darker-brown"></label>
+                <input asp-for="Name" placeholder="Edit Name Of Product" class="form-control transparent-input border-dark-brown" type="text" autocomplete="off" />
+                <span asp-validation-for="Name" class="text-dark-brown"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+
+            <div class="form-group mb-4">
+                <label asp-for="Description" class="control-label text-darker-brown"></label>
+                <input asp-for="Description" placeholder="Edit Description Of Product" class="form-control transparent-input border-dark-brown" type="text" autocomplete="off" />
+                <span asp-validation-for="Description" class="text-dark-brown"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Image" class="control-label"></label>
-                <input asp-for="Image" class="form-control" />
-                <span asp-validation-for="Image" class="text-danger"></span>
+
+            <div class="form-group mb-4">
+                <label asp-for="Quantity" class="control-label text-darker-brown"></label>
+                <input asp-for="Quantity" placeholder="Edit Price of Product " class="form-control transparent-input border-dark-brown" type="text" autocomplete="off" />
+                <span asp-validation-for="Quantity" class="text-dark-brown"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
+            <div class="form-group mb-4">
+                <label asp-for="Available" class="control-label text-darker-brown"></label>
+                <input asp-for="Available" placeholder="Edit Availblity of Product " class="form-control transparent-input border-dark-brown" type="text" autocomplete="off" />
+                <span asp-validation-for="Available" class="text-dark-brown"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Available" class="control-label"></label>
-                <input asp-for="Available" class="form-control" />
-                <span asp-validation-for="Available" class="text-danger"></span>
+            <div class="form-group mb-4">
+                <label asp-for="Price" class="control-label text-darker-brown"></label>
+                <input asp-for="Price" placeholder="Edit Price Of Product" class="form-control transparent-input border-dark-brown" type="number" autocomplete="off" />
+                <span asp-validation-for="Price" class="text-dark-brown"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Quantity" class="control-label"></label>
-                <input asp-for="Quantity" class="form-control" />
-                <span asp-validation-for="Quantity" class="text-danger"></span>
+            <div class="form-group mb-4">
+                <label asp-for="Category" class="control-label text-darker-brown"></label>
+                <input asp-for="Category" placeholder="Edit The Category Of Product" class="form-control transparent-input border-dark-brown" type="text" autocomplete="off" />
+                <span asp-validation-for="Category" class="text-dark-brown"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
+
+
+            <!-- Custom Image Upload input-->
+            <div class="input-group mb-3 px-2 py-2 input-group-custom">
+                <input asp-for="Image" id="upload" type="file" onchange="readURL(this);" class="form-control border-0">
+                <label id="upload-label" for="upload" class="font-weight-light text-muted">Choose Image</label>
+                <div class="input-group-append">
+                    <label for="upload" class="btn btn-light m-0 px-4 label-custom choose-file-large">
+                        <i class="fa fa-cloud-upload mr-2 text-muted"></i>
+                        <small class=" font-weight-bold text-muted choose-image-text">Choose Image</small>
+                    </label>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Category" class="control-label"></label>
-                <input asp-for="Category" class="form-control" />
-                <span asp-validation-for="Category" class="text-danger"></span>
+
+            <div class="form-group mb-4">
+                <button type="submit" class="button1 w-100">Edit <i class="fas fa-marker"></i></button>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
+          
+            <a asp-action="Index" asp-controller="Home" class="button2 w-100">Cancel</a>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Read">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @await Html.PartialAsync("_ValidationScriptsPartial")
 }
+
+<style>
+    .navbar {
+        padding: 5px;
+        width: 100%;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .bg-brown {
+        background-color: #865439;
+    }
+
+    .navbar-brand, .nav-link {
+        font-size: 18px;
+        color: #FFF8E7 !important;
+    }
+
+        .nav-link:hover, .dropdown-item:hover {
+            color: #FFF8E7 !important;
+            background-color: #654321 !important;
+        }
+
+
+    .button1 {
+        background-color: #dfbe9f;
+        color: #734d26;
+        padding: 10px 32px;
+        text-align: center;
+        font-weight: bold;
+        display: inline-block;
+        font-size: 20px;
+        width: 485px;
+        border-radius: 30px;
+        border: none;
+    }
+
+        .button1:hover {
+            box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+            transition: all 0.3s ease;
+        }
+
+    .button2 {
+        background-color: #dfbe9f;
+        color: #734d26;
+        padding: 7px 32px;
+        text-align: center;
+        font-weight: bold;
+        display: inline-block;
+        font-size: 20px;
+        width: 185px;
+        border-radius: 30px;
+        border: none;
+    }
+
+        .button2:hover {
+            box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+            transition: all 0.3s ease;
+        }
+    body {
+        background-color: #FFFBF5; /* Light beige */
+        padding-top: 100px;
+    }
+
+    .text-brown {
+        color: #674636; /* Dark brown for headings */
+    }
+
+    .text-darker-brown {
+        color: #674636; /* Darker brown for labels */
+    }
+
+    .text-dark-brown {
+        color: #674636; /* Dark brown for validation text */
+    }
+
+    .border-dark-brown {
+        border-color: #674636; /* Dark brown border */
+    }
+
+    .transparent-input {
+        background-color: #F7EFE5; /* Cream background */
+        color: #674636; /* Dark brown text */
+        border-radius: 30px; /* Rounded corners */
+        border: none;
+        transition: background-color 0.3s ease;
+    }
+
+        .transparent-input:focus {
+            background-color: #F7EFE5; /* Maintain the cream background on focus */
+            color: #674636;
+            outline: none;
+            box-shadow: none;
+            border: solid 0.5px #674636;
+        }
+
+        .transparent-input::placeholder {
+            color: #888888;
+        }
+
+    .row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .shadow-sm {
+        box-shadow: 0px 40px 80px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    /* Image input style adjustments */
+    #upload {
+        position: absolute;
+        left: -9999px; /* Hide original input */
+    }
+
+    #upload-label {
+        position: absolute;
+        top: 50%;
+        left: 1rem;
+        transform: translateY(-50%);
+    }
+
+    .input-group-append label {
+        cursor: pointer;
+        background-color: #dfbe9f !important;
+        border-radius: 30px; /* Add rounded corners */
+        color: #734d26; /* Text color set to #FFF8E7 */
+        padding: 7px 32px;
+        text-align: center;
+
+        display: inline-block;
+        font-size: 20px;
+
+    }
+
+    .choose-image-text {
+        color: #734d26 !important; /* Set text color to #FFF8E7 */
+    }
+
+    .input-group {
+        border-radius: 10px; /* Add rounded corners */
+        box-shadow: none; /* Remove shadow */
+        border: none; /* Remove border */
+    }
+
+    a:hover {
+        color: #8B4513;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    }
+</style>
