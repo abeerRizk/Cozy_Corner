@@ -81,56 +81,17 @@ namespace ITI_Project.BLL.Services.Impelemntation
             }
 
         }
-        public bool? HasOrderNow(int CustomerId)
+        public int GetCustomerId_ByUserId(string userId)
         {
-            var customer = customerRepo.GetByCustomerId(CustomerId);
-            return customer.hasOrder == true;
-        }
-        
-        public void AddToMyCart(int CustomerId , GetProductVM product)
-        {
-            var customer = customerRepo.GetByCustomerId(CustomerId);
-            Product new_product = mapper.Map<Product>(product);
-            if (customer.hasOrder == true)
-            {
-                orderRepo.AddOrderItem(customer.CurrentOrderId, new_product);
-            }
-            else
-            {
-                Order new_order = new Order();
-                
-                new_order.CustomerId = CustomerId;
-                orderRepo.AddOrderItem(new_order.Id, new_product);
-                orderRepo.AddOrder(new_order);
-                customer.hasOrder = true;
-                customer.CurrentOrderId = new_order.Id;
-
-                customer.Orders.Add(new_order);
-               
-            }
-            customerRepo.SaveChanges();
-        }
-
-        public void RemoveFromMyCart(int CustomerId, GetProductVM product)
-        {
-            var customer = customerRepo.GetByCustomerId(CustomerId);
-            Product new_product = mapper.Map<Product>(product);
-            if (customer.hasOrder == true)
-            {
-                orderRepo.RemoveItem(customer.CurrentOrderId, new_product);
-            }
-            customerRepo.SaveChanges();
+            return customerRepo.GetCustomerId_ByUserId(userId);
         }
 
 
-        public void MakeCartEmpty(int customerId)
-        {
-            var customer = customerRepo.GetByCustomerId(customerId);
-            customer.hasOrder = false;
-            customer.CurrentOrderId = 0;
-            customerRepo.SaveChanges();
 
-        }
+
+
+
+
 
     }
 }

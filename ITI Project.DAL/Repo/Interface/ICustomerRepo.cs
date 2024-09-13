@@ -17,5 +17,6 @@ namespace ITI_Project.DAL.Repo.Interface
         public Customer GetByCustomerId(int id);
         public bool IsEmailExist(string email);
         public void SaveChanges();
+        public int GetCustomerId_ByUserId(string userId);
     }
 }

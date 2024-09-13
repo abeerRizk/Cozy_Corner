@@ -24,5 +24,7 @@ namespace ITI_Project.DAL.Entites
         public string? Location { get; set; } 
         public List<Product>? Products { get; set; }
         public List<Customer>? Followers { get; set; }
+        public string userId { get; set; }
     }
+
 }

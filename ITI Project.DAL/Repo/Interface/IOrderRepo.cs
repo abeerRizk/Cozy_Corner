@@ -14,7 +14,7 @@ namespace ITI_Project.DAL.Repo.Interface
         void AddOrder(Order order);
         void UpdateOrder(Order order);
         void DeleteOrder(int id);
-        public void AddOrderItem(int id, Product item);
-        public void RemoveItem(int id , Product item);
+        public void AddOrderItem(int CustomerId, OrderItem item);
+
     }
 }

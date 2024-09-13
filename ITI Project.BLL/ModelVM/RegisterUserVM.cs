@@ -9,6 +9,7 @@ namespace ITI_Project.BLL.ModelVM
 {
     public class RegisterUserVM
     {
+
         [Required]
         public string UserName { get; set; }
         [Required]

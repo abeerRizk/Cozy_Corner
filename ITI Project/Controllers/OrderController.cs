@@ -1,5 +1,8 @@
 ﻿using ITI_Project.BLL.ModelVM;
+using ITI_Project.BLL.Services.Impelemntation;
 using ITI_Project.BLL.Services.Interface;
+using ITI_Project.DAL.Entites;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ITI_Project.Controllers
@@ -7,10 +10,14 @@ namespace ITI_Project.Controllers
     public class OrderController : Controller
     {
         private readonly IOrderService _orderService;
+        private readonly UserManager<User> userManager;
+        private readonly ICustomerService customerService;
 
-        public OrderController(IOrderService orderService)
+        public OrderController(IOrderService orderService , UserManager<User> userManager , ICustomerService customerService)
         {
             _orderService = orderService;
+            this.userManager = userManager;
+            this.customerService = customerService;
         }
         public IActionResult Index()
         {
@@ -78,5 +85,18 @@ namespace ITI_Project.Controllers
             _orderService.DeleteOrder(id);
             return RedirectToAction(nameof(Index));
         }
+
+
+
+        public async Task<IActionResult> AddToCart(OrderItemsVM new_order)
+        {
+            var user = await userManager.GetUserAsync(User);
+
+            var customerId = customerService.GetCustomerId_ByUserId(user.Id);
+
+            _orderService.AddOrderItem(customerId, new_order);
+            return RedirectToAction("ViewProduct" , "Product" , new { id = new_order.ProductId });
+        }
     }
+
 }

@@ -13,7 +13,8 @@ namespace ITI_Project.BLL.Services.Interface
         public bool Update(UpdateCustomerVM product);
         public bool Delete(int id);
         public IEnumerable<GetCustomerVM> GetAll();
-
         public GetCustomerVM GetByCustomerId(int id);
+
+        public int GetCustomerId_ByUserId(string userId);
     }
 }
