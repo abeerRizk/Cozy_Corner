@@ -22,12 +22,14 @@ namespace ITI_Project.BLL.Services.Impelemntation
             this.ProductRepo = ProductRepo;
             this.mapper = mapper;
         }
-
         public bool Create(CreateProductVM product)
         {
             try
             {
+                // Upload the image to the correct folder inside wwwroot/ImgProduct/Profile
                 product.Image = UploadImg.UploadFile("Profile", product.ImageName);
+
+                // Map the view model to the Product entity and save it
                 Product new_product = mapper.Map<Product>(product);
 
                 ProductRepo.Create(new_product);
@@ -35,9 +37,11 @@ namespace ITI_Project.BLL.Services.Impelemntation
             }
             catch (Exception e)
             {
+                // Log the exception (optional)
                 return false;
             }
         }
+
 
         public bool Delete(int id)
         {

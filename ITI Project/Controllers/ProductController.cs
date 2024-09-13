@@ -42,12 +42,7 @@ namespace ITI_Project.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (product.ImageName != null)
-                    {
 
-                        var fileName = UploadImg.UploadFile("Profile1", product.ImageName);
-                        product.Image = fileName;
-                    }
                     var x = productService.Create(product);
                     return RedirectToAction("Read", "Product");
                 }
