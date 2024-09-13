@@ -4,66 +4,222 @@
     ViewData["Title"] = "Delete";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<nav class="navbar navbar-expand-lg navbar-light bg-brown w-100">
+    <div class="container-fluid">
+        <a class="navbar-brand text-light" href="#">Furniture Store</a>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown custom-dropdown">
+                    <a class="navbar-brand text-light dropdown-toggle d-flex align-items-center" href="#" id="myAccountDropdown" role="button">
+                        <i class="fa fa-user-circle" aria-hidden="true"></i> My Account
+                    </a>
+                    <ul class="dropdown-menu dropdown-custom" aria-labelledby="myAccountDropdown">
+                        <li><a class="dropdown-item" asp-controller="Account" asp-action="Login">Login</a></li>
+                        <li><a class="dropdown-item" asp-controller="Account" asp-action="Register">Register</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
-<h1>Delete</h1>
+<div class="row justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="col-md-6 p-4 shadow-sm rounded">
+        <p class="text-brown text-center" style="font-family: 'Times New Roman', serif; font-size: 30px; color: #674636;"> <b>Delete Product</b> <span class="glyphicon glyphicon-trash"></span></p>
+        <form asp-action="Delete" style="border: none; padding: 20px;">
+            <div asp-validation-summary="ModelOnly" class="text-dark-brown"></div>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>GetProductVM</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Image)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Image)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Available)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Available)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Quantity)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Quantity)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Category)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Category)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="ٌRead">Back to List</a>
-    </form>
+
+            <div class="form-group mb-4">
+                <label asp-for="Name"  class="control-label text-darker-brown"></label>
+                <input asp-for="Name" placeholder="Edit Name Of Product" readeonly class="form-control transparent-input border-dark-brown" type="text" autocomplete="off" />
+            </div>
+
+
+            <div class="form-group mb-4">
+                <label asp-for="Price"  class="control-label text-darker-brown"></label>
+                <input asp-for="Price" placeholder="Edit Price Of Product" readeonly class="form-control transparent-input border-dark-brown" type="number" autocomplete="off" />
+            </div>
+            <div class="form-group mb-4">
+                <label asp-for="Category"  class="control-label text-darker-brown"></label>
+                <input asp-for="Category" placeholder="Edit The Category Of Product" readeonly class="form-control transparent-input border-dark-brown" type="text" autocomplete="off" />
+            </div>
+
+
+            <!-- Custom Image Upload input-->
+            <div class="input-group mb-3 px-2 py-2 input-group-custom">
+                <img src="@Model.Image" width="100" />
+            </div>
+
+            <div class="form-group mb-4">
+                <button type="submit" class="button1 w-100">Delete  <span class="glyphicon glyphicon-trash"></button>
+            </div>
+
+            <a asp-action="Index" asp-controller="Home" class="button2 w-100">Cancel</a>
+        </form>
+    </div>
 </div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+
+<style>
+    .navbar {
+        padding: 5px;
+        width: 100%;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .bg-brown {
+        background-color: #865439;
+    }
+
+    .navbar-brand, .nav-link {
+        font-size: 18px;
+        color: #FFF8E7 !important;
+    }
+
+        .nav-link:hover, .dropdown-item:hover {
+            color: #FFF8E7 !important;
+            background-color: #654321 !important;
+        }
+
+
+    .button1 {
+        background-color: #dfbe9f;
+        color: #734d26;
+        padding: 10px 32px;
+        text-align: center;
+        font-weight: bold;
+        display: inline-block;
+        font-size: 20px;
+        width: 485px;
+        border-radius: 30px;
+        border: none;
+    }
+
+        .button1:hover {
+            box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+            transition: all 0.3s ease;
+        }
+
+    .button2 {
+        background-color: #dfbe9f;
+        color: #734d26;
+        padding: 7px 32px;
+        text-align: center;
+        font-weight: bold;
+        display: inline-block;
+        font-size: 20px;
+        width: 185px;
+        border-radius: 30px;
+        border: none;
+    }
+
+        .button2:hover {
+            box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+            transition: all 0.3s ease;
+        }
+
+    body {
+        background-color: #FFFBF5; /* Light beige */
+        padding-top: 100px;
+    }
+
+    .text-brown {
+        color: #674636; /* Dark brown for headings */
+    }
+
+    .text-darker-brown {
+        color: #674636; /* Darker brown for labels */
+    }
+
+    .text-dark-brown {
+        color: #674636; /* Dark brown for validation text */
+    }
+
+    .border-dark-brown {
+        border-color: #674636; /* Dark brown border */
+    }
+
+    .transparent-input {
+        background-color: #F7EFE5; /* Cream background */
+        color: #674636; /* Dark brown text */
+        border-radius: 30px; /* Rounded corners */
+        border: none;
+        transition: background-color 0.3s ease;
+    }
+
+        .transparent-input:focus {
+            background-color: #F7EFE5; /* Maintain the cream background on focus */
+            color: #674636;
+            outline: none;
+            box-shadow: none;
+            border: solid 0.5px #674636;
+        }
+
+        .transparent-input::placeholder {
+            color: #888888;
+        }
+
+    .row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .shadow-sm {
+        box-shadow: 0px 40px 80px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    /* Image input style adjustments */
+    #upload {
+        position: absolute;
+        left: -9999px; /* Hide original input */
+    }
+
+    #upload-label {
+        position: absolute;
+        top: 50%;
+        left: 1rem;
+        transform: translateY(-50%);
+    }
+
+    .input-group-append label {
+        cursor: pointer;
+        background-color: #dfbe9f !important;
+        border-radius: 30px; /* Add rounded corners */
+        color: #734d26; /* Text color set to #FFF8E7 */
+        padding: 7px 32px;
+        text-align: center;
+        display: inline-block;
+        font-size: 20px;
+    }
+
+    .choose-image-text {
+        color: #734d26 !important; /* Set text color to #FFF8E7 */
+    }
+
+    .input-group {
+        border-radius: 10px; /* Add rounded corners */
+        box-shadow: none; /* Remove shadow */
+        border: none; /* Remove border */
+    }
+
+    a:hover {
+        color: #8B4513;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
