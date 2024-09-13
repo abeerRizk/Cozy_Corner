@@ -14,5 +14,6 @@ namespace ITI_Project.DAL.Repo.Interface
         Favorite GetFavorite(int userId, int productId);
         void AddFavorite(Favorite favorite);
         void RemoveFavorite(Favorite favorite);
+        public bool IsProductFavorite(int customerId, int productId);
     }
 } 

@@ -98,7 +98,8 @@ namespace ITI_Project.Controllers
             return RedirectToAction("ViewProduct" , "Product" , new { id = new_order.ProductId });
         }
 
-        
+
+
     }
 
 }
