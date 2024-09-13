@@ -28,7 +28,7 @@
 </nav>
 
 <!-- Search Bar -->
-<div class="container mt-7"> <!-- Adjusted margin to move search bar lower -->
+<div class="container mt-7">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="input-group mb-3">
@@ -67,7 +67,14 @@
             {
                         <div class="col-md-4 product-block" data-category="@product.Category">
                             <div class="card mb-3">
-                                <img src="~/ImgProduct/Profile/@product.Image" class="card-img-top" alt="@product.Name">
+                                <div class="position-relative">
+                                    <img src="~/ImgProduct/Profile/@product.Image" class="card-img-top" alt="@product.Name">
+                                    <!-- Favorite Icon -->
+                                    <button type="button" class="btn btn-link position-absolute top-0 end-0 p-2" 
+                                            onclick="toggleFavorite(@product.Id)">
+                                        <i class="fa fa-heart favorite-icon" id="favoriteIcon-@product.Id"></i>
+                                    </button>
+                                </div>
                                 <div class="card-body">
                                     <h5 class="card-title">@product.Name</h5>
                                     <p class="card-text">@product.Description</p>
@@ -85,7 +92,7 @@
     </div>
 </div>
 
-<!-- JavaScript for category filtering and search functionality -->
+<!-- JavaScript for category filtering, search functionality, and favorite toggle -->
 <script>
     function filterByCategory(category) {
         var products = document.querySelectorAll('.product-block');
@@ -115,12 +122,24 @@
             var productName = product.querySelector('.card-title').innerText.toLowerCase();
             var productDescription = product.querySelector('.card-text').innerText.toLowerCase();
 
-            // Search in both name and description
             if (productName.includes(searchTerm) || productDescription.includes(searchTerm)) {
                 product.style.display = 'block';
             } else {
                 product.style.display = 'none';
             }
+        });
+    }
+
+    function toggleFavorite(productId) {
+        fetch(`/Favorite/ToggleFavorite?productId=${productId}`, {
+            method: 'POST'
+        }).then(response => {
+            if (response.ok) {
+                const favoriteIcon = document.getElementById(`favoriteIcon-${productId}`);
+                favoriteIcon.classList.toggle('favorite-active');
+            }
+        }).catch(error => {
+            console.error('Error toggling favorite:', error);
         });
     }
 </script>
@@ -152,12 +171,10 @@
         background-color: #654321 !important;
     }
 
-    /* Extra margin to push content below the fixed navbar */
     .container.mt-7 {
-        margin-top: 120px; /* Adjust this value based on your navbar height */
+        margin-top: 120px;
     }
 
-    /* Category button styles */
     .btn-brown {
         background-color: #8B4513;
         color: white;
@@ -166,7 +183,7 @@
     .btn-link {
         color: #674636;
         text-decoration: none;
-        padding: 8px 15px; /* Reduced padding for better fit */
+        padding: 8px 15px;
         font-size: 16px;
     }
 
@@ -174,36 +191,43 @@
         text-decoration: underline;
     }
 
-    /* Flex-nowrap for full-width category bar */
     .container-fluid .d-flex {
-        flex-wrap: nowrap; /* Ensure buttons stay in one row */
-        overflow-x: auto; /* Allow scrolling if necessary */
-        white-space: nowrap; /* Prevent wrapping */
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        white-space: nowrap;
     }
 
-    /* Product card styles */
     .product-block {
         margin-bottom: 20px;
     }
+
     .card {
         border: 1px solid #ddd;
         border-radius: 8px;
     }
+
     .card-img-top {
         width: 100%;
         height: 200px;
         object-fit: cover;
     }
+
     .card-title {
         font-size: 1.25rem;
         font-weight: bold;
     }
+
     .card-text {
         color: #555;
     }
 
-    /* Search bar styles */
-    .input-group.mb-3 input {
-        border-radius: 5px;
+    /* Favorite icon styles */
+    .favorite-icon {
+        color: #d3d3d3;
+        font-size: 24px;
+    }
+
+    .favorite-active {
+        color: red !important;
     }
 </style>
