@@ -28,8 +28,9 @@
 <div class="row justify-content-center align-items-center" style="min-height: 100vh;">
     <div class="col-md-6 p-4 shadow-sm rounded">
         <p class="text-brown text-center" style="font-family: 'Times New Roman', serif; font-size: 30px; color: #674636;"> Create New Product</p>
-        <form asp-action="Create" style="border: none; padding: 20px;" enctype="multipart/form-data" >
+        <form asp-action="Create" style="border: none; padding: 20px;" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-dark-brown"></div>
+
             <div class="form-group mb-4">
                 <label asp-for="Name" class="control-label text-darker-brown"></label>
                 <input asp-for="Name" placeholder="Enter Name" class="form-control transparent-input border-dark-brown" autocomplete="off" />
@@ -50,24 +51,37 @@
 
             <div class="form-group mb-4">
                 <label asp-for="Price" class="control-label text-darker-brown"></label>
-                <input asp-for="Price" placeholder="Enter Price " class="form-control transparent-input border-dark-brown" type="text" autocomplete="off" />
+                <input asp-for="Price" placeholder="Enter Price" class="form-control transparent-input border-dark-brown" type="text" autocomplete="off" />
                 <span asp-validation-for="Price" class="text-dark-brown"></span>
             </div>
 
             <div class="form-group mb-4">
                 <label asp-for="Category" class="control-label text-darker-brown"></label>
-                <input asp-for="Category" placeholder="Enter Category" class="form-control transparent-input border-dark-brown" type="text" autocomplete="off" />
+                <select asp-for="Category" class="form-control transparent-input border-dark-brown" style="color: #674636; background-color: #F7EFE5;">
+                    <option value="" disabled selected>Select Category</option>
+                    <option value="Chairs">Chairs</option>
+                    <option value="Tables">Tables</option>
+                    <option value="Beds">Beds</option>
+                    <option value="Sofas">Sofas</option>
+                    <option value="Desks">Desks</option>
+                    <option value="Cabinets">Cabinets</option>
+                    <option value="Outdoor">Outdoor</option>
+                    <option value="Lighting">Lighting</option>
+                    <option value="Storage">Storage</option>
+                    <option value="Accessories">Accessories</option>
+                    <option value="Rugs">Rugs</option>
+                </select>
                 <span asp-validation-for="Category" class="text-dark-brown"></span>
             </div>
 
-            <!-- Custom Image Upload input-->
+            <!-- Custom Image Upload input -->
             <div class="input-group mb-3 px-2 py-2 input-group-custom">
                 <input asp-for="ImageName" id="upload" class="form-control border-0" type="file" />      
                 <label asp-for="ImageName" id="upload-label" for="upload" class="font-weight-light text-muted">Choose Image</label>
                 <div class="input-group-append">
                     <label for="upload" class="btn btn-light m-0 px-4 label-custom choose-file-large">
                         <i class="fa fa-cloud-upload mr-2 text-muted"></i>
-                        <small class=" font-weight-bold text-muted choose-image-text">Choose Image</small>
+                        <small class="font-weight-bold text-muted choose-image-text">Choose Image</small>
                     </label>
                 </div>
             </div>
@@ -85,6 +99,7 @@
 }
 
 <style>
+    
     .navbar {
         padding: 5px;
         width: 100%;
@@ -104,11 +119,10 @@
         color: #FFF8E7 !important;
     }
 
-        .nav-link:hover, .dropdown-item:hover {
-            color: #FFF8E7 !important;
-            background-color: #654321 !important;
-        }
-
+    .nav-link:hover, .dropdown-item:hover {
+        color: #FFF8E7 !important;
+        background-color: #654321 !important;
+    }
 
     .button1 {
         background-color: #C89595;
@@ -123,10 +137,10 @@
         border: none;
     }
 
-        .button1:hover {
-            box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
-            transition: all 0.3s ease;
-        }
+    .button1:hover {
+        box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+        transition: all 0.3s ease;
+    }
 
     body {
         background-color: #FFFBF5; /* Light beige */
@@ -157,17 +171,17 @@
         transition: background-color 0.3s ease;
     }
 
-        .transparent-input:focus {
-            background-color: #F7EFE5; /* Maintain the cream background on focus */
-            color: #674636;
-            outline: none;
-            box-shadow: none;
-            border: solid 0.5px #674636;
-        }
+    .transparent-input:focus {
+        background-color: #F7EFE5; /* Maintain the cream background on focus */
+        color: #674636;
+        outline: none;
+        box-shadow: none;
+        border: solid 0.5px #674636;
+    }
 
-        .transparent-input::placeholder {
-            color: #888888;
-        }
+    .transparent-input::placeholder {
+        color: #888888;
+    }
 
     .row {
         display: flex;
@@ -203,10 +217,8 @@
         color: #FFF8E7; /* Text color set to #FFF8E7 */
         padding: 7px 32px;
         text-align: center;
-  
         display: inline-block;
         font-size: 20px;
-     
     }
 
     .choose-image-text {
