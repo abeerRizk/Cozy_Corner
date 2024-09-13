@@ -3,7 +3,9 @@ using ITI_Project.BLL.Helper;
 using ITI_Project.BLL.ModelVM;
 using ITI_Project.BLL.Services.Impelemntation;
 using ITI_Project.BLL.Services.Interface;
+using ITI_Project.DAL.Entites;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -13,11 +15,15 @@ namespace ITI_Project.Controllers
     {
         private readonly IProductService productService;
         private readonly IMapper mapper;
+        private readonly IVendorService vendorService;
+        private readonly UserManager<User> userManager;
 
-        public ProductController(IProductService productService, IMapper mapper)
+        public ProductController(IProductService productService, IMapper mapper , IVendorService vendorService , UserManager<User> userManager)
         {
             this.productService = productService;
             this.mapper = mapper;
+            this.vendorService = vendorService;
+            this.userManager = userManager;
         }
 
         public IActionResult Read()
@@ -44,13 +50,16 @@ namespace ITI_Project.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Vendor")]
-        public IActionResult Create(CreateProductVM product)
+        public async Task<IActionResult>  Create(CreateProductVM product)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
+                    var user =  await userManager.GetUserAsync(User);
 
+                    var VendorId = vendorService.GetVendorId_ByUserId(user.Id);
+                    product.VendorID = VendorId;
                     var x = productService.Create(product);
                     return RedirectToAction("Read", "Product");
                 }

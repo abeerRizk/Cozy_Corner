@@ -93,10 +93,12 @@ namespace ITI_Project.Controllers
             var user = await userManager.GetUserAsync(User);
 
             var customerId = customerService.GetCustomerId_ByUserId(user.Id);
-
+            new_order.Status = "ordered";
             _orderService.AddOrderItem(customerId, new_order);
             return RedirectToAction("ViewProduct" , "Product" , new { id = new_order.ProductId });
         }
+
+        
     }
 
 }

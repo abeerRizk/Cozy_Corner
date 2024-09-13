@@ -22,5 +22,6 @@ namespace ITI_Project.BLL.ModelVM
         public Product? Product { get; set; }
         public int? VendorId { get; set; }
         public Vendor? Vendor { get; set; }
+        public string ProductName { get; set; }
     }
 }

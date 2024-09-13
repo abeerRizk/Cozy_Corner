@@ -53,7 +53,7 @@ namespace ITI_Project.DAL.Repo.Impelemntation
 
         public List<Rating> GetAll()
         {
-            var result = db.Ratings.ToList();
+            var result = db.Ratings.Where(a => a.IsDeleted != true).ToList();
             return result;
         }
 

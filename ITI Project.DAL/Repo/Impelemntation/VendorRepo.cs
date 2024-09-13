@@ -56,7 +56,7 @@ namespace ITI_Project.DAL.Repo.Impelemntation
 
         public IEnumerable<Vendor> GetAllVendors()
         {
-            return db.Vendor.ToList();
+            return db.Vendor.Where(a => a.IsDeleted != true).ToList();
         }
 
         public Vendor GetVendorById(int id)
@@ -86,6 +86,11 @@ namespace ITI_Project.DAL.Repo.Impelemntation
         public bool IsEmailExist(string email)
         {
             return db.Vendor.Any(a => a.Email == email);
+        }
+        public int GetVendorId_ByUserId(string userId)
+        {
+            return db.Vendor.Where(a => a.userId == userId).FirstOrDefault().Id;
+
         }
     }
 }

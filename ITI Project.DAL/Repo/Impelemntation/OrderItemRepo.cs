@@ -40,7 +40,7 @@ namespace ITI_Project.DAL.Repo.Impelemntation
 
         public IEnumerable<OrderItem> GetAll()
         {
-            var data = db.OrderItems.ToList();
+            var data = db.OrderItems.Where(a => a.IsDeleted != true).ToList();
             return data;
         }
 

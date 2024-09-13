@@ -54,7 +54,7 @@ namespace ITI_Project.DAL.Repo.Impelemntation
 
         public List<Product> GetAll()
         {
-            var result = db.Products.ToList();
+            var result = db.Products.Where(a => a.IsDeleted != true).ToList();
             return result;
         }
 

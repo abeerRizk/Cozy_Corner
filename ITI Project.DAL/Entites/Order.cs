@@ -20,5 +20,6 @@ namespace ITI_Project.DAL.Entites
         public List<OrderItem>? Items { get; set; }
         public int? CustomerId { get; set; }
         public Customer? Customer { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

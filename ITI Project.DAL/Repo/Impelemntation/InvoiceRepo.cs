@@ -53,7 +53,7 @@ namespace ITI_Project.DAL.Repo.Impelemntation
 
         public List<Invoice> GetAll()
         {
-            var result = db.Invoices.ToList();
+            var result = db.Invoices.Where(a => a.isDeleted != true).ToList();
             return result;
         }
 

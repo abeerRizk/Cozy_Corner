@@ -45,6 +45,7 @@
 
                 <form asp-action="AddToCart" asp-controller="Order" method="post" class="mt-4">
                     <input type="hidden" name="ProductId" value="@Model.Id" /> <!-- Pass Product ID -->
+                    <input type="hidden" name="ProductName" value="@Model.Name" /> <!-- Pass Product Name -->
                     
                     <input type="hidden" name="UnitPrice" value="@Model.Price" /> <!-- Pass Product Price -->
 

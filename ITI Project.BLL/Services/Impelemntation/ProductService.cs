@@ -31,7 +31,7 @@ namespace ITI_Project.BLL.Services.Impelemntation
 
                 // Map the view model to the Product entity and save it
                 Product new_product = mapper.Map<Product>(product);
-
+                
                 ProductRepo.Create(new_product);
                 return true;
             }
