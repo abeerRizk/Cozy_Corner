@@ -32,8 +32,12 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
         <!-- Product Image on the left -->
-        <div class="col-md-6">
+        <div class="col-md-6 position-relative">
             <img src="~/ImgProduct/Profile/@Model.Image" class="img-fluid product-img" alt="@Model.Name">
+            <button type="button" class="btn btn-link position-absolute top-0 end-0 p-2"
+                    onclick="window.location.href='@Url.Action("ToggleFavorite", "Favorites", new { productId = @Model.Id })'">
+                <i class="fa fa-heart favorite-icon @(Model.isFavorite ? "favorite-active" : "")" id="favoriteIcon-@Model.Id"></i>
+            </button>
         </div>
 
         <!-- Product Details and Order Form on the right -->
@@ -144,6 +148,16 @@
             background-color: #218838;
             color: white;
         }
+    /* Favorite icon styles */
+    .favorite-icon {
+        color: #d3d3d3;
+        font-size: 24px;
+       
+    }
+
+    .favorite-active {
+        color: red !important;
+    }
 </style>
 
 @section Scripts {

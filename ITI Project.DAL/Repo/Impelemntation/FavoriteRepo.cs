@@ -47,8 +47,7 @@ namespace ITI_Project.DAL.Repo.Impelemntation
         }
         public Favorite GetFavorite(int userId, int productId)
         {
-            return db.Favorites
-                .FirstOrDefault(f => f.CutomerId == userId && f.ProductId == productId);
+            return db.Favorites.FirstOrDefault(f => f.CutomerId == userId && f.ProductId == productId);
         }
 
         public void AddFavorite(Favorite favorite)
@@ -61,6 +60,11 @@ namespace ITI_Project.DAL.Repo.Impelemntation
         {
            db.Favorites.Remove(favorite);
             db.SaveChanges();
+        }
+
+        public bool IsProductFavorite(int customerId, int productId)
+        {
+            return db.Favorites.Any(f => f.CutomerId == customerId && f.ProductId == productId && f.IsActive == true);
         }
 
     }

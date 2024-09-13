@@ -34,5 +34,10 @@ namespace ITI_Project.BLL.Services.Impelemntation
         //    return favorite != null && favorite.IsActive;
         //}
 
+        public bool IsProductFavorite(int customerId, int productId)
+        {
+            return favoriteRepo.IsProductFavorite(customerId, productId);
+        }
+
     }
 }

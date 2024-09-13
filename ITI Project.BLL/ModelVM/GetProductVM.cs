@@ -22,5 +22,7 @@ namespace ITI_Project.BLL.ModelVM
         public double? Price { get; set; }
         public string? Category { get; set; }
 
+        public bool isFavorite { get; set; }
+
     }
 }

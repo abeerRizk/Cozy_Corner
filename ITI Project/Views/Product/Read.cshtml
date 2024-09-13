@@ -42,7 +42,6 @@
 <!-- Category Filters -->
 <div class="container-fluid">
     <div class="d-flex justify-content-start flex-nowrap mb-3" style="overflow-x: auto;">
-        <!-- All categories will now be on the same line due to flex-nowrap -->
         <button class="btn btn-brown m-1" onclick="filterByCategory('Home')">Home</button>
         <button class="btn btn-link m-1" onclick="filterByCategory('Chairs')">Chairs</button>
         <button class="btn btn-link m-1" onclick="filterByCategory('Tables')">Tables</button>
@@ -65,29 +64,29 @@
         {
             @foreach (var product in Model)
             {
-                        <div class="col-md-4 product-block" data-category="@product.Category">
-                            <div class="card mb-3">
-                                <div class="position-relative">
-                                    <img src="~/ImgProduct/Profile/@product.Image" class="card-img-top" alt="@product.Name">
-                                    <!-- Favorite Icon -->
-                                    <button type="button" class="btn btn-link position-absolute top-0 end-0 p-2" 
-                                            onclick="toggleFavorite(@product.Id)">
-                                        <i class="fa fa-heart favorite-icon" id="favoriteIcon-@product.Id"></i>
-                                    </button>
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">@product.Name</h5>
-                                    <p class="card-text">@product.Description</p>
-                                    <p><strong>Price:</strong> @product.Price</p>
-                                    <a href="#" class="btn btn-primary">View Details</a>
-                                </div>
-                            </div>
+                <div class="col-md-4 product-block" data-category="@product.Category">
+                    <div class="card mb-3">
+                        <div class="position-relative">
+                            <img src="~/ImgProduct/Profile/@product.Image" class="card-img-top" alt="@product.Name">
+                            <!-- Favorite icon -->
+                            <button type="button" class="btn btn-link position-absolute top-0 end-0 p-2"
+                                    onclick="window.location.href='@Url.Action("ToggleFavorite", "Favorites", new { productId = @product.Id })'">
+                                <i class="fa fa-heart favorite-icon @(product.isFavorite ? "favorite-active" : "")" id="favoriteIcon-@product.Id"></i>
+                            </button>
                         </div>
+                        <div class="card-body">
+                            <h5 class="card-title">@product.Name</h5>
+                            <p class="card-text">@product.Description</p>
+                            <p><strong>Price:</strong> @product.Price</p>
+                            <a href="#" class="btn btn-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
             }
         }
         else
         {
-                <p>No products available.</p>
+            <p>No products available.</p>
         }
     </div>
 </div>
@@ -98,13 +97,11 @@
         var products = document.querySelectorAll('.product-block');
 
         if (category === 'Home') {
-            // Show all products
-            products.forEach(function(product) {
+            products.forEach(function (product) {
                 product.style.display = 'block';
             });
         } else {
-            // Filter products by category
-            products.forEach(function(product) {
+            products.forEach(function (product) {
                 if (product.getAttribute('data-category') === category) {
                     product.style.display = 'block';
                 } else {
@@ -118,7 +115,7 @@
         var searchTerm = document.getElementById("searchInput").value.trim().toLowerCase();
         var products = document.querySelectorAll('.product-block');
 
-        products.forEach(function(product) {
+        products.forEach(function (product) {
             var productName = product.querySelector('.card-title').innerText.toLowerCase();
             var productDescription = product.querySelector('.card-text').innerText.toLowerCase();
 
@@ -129,24 +126,10 @@
             }
         });
     }
-
-    function toggleFavorite(productId) {
-        fetch(`/Favorite/ToggleFavorite?productId=${productId}`, {
-            method: 'POST'
-        }).then(response => {
-            if (response.ok) {
-                const favoriteIcon = document.getElementById(`favoriteIcon-${productId}`);
-                favoriteIcon.classList.toggle('favorite-active');
-            }
-        }).catch(error => {
-            console.error('Error toggling favorite:', error);
-        });
-    }
 </script>
 
 <!-- Custom Styles -->
 <style>
-    /* Navbar styles */
     .navbar {
         padding: 5px;
         width: 100%;
@@ -166,10 +149,10 @@
         color: #FFF8E7 !important;
     }
 
-    .nav-link:hover, .dropdown-item:hover {
-        color: #FFF8E7 !important;
-        background-color: #654321 !important;
-    }
+        .nav-link:hover, .dropdown-item:hover {
+            color: #FFF8E7 !important;
+            background-color: #654321 !important;
+        }
 
     .container.mt-7 {
         margin-top: 120px;
@@ -187,9 +170,9 @@
         font-size: 16px;
     }
 
-    .btn-link:hover {
-        text-decoration: underline;
-    }
+        .btn-link:hover {
+            text-decoration: underline;
+        }
 
     .container-fluid .d-flex {
         flex-wrap: nowrap;

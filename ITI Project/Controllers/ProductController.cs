@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis;
 
 namespace ITI_Project.Controllers
 {
@@ -17,24 +18,42 @@ namespace ITI_Project.Controllers
         private readonly IMapper mapper;
         private readonly IVendorService vendorService;
         private readonly UserManager<User> userManager;
+        private readonly ICustomerService customerService;
+        private readonly IFavoriteService favoriteService;
 
-        public ProductController(IProductService productService, IMapper mapper , IVendorService vendorService , UserManager<User> userManager)
+        public ProductController(IProductService productService, IMapper mapper , IVendorService vendorService ,
+            UserManager<User> userManager , ICustomerService customerService , IFavoriteService favoriteService)
         {
             this.productService = productService;
             this.mapper = mapper;
             this.vendorService = vendorService;
             this.userManager = userManager;
+            this.customerService = customerService;
+            this.favoriteService = favoriteService;
         }
 
-        public IActionResult Read()
+        public async Task<IActionResult> Read()
         {
             var result = productService.GetAll();
+
+            var user = await userManager.GetUserAsync(User);
+            int customerId = customerService.GetCustomerId_ByUserId(user.Id);
+
+            foreach (var product in result)
+            {
+                product.isFavorite = favoriteService.IsProductFavorite(customerId, product.Id);
+            }
+
             return View(result);
         }
 
-        public IActionResult ViewProduct(int id)
+
+        public async Task<IActionResult> ViewProduct(int id)
         {
             var result = productService.GetByProductId(id);
+            var user = await userManager.GetUserAsync(User);
+            int customerId = customerService.GetCustomerId_ByUserId(user.Id);
+            result.isFavorite = favoriteService.IsProductFavorite(customerId, id);
             return View(result);
         }
 
