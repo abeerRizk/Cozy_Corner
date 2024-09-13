@@ -31,6 +31,8 @@ namespace ITI_Project.DAL.Entites
         public int CurrentOrderId { get; set; }
 
         public List<Vendor>? Follow { get; set; }
+        public string userId { get; set; }
+
 
     }
 }

@@ -42,6 +42,7 @@ namespace ITI_Project.Controllers
                     UserName = newUserVM.UserName,
                     Email = newUserVM.Email,
                     address = newUserVM.Address
+                    
                 };
 
                 // Attempt to create the user
@@ -55,7 +56,8 @@ namespace ITI_Project.Controllers
                         CreateVendorVM vendor = new CreateVendorVM
                         {
                             Name = newUserVM.UserName,
-                            Email = newUserVM.Email
+                            Email = newUserVM.Email,
+                            userId = userModel.Id
                         };
 
                         vendorService.AddVendor(vendor);
@@ -66,7 +68,9 @@ namespace ITI_Project.Controllers
                         CreateCustomerVM customer = new CreateCustomerVM
                         {
                             Name = newUserVM.UserName,
-                            Email = newUserVM.Email
+                            Email = newUserVM.Email,
+                            userId = userModel.Id
+
                         };
 
                         customerService.Create(customer);
@@ -87,6 +91,14 @@ namespace ITI_Project.Controllers
                     {
                         ModelState.AddModelError(string.Empty, error.Description);
                     }
+                }
+            }
+            else
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
+                foreach (var error in errors)
+                {
+                    Console.WriteLine(error.ErrorMessage); // Log the error message
                 }
             }
 

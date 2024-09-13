@@ -1,4 +1,5 @@
 ﻿using ITI_Project.BLL.ModelVM;
+using ITI_Project.BLL.Services.Impelemntation;
 using ITI_Project.BLL.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,31 +8,22 @@ namespace ITI_Project.Controllers
     public class OrderItemsController : Controller
     {
         private readonly IOrderItemsService _orderItemsService;
+        private readonly IOrderService orderService;
 
-        public OrderItemsController(IOrderItemsService orderItemsService)
+        public OrderItemsController(IOrderItemsService orderItemsService , IOrderService orderService)
         {
             _orderItemsService = orderItemsService;
+            this.orderService = orderService;
         }
         public IActionResult Index()
         {
             var items = _orderItemsService.GetAll();
             return View(items);
         }
-        [HttpGet]
-        public IActionResult Create()
-        {
-            return View();
-        }
-        [HttpPost]
-        public IActionResult Create(OrderItemsVM orderItems)
-        {
-            if (ModelState.IsValid)
-            {
-                _orderItemsService.Create(orderItems);
-                return RedirectToAction("Index");
-            }
-            return View(orderItems);
-        }
+
+
+
+
         [HttpGet]
         public IActionResult Delete(int id)
         {

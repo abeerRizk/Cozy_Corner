@@ -66,5 +66,12 @@ namespace ITI_Project.BLL.Services.Impelemntation
            invoiceRepo.Create(invoice);
         }
 
+        public void AddOrderItem(int CustomerId , OrderItemsVM item)
+        {
+            OrderItem new_orderItem = _mapper.Map<OrderItem>(item);
+
+
+            _orderRepository.AddOrderItem(CustomerId, new_orderItem);
+        }
     }
 }

@@ -51,46 +51,50 @@ namespace ITI_Project.DAL.Repo.Impelemntation
             }
         }
 
-        public void AddOrderItem(int id, Product item)
+        public void AddOrderItem(int CustomerId, OrderItem item)
         {
 
-            Order order = db.Order.Where(a => a.Id == id).FirstOrDefault();
+            Customer customer = db.Customers.Where(a=>a.Id == CustomerId).FirstOrDefault();
 
-            bool isExist = order.Items.Any(a => a.ProductId == item.Id);
-            if (isExist)
+            if(customer.hasOrder == true)
             {
-                OrderItem current = order.Items.Where(a => a.ProductId == item.Id).FirstOrDefault();
-                current.Quantity += 1;
-                current.TotalPrice = item.Price * current.Quantity;
+                 var order = db.Order
+                .Include(o => o.Items) 
+                .FirstOrDefault(o => o.Id == customer.CurrentOrderId);
+
+                item.OrderId = customer.CurrentOrderId;
+                order.Items.Add(item);               
                 db.SaveChanges();
             }
             else
             {
-                OrderItem new_item = new OrderItem();
-                new_item.ProductId = item.Id;
-                new_item.VendorId = item.VendorID;
-                new_item.OrderId = id;
-                new_item.UnitPrice = item.Price;
-                new_item.TotalPrice = item.Price;
-                new_item.Status = "ordered";
-                order.Items.Add(new_item);
-                db.SaveChanges();
+                Order order = new Order();
+                order.OrderDate = DateTime.Now;
+                order.CustomerId = CustomerId;
+                order.ShippingAddress = customer.Location;
+
+                db.Order.Add(order); // Add the new order to the context
+                db.SaveChanges(); // Save the new order so the database generates an OrderId
+
+                customer.hasOrder = true;
+                customer.CurrentOrderId = order.Id; // Now the Id will be set after the save
+
+                item.OrderId = order.Id; // Now that order.Id is generated, assign it to the item
+
+                if (order.Items == null) // Check if the Items collection is initialized
+                {
+                    order.Items = new List<OrderItem>(); // Initialize if null
+                }
+
+                order.Items.Add(item); // Add the item to the order
+
+                db.SaveChanges(); // Save the final changes, including the new OrderItem
             }
+
+
         }
 
-        public void RemoveItem(int id, Product item)
-        {
-            Order order = db.Order.Where(a => a.Id == id).FirstOrDefault();
-            bool isExist = order.Items.Any(a => a.ProductId == item.Id);
-            if (isExist)
-            {
 
-                OrderItem current = order.Items.Where(a => a.ProductId == item.Id).FirstOrDefault();
-                current.Quantity -= 1;
-                current.TotalPrice = item.Price * current.Quantity;
-                db.SaveChanges();
-            }
-        }
 
     }
 }

@@ -14,6 +14,7 @@ namespace ITI_Project.BLL.ModelVM
         [Required]
         public string Name { get; set; }
 
+      
         [Required]
         [EmailAddress]
         public string Email { get; set; }
@@ -21,6 +22,8 @@ namespace ITI_Project.BLL.ModelVM
         public bool? IsDeleted { get; set; }
         public string? Phone_Number { get; set; }
         public string? Location { get; set; }
+
+        public string userId { get; set; }
 
 
     }

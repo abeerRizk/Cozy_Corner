@@ -26,6 +26,14 @@ namespace ITI_Project.Controllers
             return View(result);
         }
 
+        public IActionResult ViewProduct(int id)
+        {
+            var result = productService.GetByProductId(id);
+            return View(result);
+        }
+
+
+
         [HttpGet]
         [Authorize(Roles = "Vendor")]
         public IActionResult Create()
