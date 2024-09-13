@@ -1,16 +1,13 @@
 ﻿@model IEnumerable<ITI_Project.BLL.ModelVM.GetProductVM>
 
-@using  ITI_Project.BLL.Services.Impelemntation;
-
 @{
     ViewData["Title"] = "Product View";
     ViewData["HideHeaderFooter"] = true;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
 <!-- Navigation Bar -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <nav class="navbar navbar-expand-lg navbar-light bg-brown w-100">
     <div class="container-fluid">
         <a class="navbar-brand text-light" href="#">Furniture Store</a>
@@ -31,7 +28,7 @@
 </nav>
 
 <!-- Search Bar -->
-<div class="container mt-4 SearchBar">
+<div class="container mt-5"> <!-- Added extra margin here -->
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="input-group mb-3">
@@ -44,52 +41,48 @@
 
 <!-- Category Filters -->
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <ul class="nav nav-pills justify-content-center" id="categoryMenu">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#" data-category="Chairs">Chairs</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" data-category="Tables">Tables</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" data-category="Beds">Beds</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" data-category="Others">Others</a>
-                </li>
-            </ul>
-        </div>
+    <div class="d-flex justify-content-center mb-3">
+        <button class="btn btn-brown">Chairs</button>
+        <button class="btn btn-link">Tables</button>
+        <button class="btn btn-link">Beds</button>
+        <button class="btn btn-link">Others</button>
     </div>
 </div>
 
-<!-- Product Blocks -->
+<!-- Product Cards -->
 <div class="container mt-4">
     <div class="row" id="productContainer">
-        @foreach (var product in Model)
+        @if (Model != null && Model.Any())
         {
-            <div class="col-md-4 product-block" data-category="@product.Category">
-                <div class="card">
-                    <img src="@product.Image" class="card-img-top" alt="@product.Name">
-                    <div class="card-body">
-                        <h5 class="card-title">@product.Name</h5>
-                        <p class="card-text">@product.Description</p>
-                        <p><strong>Price:</strong> @product.Price</p>
-                        <a href="@Url.Action("Details", "Product", new { id = product.Id })" class="btn btn-primary">View Details</a>
-                    </div>
-                </div>
-            </div>
+            @foreach (var product in Model)
+            {
+                        <div class="col-md-4 product-block" data-category="@product.Category">
+                            <div class="card mb-3">
+                                <img src="@product.Image" class="card-img-top" alt="@product.Name">
+                                <div class="card-body">
+                                    <h5 class="card-title">@product.Name</h5>
+                                    <p class="card-text">@product.Description</p>
+                                    <p><strong>Price:</strong> @product.Price</p>
+                                    <a href="#" class="btn btn-primary">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+            }
+        }
+        else
+        {
+                <p>No products available.</p>
         }
     </div>
 </div>
 
-<!-- CSS for the layout -->
+<!-- Custom Styles -->
 <style>
+    /* Navbar styles */
     .navbar {
         padding: 5px;
         width: 100%;
-        position: absolute;
+        position: fixed;
         left: 0;
         right: 0;
         top: 0;
@@ -102,72 +95,64 @@
 
     .navbar-brand, .nav-link {
         font-size: 18px;
+        color: #FFF8E7 !important;
     }
 
-        .nav-link:hover {
+        .nav-link:hover, .dropdown-item:hover {
             color: #FFF8E7 !important;
+            background-color: #654321 !important;
         }
 
-    .card {
+    /* Extra margin to push content below the fixed navbar */
+    .container.mt-5 {
+        margin-top: 100px; /* Adjust this value based on your navbar height */
+    }
+
+    /* Category button styles */
+    .btn-brown {
+        background-color: #8B4513;
+        color: white;
+    }
+
+    .btn-link {
+        color: #674636;
+        text-decoration: none;
+    }
+
+    /* Product card styles */
+    .product-block {
         margin-bottom: 20px;
     }
-
-        .card img {
-            height: 200px;
-            object-fit: cover;
-        }
-
-    .SearchBar {
-        padding-top: 50px;
+    .card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+    }
+    .card-img-top {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+    .card-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+    }
+    .card-text {
+        color: #555;
     }
 
-    a:hover {
-        color: #8B4513;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    /* Search bar styles */
+    .input-group.mb-3 input {
+        border-radius: 5px;
     }
 
-    .product-block {
-        display: none;
+    /* Navigation pills for categories */
+    .nav-pills .nav-link {
+        background-color: #C89595;
+        color: white;
+        border-radius: 5px;
+        margin: 0 5px;
     }
-
-    .nav-link.active {
-        background-color: #654321 !important;
-        color: white !important;
+    .nav-pills .nav-link.active {
+        background-color: #674636;
     }
 </style>
-
-<!-- JavaScript to handle category selection -->
-@section Scripts {
-    <script>
-        $(document).ready(function () {
-            // Show products based on the active category when the page loads
-            var activeCategory = $('.nav-link.active').data('category');
-            showProductsByCategory(activeCategory);
-
-            // Handle category click
-            $('.nav-link').click(function (e) {
-                e.preventDefault();
-
-                // Remove the active class from all links
-                $('.nav-link').removeClass('active');
-
-                // Add the active class to the clicked link
-                $(this).addClass('active');
-
-                // Get the selected category
-                var category = $(this).data('category');
-
-                // Show products for the selected category
-                showProductsByCategory(category);
-            });
-
-            // Function to filter and display products by category
-            function showProductsByCategory(category) {
-                $('.product-block').hide(); // Hide all products
-
-                // Show products that match the selected category
-                $('.product-block[data-category="' + category + '"]').fadeIn();
-            }
-        });
-    </script>
-}

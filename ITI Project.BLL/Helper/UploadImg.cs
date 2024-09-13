@@ -11,23 +11,18 @@ namespace ITI_Project.BLL.Helper
     {
         public static string UploadFile(string FolderName, IFormFile File)
         {
-
             try
             {
-                //catch the folder Path and the file name in server
-                // 1 ) Get Directory
-                string FolderPath = Directory.GetCurrentDirectory() + "/wwwroot/ImgProduct/" + FolderName;
+                string FolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "ImgProduct", FolderName);
 
+                if (!Directory.Exists(FolderPath))
+                {
+                    Directory.CreateDirectory(FolderPath);
+                }
 
-                //2) Get File Name
                 string FileName = Guid.NewGuid() + Path.GetFileName(File.FileName);
-                //Guid => Word contain from 36 character
-
-                // 3) Merge Path with File Name
                 string FinalPath = Path.Combine(FolderPath, FileName);
-                //combine put /
 
-                //4) Save File As Streams "Data Overtime"
                 using (var Stream = new FileStream(FinalPath, FileMode.Create))
                 {
                     File.CopyTo(Stream);
@@ -37,10 +32,11 @@ namespace ITI_Project.BLL.Helper
             }
             catch (Exception ex)
             {
-                return ex.Message;
-            }
 
+                return "Error: " + ex.Message;
+            }
         }
+
 
 
         public static string RemoveFile(string FolderName, string fileName)
@@ -48,7 +44,7 @@ namespace ITI_Project.BLL.Helper
 
             try
             {
-                var directory = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Files", FolderName, fileName);
+                var directory = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ImgProduct", FolderName, fileName);
 
                 if (File.Exists(directory))
                 {
