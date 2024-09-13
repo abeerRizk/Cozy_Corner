@@ -28,24 +28,33 @@
 </nav>
 
 <!-- Search Bar -->
-<div class="container mt-5"> <!-- Added extra margin here -->
+<div class="container mt-7"> <!-- Adjusted margin to move search bar lower -->
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Search for products" aria-label="Search" aria-describedby="button-search">
-                <button class="btn btn-outline-secondary" type="button" id="button-search">Search</button>
+                <input type="text" class="form-control" placeholder="Search for products" aria-label="Search" id="searchInput">
+                <button class="btn btn-outline-secondary" type="button" id="button-search" onclick="searchProducts()">Search</button>
             </div>
         </div>
     </div>
 </div>
 
 <!-- Category Filters -->
-<div class="container">
-    <div class="d-flex justify-content-center mb-3">
-        <button class="btn btn-brown">Chairs</button>
-        <button class="btn btn-link">Tables</button>
-        <button class="btn btn-link">Beds</button>
-        <button class="btn btn-link">Others</button>
+<div class="container-fluid">
+    <div class="d-flex justify-content-start flex-nowrap mb-3" style="overflow-x: auto;">
+        <!-- All categories will now be on the same line due to flex-nowrap -->
+        <button class="btn btn-brown m-1" onclick="filterByCategory('Home')">Home</button>
+        <button class="btn btn-link m-1" onclick="filterByCategory('Chairs')">Chairs</button>
+        <button class="btn btn-link m-1" onclick="filterByCategory('Tables')">Tables</button>
+        <button class="btn btn-link m-1" onclick="filterByCategory('Beds')">Beds</button>
+        <button class="btn btn-link m-1" onclick="filterByCategory('Sofas')">Sofas</button>
+        <button class="btn btn-link m-1" onclick="filterByCategory('Desks')">Desks</button>
+        <button class="btn btn-link m-1" onclick="filterByCategory('Cabinets')">Cabinets</button>
+        <button class="btn btn-link m-1" onclick="filterByCategory('Outdoor')">Outdoor</button>
+        <button class="btn btn-link m-1" onclick="filterByCategory('Lighting')">Lighting</button>
+        <button class="btn btn-link m-1" onclick="filterByCategory('Storage')">Storage</button>
+        <button class="btn btn-link m-1" onclick="filterByCategory('Accessories')">Accessories</button>
+        <button class="btn btn-link m-1" onclick="filterByCategory('Rugs')">Rugs</button>
     </div>
 </div>
 
@@ -58,7 +67,7 @@
             {
                         <div class="col-md-4 product-block" data-category="@product.Category">
                             <div class="card mb-3">
-                        <img src="~/ImgProduct/Profile/@product.Image"class="card-img-top" alt="@product.Name">
+                                <img src="~/ImgProduct/Profile/@product.Image" class="card-img-top" alt="@product.Name">
                                 <div class="card-body">
                                     <h5 class="card-title">@product.Name</h5>
                                     <p class="card-text">@product.Description</p>
@@ -75,6 +84,46 @@
         }
     </div>
 </div>
+
+<!-- JavaScript for category filtering and search functionality -->
+<script>
+    function filterByCategory(category) {
+        var products = document.querySelectorAll('.product-block');
+
+        if (category === 'Home') {
+            // Show all products
+            products.forEach(function(product) {
+                product.style.display = 'block';
+            });
+        } else {
+            // Filter products by category
+            products.forEach(function(product) {
+                if (product.getAttribute('data-category') === category) {
+                    product.style.display = 'block';
+                } else {
+                    product.style.display = 'none';
+                }
+            });
+        }
+    }
+
+    function searchProducts() {
+        var searchTerm = document.getElementById("searchInput").value.trim().toLowerCase();
+        var products = document.querySelectorAll('.product-block');
+
+        products.forEach(function(product) {
+            var productName = product.querySelector('.card-title').innerText.toLowerCase();
+            var productDescription = product.querySelector('.card-text').innerText.toLowerCase();
+
+            // Search in both name and description
+            if (productName.includes(searchTerm) || productDescription.includes(searchTerm)) {
+                product.style.display = 'block';
+            } else {
+                product.style.display = 'none';
+            }
+        });
+    }
+</script>
 
 <!-- Custom Styles -->
 <style>
@@ -98,14 +147,14 @@
         color: #FFF8E7 !important;
     }
 
-        .nav-link:hover, .dropdown-item:hover {
-            color: #FFF8E7 !important;
-            background-color: #654321 !important;
-        }
+    .nav-link:hover, .dropdown-item:hover {
+        color: #FFF8E7 !important;
+        background-color: #654321 !important;
+    }
 
     /* Extra margin to push content below the fixed navbar */
-    .container.mt-5 {
-        margin-top: 100px; /* Adjust this value based on your navbar height */
+    .container.mt-7 {
+        margin-top: 120px; /* Adjust this value based on your navbar height */
     }
 
     /* Category button styles */
@@ -117,6 +166,19 @@
     .btn-link {
         color: #674636;
         text-decoration: none;
+        padding: 8px 15px; /* Reduced padding for better fit */
+        font-size: 16px;
+    }
+
+    .btn-link:hover {
+        text-decoration: underline;
+    }
+
+    /* Flex-nowrap for full-width category bar */
+    .container-fluid .d-flex {
+        flex-wrap: nowrap; /* Ensure buttons stay in one row */
+        overflow-x: auto; /* Allow scrolling if necessary */
+        white-space: nowrap; /* Prevent wrapping */
     }
 
     /* Product card styles */
@@ -143,16 +205,5 @@
     /* Search bar styles */
     .input-group.mb-3 input {
         border-radius: 5px;
-    }
-
-    /* Navigation pills for categories */
-    .nav-pills .nav-link {
-        background-color: #C89595;
-        color: white;
-        border-radius: 5px;
-        margin: 0 5px;
-    }
-    .nav-pills .nav-link.active {
-        background-color: #674636;
     }
 </style>

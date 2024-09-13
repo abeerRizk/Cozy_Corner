@@ -108,6 +108,21 @@ namespace ITI_Project.Controllers
             return View(product);
 
         }
+        public IActionResult Search(string searchTerm)
+        {
+            // Fetch all products first
+            var allProducts = productService.GetAll();
+
+            // Filter products based on the search term in both name and description
+            var filteredProducts = allProducts
+                .Where(p => p.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+                            p.Description.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            // Return the filtered product list to the view
+            return View("Read", filteredProducts);
+        }
+
 
     }
 }
