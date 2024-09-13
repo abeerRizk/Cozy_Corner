@@ -6,6 +6,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <nav class="navbar navbar-expand-lg navbar-light bg-brown w-100">
     <div class="container-fluid">
         <a class="navbar-brand text-light" href="#">Furniture Store</a>
@@ -50,12 +52,12 @@
                 <span asp-validation-for="Age" class="text-dark-brown"></span>
             </div>
             <div class="form-group mb-4">
-                <label asp-for="Phone_Number" class="control-label text-darker-brown"></label>
+                <label asp-for="Phone_Number" class="control-label text-darker-brown">Phone Number <span class="glyphicon glyphicon-earphone"></span></</label>
                 <input asp-for="Phone_Number" placeholder="Edit Phone Number of Vendor " class="form-control transparent-input border-dark-brown" type="text" autocomplete="off" />
                 <span asp-validation-for="Phone_Number" class="text-dark-brown"></span>
             </div>
             <div class="form-group mb-4">
-                <label asp-for="Location" class="control-label text-darker-brown"></label>
+                <label asp-for="Location" class="control-label text-darker-brown"> Location <i class="material-icons" style="font-size:20px">add_location</i></label>
                 <input asp-for="Location" placeholder="Edit Location Of Vendor" class="form-control transparent-input border-dark-brown" type="text" autocomplete="off" />
                 <span asp-validation-for="Location" class="text-dark-brown"></span>
             </div>
