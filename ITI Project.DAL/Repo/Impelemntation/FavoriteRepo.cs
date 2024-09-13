@@ -1,6 +1,7 @@
 ﻿using ITI_Project.DAL.DB.ApplicationDB;
 using ITI_Project.DAL.Entites;
 using ITI_Project.DAL.Repo.Interface;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,6 +44,23 @@ namespace ITI_Project.DAL.Repo.Impelemntation
             }
             await db.SaveChangesAsync();
 
+        }
+        public Favorite GetFavorite(int userId, int productId)
+        {
+            return db.Favorites
+                .FirstOrDefault(f => f.CutomerId == userId && f.ProductId == productId);
+        }
+
+        public void AddFavorite(Favorite favorite)
+        {
+            db.Favorites.Add(favorite);
+            db.SaveChanges();
+        }
+
+        public void RemoveFavorite(Favorite favorite)
+        {
+           db.Favorites.Remove(favorite);
+            db.SaveChanges();
         }
 
     }
