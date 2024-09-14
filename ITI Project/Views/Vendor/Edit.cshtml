@@ -6,8 +6,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <nav class="navbar navbar-expand-lg navbar-light bg-brown w-100">
     <div class="container-fluid">
         <a class="navbar-brand text-light" href="#">Furniture Store</a>
@@ -26,7 +24,8 @@
         </div>
     </div>
 </nav>
-
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <div class="row justify-content-center align-items-center" style="min-height: 100vh;">
     <div class="col-md-6 p-4 shadow-sm rounded">
         <p class="text-brown text-center" style="font-family: 'Times New Roman', serif; font-size: 30px; color: #674636;"> <b>Edit Vendor</b> <i class="fas fa-marker"></i></p>
@@ -41,7 +40,7 @@
             </div>
 
             <div class="form-group mb-4">
-                <label asp-for="Email" class="control-label text-darker-brown"></label>
+                <label asp-for="Email" class="control-label text-darker-brown">Email <i class='fas fa-envelope-open'></i></label>
                 <input asp-for="Email" placeholder="Edit Email Of Vendor" class="form-control transparent-input border-dark-brown" type="email" autocomplete="off" />
                 <span asp-validation-for="Email" class="text-dark-brown"></span>
             </div>

@@ -2,89 +2,226 @@
 
 @{
     ViewData["Title"] = "Read";
+    ViewData["HideHeaderFooter"] = true;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<nav class="navbar navbar-expand-lg navbar-light bg-brown w-100">
+    <div class="container-fluid">
+        <a class="navbar-brand text-light" href="#">Furniture Store</a>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown custom-dropdown">
+                    <a class="navbar-brand text-light dropdown-toggle d-flex align-items-center" href="#" id="myAccountDropdown" role="button">
+                        <i class="fa fa-user-circle" aria-hidden="true"></i> My Account
+                    </a>
+                    <ul class="dropdown-menu dropdown-custom" aria-labelledby="myAccountDropdown">
+                        <li><a class="dropdown-item" asp-controller="Account" asp-action="Login">Login</a></li>
+                        <li><a class="dropdown-item" asp-controller="Account" asp-action="Register">Register</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="invoice-container">
+    <p class="text-brown text-center" style="font-family: 'Times New Roman', serif; font-size: 30px; color: #674636;"> <b>Your Invoice </b><i class='fas fa-file-alt'></i></p>
+    
+        <div class="company-details">
+            <p><strong>Company Name :</strong> Funiture Gallery</p>
+            <p><strong>Date:</strong> @DateTime.Now</p>
+        </div>
 
-<h1>Read</h1>
+        <div class="customer-details">
+            <h3>Bill To:</h3>
+            Customer
+        </div>
 
-@* <p>
-    <a asp-action="Create">Create New</a>
-</p> *@
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.InvoiceDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TotallPrice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NetPrice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PaymentMethod)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PaymentDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsPaid)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CustomerId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OrderId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.isDeleted)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.InvoiceDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotallPrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NetPrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PaymentMethod)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PaymentDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsPaid)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CustomerId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.isDeleted)
-            </td>
-            <td>
-                    @Html.ActionLink("Update", "Update", new {item.Id }) |
-              @*   @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) | *@
-                @Html.ActionLink("Delete", "Delete", new { item.Id })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+        <table id="invoice-items">
+            <thead id="Thead">
+                <tr>
+                    <th>Invoice Id</th>
+                    <th>Net Price <i class='fas fa-dollar-sign'></i></th>
+                    <th>Payment Method <i class='fas fa-money-check-alt'></i></th>
+                    <th>Paid <i class='far fa-handshake'></i></th>
+                    <th>Payment Date <i class='fas fa-calendar-alt'></i></th>
+                </tr>
+            </thead>
+            <tbody id="items-body">
+               
+                    @foreach(var items in Model)
+                    {
+                        <tr>
+                        <td>
+                            @items.Id
+                        </td>
+                        <td>
+                            @items.NetPrice
+                        </td>
+                        <td>
+                            @items.PaymentMethod
+                           
+                        </td>
+                        <td>
+                            @items.IsPaid
+                        </td>
+                        <td>
+                            @items.PaymentDate
+                        </td>
+                        </tr>
+         
+                   
+                    }
+
+            </tbody>
+        </table>
+
+        <a asp-action="Read" asp-controller="Product"  class="add-item mt-3" >Add Item</a>
+
+    <center>
+        <div class="Total">
+            @foreach (var item in Model)
+            {
+                <p><strong>Total:</strong>@item.TotallPrice <i class='fas fa-dollar-sign'></i></p>
+
+            }
+        </div>
+    </center>   
+
+        <center><button class="print-invoice mt-4">Print <i class='fas fa-print'></i></button></center>
+
+  
+</div>
+<style>
+    .navbar {
+        padding: 5px;
+        width: 100%;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .bg-brown {
+        background-color: #865439;
+    }
+
+    .navbar-brand, .nav-link {
+        font-size: 18px;
+        color: #FFF8E7 !important;
+    }
+
+        .nav-link:hover, .dropdown-item:hover {
+            color: #FFF8E7 !important;
+            background-color: #654321 !important;
+        }
+
+    body {
+        background-color: #FFFBF5;
+        padding-top: 70px;
+    }
+
+    .invoice-container {
+        max-width: 800px;
+        background-color: #F7EFE5;
+        margin: 50px auto;
+        background: #fff;
+        padding: 20px;
+        box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+
+    .company-details, .customer-details {
+        margin: 20px 0;
+        color: #674636;
+    }
+
+    table {
+        width: 100%;
+        border-color: #674636;
+    }
+
+    table, th  {
+        border: 1px solid #ccc;
+        background-color: #F7EFE5;
+        padding: 10px;
+        text-align: left;
+        color =#674636;
+    }
+
+    table, td {
+        border: 1px solid #ccc;
+        background-color: #FCFAEE;
+        padding: 10px;
+        text-align: left;
+    }
+
+    input {
+        width: 100%;
+        padding: 5px;
+        box-sizing: border-box;
+    }
+
+    button {
+        padding: 10px 15px;
+        margin: 10px 0;
+        cursor: pointer;
+    }
+
+    .add-item {
+        background-color: #dfbe9f;
+        color: #734d26;
+        padding: 10px 32px;
+        text-align: center;
+        font-weight: bold;
+        display: inline-block;
+        font-size: 20px;
+        width: 160px;
+        border-radius: 200px;
+        border: none;
+    }
+        .add-item:hover {
+        box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+        transition: all 0.3s ease;
+    }
+
+    .print-invoice {
+        background-color: #dfbe9f;
+        align-content:center;
+        color: #734d26;
+        padding: 10px 32px;
+        text-align: center;
+        font-weight: bold;
+        display: inline-block;
+        font-size: 20px;
+        width: 285px;
+        border-radius: 200px;
+        border: none;
+    }
+
+    .print-invoice:hover {
+        box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+        transition: all 0.3s ease;
+    }
+
+  
+    .Total {
+        width: 150px;
+        height: 75px;
+        background-color: #FCFAEE; /* Green background */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid #333; /* Border of the rectangle */
+        border-radius: 10px;
+        color: #6C4E31;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+</style>
