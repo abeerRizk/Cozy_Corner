@@ -84,7 +84,11 @@ namespace ITI_Project.Controllers
                     Description = model.Description,
                     Price = model.Price,
                     Images = new List<string>(),
-                    VendorID = vendorId
+                    VendorID = vendorId,
+                    Quantity = model.Quantity,
+                    Available = model.Available,
+                    Category = model.Category,
+                    
                 };
 
                 // Save multiple images
@@ -109,7 +113,7 @@ namespace ITI_Project.Controllers
                 // _context.Products.Add(product);
                 // await _context.SaveChangesAsync();
 
-                return RedirectToAction(nameof(Index)); // Or wherever you want to redirect
+                return RedirectToAction("Create" , "Product"); // Or wherever you want to redirect
             }
 
             return View(model);
