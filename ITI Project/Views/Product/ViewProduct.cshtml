@@ -30,9 +30,39 @@
 <!-- Main Content: Product Card -->
 <div class="container mt-5">
     <div class="row justify-content-center">
-        <!-- Product Image on the left -->
+        <!-- Product Image Carousel on the left -->
         <div class="col-md-6 position-relative">
-            <img src="~/ImgProduct/Profile/@Model.Image" class="img-fluid product-img" alt="@Model.Name">
+            <div id="productImageCarousel" class="carousel slide" data-bs-ride="carousel">
+                <!-- Carousel indicators (dots) -->
+                <ol class="carousel-indicators">
+                    @for (var i = 0; i < Model.Images.Count; i++)
+                    {
+                        <li data-bs-target="#productImageCarousel" data-bs-slide-to="@i" class="@(i == 0 ? "active" : "")"></li>
+                    }
+                </ol>
+
+                <!-- Carousel inner images -->
+                <div class="carousel-inner">
+                    @for (var i = 0; i < Model.Images.Count; i++)
+                    {
+                        <div class="carousel-item @(i == 0 ? "active" : "")">
+                            <img src="~/ImgProduct/Profile/@Model.Images[i]" class="d-block w-100 product-img" alt="@Model.Name Image">
+                        </div>
+                    }
+                </div>
+
+                <!-- Previous and Next controls -->
+                <a class="carousel-control-prev custom-carousel-control" href="#productImageCarousel" role="button" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next custom-carousel-control" href="#productImageCarousel" role="button" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+
+            <!-- Favorite Button -->
             <button type="button" class="btn btn-link position-absolute top-0 end-0 p-2"
                     onclick="window.location.href='@Url.Action("ToggleFavorite", "Favorites", new { productId = @Model.Id })'">
                 <i class="fa fa-heart favorite-icon @(Model.isFavorite ? "favorite-active" : "")" id="favoriteIcon-@Model.Id"></i>
@@ -54,14 +84,14 @@
                     <div class="form-group">
                         <label for="quantity">Quantity</label>
                         <input type="number" class="form-control" id="quantity" name="Quantity" min="1" max="@Model.Quantity" value="1" required />
-                        
-                             @if(Model.Quantity == 0)
+
+                        @if (Model.Quantity == 0)
                         {
                             <small class="form-text text-muted">  The item is no more available </small>
                         }
                         else
                         {
-                              <small class="form-text text-muted">    Maximum available quantity: @Model.Quantity</small>
+                            <small class="form-text text-muted">    Maximum available quantity: @Model.Quantity</small>
                         }
                     </div>
 
@@ -103,10 +133,10 @@
         color: #FFF8E7 !important;
     }
 
-    .nav-link:hover, .dropdown-item:hover {
-        color: #FFF8E7 !important;
-        background-color: #654321 !important;
-    }
+        .nav-link:hover, .dropdown-item:hover {
+            color: #FFF8E7 !important;
+            background-color: #654321 !important;
+        }
 
     /* Main Content Styling */
     body {
@@ -127,39 +157,22 @@
         padding-left: 20px;
     }
 
-    .product-details h2 {
-        font-size: 2rem;
-        font-weight: bold;
-        color: #674636;
-    }
+        .product-details h2 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #674636;
+        }
 
-    .product-details p {
-        font-size: 1.2rem;
-        color: #555;
-    }
+        .product-details p {
+            font-size: 1.2rem;
+            color: #555;
+        }
 
- /*    .btn {
-        font-size: 1.25rem;
-    }
- */
     .form-group {
         margin-bottom: 1rem;
     }
 
-  /*   .btn-success {
-        font-size: 1.2rem;
-        width: 100%;
-        padding: 10px;
-        background-color: #28a745;
-        border: none;
-      
-    }
-
-    .btn-success:hover {
-        background-color: #218838;
-        color: white;
-    } */
-      .button1 {
+    .button1 {
         background-color: #dfbe9f;
         color: #734d26;
         padding: 10px 32px;
@@ -167,10 +180,9 @@
         font-weight: bold;
         display: inline-block;
         font-size: 20px;
-      
         border-radius: 5px;
         border: none;
-          width: 100%;
+        width: 100%;
     }
 
         .button1:hover {
@@ -178,6 +190,7 @@
             transition: all 0.3s ease;
             text-decoration: none;
         }
+
     /* Favorite icon styles */
     .favorite-icon {
         color: #d3d3d3;
@@ -189,6 +202,28 @@
 
     .favorite-active {
         color: red !important;
+    }
+
+    /* Custom styling for carousel controls */
+    .carousel-control-prev, .carousel-control-next {
+        width: auto;
+        padding: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    /* Remove the default wide clickable area */
+    .custom-carousel-control {
+        width: auto !important;
+        background: none !important;
+    }
+
+    /* Styling for carousel control icons */
+    .carousel-control-prev-icon, .carousel-control-next-icon {
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
     }
 </style>
 

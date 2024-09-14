@@ -27,7 +27,7 @@ namespace ITI_Project.BLL.Services.Impelemntation
             try
             {
                 // Upload the image to the correct folder inside wwwroot/ImgProduct/Profile
-                product.Image = UploadImg.UploadFile("Profile", product.ImageName);
+                //product.Image = UploadImg.UploadFile("Profile", product.ImageName);
 
                 // Map the view model to the Product entity and save it
                 Product new_product = mapper.Map<Product>(product);
@@ -92,8 +92,8 @@ namespace ITI_Project.BLL.Services.Impelemntation
             try
             {
                 Product new_product = mapper.Map<Product>(product);
-                UploadImg.RemoveFile("Profile", new_product.image);
-                new_product.image = UploadImg.UploadFile("Profile", product.ImageName);
+                //UploadImg.RemoveFile("Profile", new_product.image);
+                //new_product.image = UploadImg.UploadFile("Profile", product.ImageName);
                 ProductRepo.Update(new_product);
                 return true;
             }

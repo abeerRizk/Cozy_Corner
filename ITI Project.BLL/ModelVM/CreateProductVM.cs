@@ -15,8 +15,7 @@ namespace ITI_Project.BLL.ModelVM
 
         [Required]
         public string Name { get; set; }
-        public IFormFile? ImageName { get; set; }
-        public string? Image { get; set; }
+
         public string? Description { get; set; }
         public bool? Available { get; set; }
         public int? Quantity { get; set; }
@@ -25,5 +24,10 @@ namespace ITI_Project.BLL.ModelVM
         public int? VendorID { get; set; }
         public Vendor? Vendor { get; set; }
 
+        // A list of image URLs
+        public List<string>? Images { get; set; }
+
+        // Optional: you can add a property for file uploads
+        public List<IFormFile> ? ImageFiles { get; set; }
     }
 }
