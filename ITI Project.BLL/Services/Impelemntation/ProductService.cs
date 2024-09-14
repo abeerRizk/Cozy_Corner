@@ -70,7 +70,7 @@ namespace ITI_Project.BLL.Services.Impelemntation
            
         }
 
-        public GetProductVM GetByProductId(int id)
+        public GetProductVM GetByProductId(int? id)
         {
             Product product = ProductRepo.GetByProductId(id);
             return mapper.Map<GetProductVM>(product);

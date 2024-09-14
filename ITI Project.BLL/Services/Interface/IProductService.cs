@@ -15,7 +15,7 @@ namespace ITI_Project.BLL.Services.Interface
         public bool Delete(int id);
         public IEnumerable<GetProductVM> GetAll();
 
-        public GetProductVM GetByProductId(int id);
+        public GetProductVM GetByProductId(int? id);
 
         public List<GetProductVM> GetByCategory(string Category);
         public List<GetProductVM> GetByVendor(int VendorId);
