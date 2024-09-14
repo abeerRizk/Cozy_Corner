@@ -22,6 +22,7 @@ namespace ITI_Project.DAL.Repo.Impelemntation
         {
             try
             {
+                product.Available = true;
                 db.Products.Add(product);
                 db.SaveChanges();
                 return true;
@@ -54,7 +55,7 @@ namespace ITI_Project.DAL.Repo.Impelemntation
 
         public List<Product> GetAll()
         {
-            var result = db.Products.Where(a => a.IsDeleted != true).ToList();
+            var result = db.Products.Where(a => a.IsDeleted != true && a.Available == true).ToList();
             return result;
         }
 
@@ -64,7 +65,7 @@ namespace ITI_Project.DAL.Repo.Impelemntation
             return data;
         }
 
-        public Product GetByProductId(int id)
+        public Product GetByProductId(int? id)
         {
             var data = db.Products.Where(a => a.Id == id).FirstOrDefault();
             return data;
@@ -105,11 +106,19 @@ namespace ITI_Project.DAL.Repo.Impelemntation
             {
                 var data = db.Products.Where(a => a.Id == product.Id).FirstOrDefault();
                 data.Name = product.Name;
-                data.Available = product.Available;
+                
                 data.Description = product.Description;
                 data.Price = product.Price;
                 data.Category = product.Category;
                 data.Quantity = product.Quantity;
+                if(data.Quantity == 0)
+                {
+                    data.Available = false;
+                }
+                else
+                {
+                    data.Available = true;
+                }
                 db.SaveChanges();
                 return true;
             }

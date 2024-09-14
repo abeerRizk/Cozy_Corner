@@ -1,4 +1,5 @@
-﻿using ITI_Project.BLL.ModelVM;
+﻿using AutoMapper;
+using ITI_Project.BLL.ModelVM;
 using ITI_Project.BLL.Services.Impelemntation;
 using ITI_Project.BLL.Services.Interface;
 using ITI_Project.DAL.Entites;
@@ -12,14 +13,20 @@ namespace ITI_Project.Controllers
         private readonly IOrderService _orderService;
         private readonly UserManager<User> userManager;
         private readonly ICustomerService customerService;
+        private readonly IMapper mapper;
         private readonly IInvoiceService invoiceService;
+        private readonly IProductService productService;
 
-        public OrderController(IOrderService orderService , UserManager<User> userManager , ICustomerService customerService , IInvoiceService  invoiceService)
+        public OrderController(IOrderService orderService , UserManager<User> userManager
+            , ICustomerService customerService , IMapper mapper,      
+          IInvoiceService  invoiceService , IProductService productService)
         {
             _orderService = orderService;
             this.userManager = userManager;
             this.customerService = customerService;
+            this.mapper = mapper;
             this.invoiceService = invoiceService;
+            this.productService = productService;
         }
         public IActionResult Index()
         {
@@ -92,9 +99,14 @@ namespace ITI_Project.Controllers
 
         public async Task<IActionResult> AddToCart(OrderItemsVM new_order)
         {
-            var user = await userManager.GetUserAsync(User);
-
+            var user = await userManager.GetUserAsync(User);  
             var customerId = customerService.GetCustomerId_ByUserId(user.Id);
+
+            var product = productService.GetByProductId(new_order.ProductId);
+            product.Quantity -= new_order.Quantity;
+
+            UpdateProductVM updateProduct = mapper.Map<UpdateProductVM>(product);
+            productService.Update(updateProduct);
             new_order.Status = "ordered";
             _orderService.AddOrderItem(customerId, new_order);
             return RedirectToAction("ViewProduct" , "Product" , new { id = new_order.ProductId });
