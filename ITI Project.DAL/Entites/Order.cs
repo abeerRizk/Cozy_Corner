@@ -21,5 +21,6 @@ namespace ITI_Project.DAL.Entites
         public int? CustomerId { get; set; }
         public Customer? Customer { get; set; }
         public bool IsDeleted { get; set; }
+        public string CustomerName { get; set; }
     }
 }

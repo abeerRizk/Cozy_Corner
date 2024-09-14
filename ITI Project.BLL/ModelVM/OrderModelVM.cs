@@ -21,6 +21,7 @@ namespace ITI_Project.BLL.ModelVM
         public List<OrderItem>? Items { get; set; }
         public int? CustomerId { get; set; }
         public Customer? Customer { get; set; }
+        public string CustomerName { get; set; }
 
     }
 }

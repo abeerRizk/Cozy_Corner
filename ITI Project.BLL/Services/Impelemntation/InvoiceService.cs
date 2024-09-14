@@ -86,5 +86,9 @@ namespace ITI_Project.BLL.Services.Impelemntation
 
         }
 
+        public int getInvoiceByOrderId(int orderId)
+        {
+            return iNvoiceRepo.getInvoiceByOrderId(orderId);
+        }
     }
 }

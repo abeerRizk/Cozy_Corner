@@ -165,7 +165,9 @@ namespace ITI_Project.DAL.Repo.Impelemntation
                         CustomerId = CustomerId,
                         ShippingAddress = customer.Location,
                         TotalPrice = item.TotalPrice,
-                        Items = new List<OrderItem> { item } // Add the item to the order
+                        Items = new List<OrderItem> { item }, // Add the item to the order
+                        CustomerName = customer.Name,
+
                     };
 
                     db.Order.Add(order);

@@ -12,12 +12,14 @@ namespace ITI_Project.Controllers
         private readonly IOrderService _orderService;
         private readonly UserManager<User> userManager;
         private readonly ICustomerService customerService;
+        private readonly IInvoiceService invoiceService;
 
-        public OrderController(IOrderService orderService , UserManager<User> userManager , ICustomerService customerService)
+        public OrderController(IOrderService orderService , UserManager<User> userManager , ICustomerService customerService , IInvoiceService  invoiceService)
         {
             _orderService = orderService;
             this.userManager = userManager;
             this.customerService = customerService;
+            this.invoiceService = invoiceService;
         }
         public IActionResult Index()
         {
@@ -97,7 +99,28 @@ namespace ITI_Project.Controllers
             _orderService.AddOrderItem(customerId, new_order);
             return RedirectToAction("ViewProduct" , "Product" , new { id = new_order.ProductId });
         }
+            
+        public async Task<IActionResult>  ConfirmOrder(OrderModelVM order)
+        {
 
+            var user = await userManager.GetUserAsync(User);
+
+            var customerId = customerService.GetCustomerId_ByUserId(user.Id);
+
+            CreateInvoiceVM invoiceVM = new CreateInvoiceVM();
+            invoiceVM.CustomerId = order.CustomerId;
+            invoiceVM.CustomerName = order.CustomerName;
+            invoiceVM.TotallPrice = order.TotalPrice;
+            invoiceVM.IsPaid = false;
+            invoiceVM.OrderId = order.Id;
+            invoiceVM.NetPrice = order.TotalPrice;
+            invoiceVM.PaymentMethod = order.PaymentMethod;
+            invoiceVM.InvoiceDate = DateTime.Now;
+            invoiceService.Create(invoiceVM);
+
+            int InvoiceId = invoiceService.getInvoiceByOrderId(order.Id);
+            return RedirectToAction("Read", "Invoice"  , new {id = InvoiceId});
+        }
 
 
     }

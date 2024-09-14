@@ -19,6 +19,8 @@ namespace ITI_Project.BLL.ModelVM
         public bool? IsPaid { get; set; }
         public int? CustomerId { get; set; }
         public Customer? Customer { get; set; }
+
+        public string CustomerName { get; set; }
         public int? OrderId { get; set; }
         public Order? Order { get; set; }
         public bool? isDeleted { get; set; }

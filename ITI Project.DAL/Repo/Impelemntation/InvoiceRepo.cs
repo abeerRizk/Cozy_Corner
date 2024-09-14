@@ -90,5 +90,12 @@ namespace ITI_Project.DAL.Repo.Impelemntation
                 return false;
             }
         }
+
+
+        public int getInvoiceByOrderId(int orderId)
+        {
+            return db.Invoices.Where(a=>a.OrderId == orderId).FirstOrDefault().Id;
+        }
+
     }
 }

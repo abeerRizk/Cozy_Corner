@@ -32,8 +32,8 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Search for products" aria-label="Search" id="searchInput">
-                <button class="btn btn-outline-secondary" type="button" id="button-search" onclick="searchProducts()">Search</button>
+                <input type="text" class="form-control no-focus-outline" placeholder="Search for products" aria-label="Search" id="searchInput" onkeydown="checkEnter(event)">
+                <button class="btn btn-outline-secondary search-btn no-focus-outline" type="button" id="button-search" onclick="searchProducts()">Search</button>
             </div>
         </div>
     </div>
@@ -42,18 +42,18 @@
 <!-- Category Filters -->
 <div class="container-fluid">
     <div class="d-flex justify-content-start flex-nowrap mb-3" style="overflow-x: auto;">
-        <button class="btn btn-brown m-1" onclick="filterByCategory('Home')">Home</button>
-        <button class="btn btn-link m-1" onclick="filterByCategory('Chairs')">Chairs</button>
-        <button class="btn btn-link m-1" onclick="filterByCategory('Tables')">Tables</button>
-        <button class="btn btn-link m-1" onclick="filterByCategory('Beds')">Beds</button>
-        <button class="btn btn-link m-1" onclick="filterByCategory('Sofas')">Sofas</button>
-        <button class="btn btn-link m-1" onclick="filterByCategory('Desks')">Desks</button>
-        <button class="btn btn-link m-1" onclick="filterByCategory('Cabinets')">Cabinets</button>
-        <button class="btn btn-link m-1" onclick="filterByCategory('Outdoor')">Outdoor</button>
-        <button class="btn btn-link m-1" onclick="filterByCategory('Lighting')">Lighting</button>
-        <button class="btn btn-link m-1" onclick="filterByCategory('Storage')">Storage</button>
-        <button class="btn btn-link m-1" onclick="filterByCategory('Accessories')">Accessories</button>
-        <button class="btn btn-link m-1" onclick="filterByCategory('Rugs')">Rugs</button>
+        <button class="btn btn-link m-1 category-link active no-focus-outline" id="homeLink" onclick="filterByCategory('Home')">Home</button>
+        <button class="btn btn-link m-1 category-link no-focus-outline" onclick="filterByCategory('Chairs')">Chairs</button>
+        <button class="btn btn-link m-1 category-link no-focus-outline" onclick="filterByCategory('Tables')">Tables</button>
+        <button class="btn btn-link m-1 category-link no-focus-outline" onclick="filterByCategory('Beds')">Beds</button>
+        <button class="btn btn-link m-1 category-link no-focus-outline" onclick="filterByCategory('Sofas')">Sofas</button>
+        <button class="btn btn-link m-1 category-link no-focus-outline" onclick="filterByCategory('Desks')">Desks</button>
+        <button class="btn btn-link m-1 category-link no-focus-outline" onclick="filterByCategory('Cabinets')">Cabinets</button>
+        <button class="btn btn-link m-1 category-link no-focus-outline" onclick="filterByCategory('Outdoor')">Outdoor</button>
+        <button class="btn btn-link m-1 category-link no-focus-outline" onclick="filterByCategory('Lighting')">Lighting</button>
+        <button class="btn btn-link m-1 category-link no-focus-outline" onclick="filterByCategory('Storage')">Storage</button>
+        <button class="btn btn-link m-1 category-link no-focus-outline" onclick="filterByCategory('Accessories')">Accessories</button>
+        <button class="btn btn-link m-1 category-link no-focus-outline" onclick="filterByCategory('Rugs')">Rugs</button>
     </div>
 </div>
 
@@ -64,23 +64,29 @@
         {
             @foreach (var product in Model)
             {
-                <div class="col-md-4 product-block" data-category="@product.Category">
-                    <div class="card mb-3">
-                        <div class="position-relative">
-                            <img src="~/ImgProduct/Profile/@product.Image" class="card-img-top" alt="@product.Name">
-                            <!-- Favorite icon -->
-                            <button type="button" class="btn btn-link position-absolute top-0 end-0 p-2"
-                                    onclick="window.location.href='@Url.Action("ToggleFavorite", "Favorites", new { productId = @product.Id })'">
-                                <i class="fa fa-heart favorite-icon @(product.isFavorite ? "favorite-active" : "")" id="favoriteIcon-@product.Id"></i>
-                            </button>
+                <div class="col-md-4 product-block" data-category="@product.Category" data-description="@product.Description">
+                    <!-- Make the whole card a link -->
+                    
+                        <div class="card mb-3">
+                            <div class="position-relative">
+                               <a  href="@Url.Action("ViewProduct", "Product", new { id = product.Id })" ><img  src="~/ImgProduct/Profile/@product.Image" class="card-img-top" alt="@product.Name"> </a> 
+                                <!-- Favorite icon -->
+                                <button type="button" class="btn  position-absolute top-0 end-0 p-2 no-focus-outline"
+                                        onclick="event.stopPropagation(); window.location.href='@Url.Action("ToggleFavorite", "Favorites", new { productId = @product.Id })'">
+                                    <i class="fa fa-heart favorite-icon @(product.isFavorite ? "favorite-active" : "")" id="favoriteIcon-@product.Id"></i>
+                                </button>
+                            </div>
+                            <a href="@Url.Action("ViewProduct", "Product", new { id = product.Id })"  > 
+                                    <div class="card-body px-3"  >
+                                <!-- Flex container for name and price -->
+                                <div class="d-flex justify-content-between" style="padding: 5px 10px;">
+                                    <p>@product.Name</p>
+                                    <p>Price : @product.Price$</p>
+                                </div>
+                            </div>
+                            </a>
                         </div>
-                        <div class="card-body">
-                            <h5 class="card-title">@product.Name</h5>
-                            <p class="card-text">@product.Description</p>
-                            <p><strong>Price:</strong> @product.Price</p>
-                            <a href="#" class="btn btn-primary">View Details</a>
-                        </div>
-                    </div>
+                  
                 </div>
             }
         }
@@ -109,6 +115,18 @@
                 }
             });
         }
+
+        // Handle active state
+        var links = document.querySelectorAll('.category-link');
+        links.forEach(function (link) {
+            link.classList.remove('active');
+        });
+
+        if (category === 'Home') {
+            document.getElementById('homeLink').classList.add('active');
+        } else {
+            document.querySelector('.category-link[onclick*="' + category + '"]').classList.add('active');
+        }
     }
 
     function searchProducts() {
@@ -116,9 +134,11 @@
         var products = document.querySelectorAll('.product-block');
 
         products.forEach(function (product) {
-            var productName = product.querySelector('.card-title').innerText.toLowerCase();
-            var productDescription = product.querySelector('.card-text').innerText.toLowerCase();
+            // Get the product name and description from the dataset attributes
+            var productName = product.querySelector('.d-flex p').innerText.toLowerCase();
+            var productDescription = product.getAttribute('data-description').toLowerCase(); // Accessing description directly from the attribute
 
+            // Check if either name or description contains the search term
             if (productName.includes(searchTerm) || productDescription.includes(searchTerm)) {
                 product.style.display = 'block';
             } else {
@@ -126,10 +146,22 @@
             }
         });
     }
+
+    function checkEnter(event) {
+        if (event.key === 'Enter') {
+            searchProducts();
+        }
+    }
 </script>
 
 <!-- Custom Styles -->
 <style>
+    body {
+        background-color: #FFFBF5; /* Light beige */
+        padding-top: 10px;
+    }
+
+    /* Navigation bar styles */
     .navbar {
         padding: 5px;
         width: 100%;
@@ -149,18 +181,13 @@
         color: #FFF8E7 !important;
     }
 
-        .nav-link:hover, .dropdown-item:hover {
-            color: #FFF8E7 !important;
-            background-color: #654321 !important;
-        }
+    .nav-link:hover, .nav-link.active, .btn-brown {
+        background-color: #865439 !important;
+        color: #FFF8E7 !important;
+    }
 
     .container.mt-7 {
         margin-top: 120px;
-    }
-
-    .btn-brown {
-        background-color: #8B4513;
-        color: white;
     }
 
     .btn-link {
@@ -170,9 +197,11 @@
         font-size: 16px;
     }
 
-        .btn-link:hover {
-            text-decoration: underline;
-        }
+    .btn-link:hover, .btn-link.active {
+        text-decoration: none;
+        background-color: #865439;
+        color: #FFF8E7;
+    }
 
     .container-fluid .d-flex {
         flex-wrap: nowrap;
@@ -187,30 +216,64 @@
     .card {
         border: 1px solid #ddd;
         border-radius: 8px;
+        height: 450px; /* Increased height for the card */
     }
 
     .card-img-top {
         width: 100%;
-        height: 200px;
+        height: 380px; /* Adjust image height to take more space */
         object-fit: cover;
     }
 
-    .card-title {
-        font-size: 1.25rem;
+    .card-body {
+        font-size: 20px;
         font-weight: bold;
+        color: #865439;
     }
 
-    .card-text {
-        color: #555;
-    }
-
-    /* Favorite icon styles */
     .favorite-icon {
         color: #d3d3d3;
-        font-size: 24px;
+        font-size: 30px; /* Increased the size of the heart icon */
     }
 
     .favorite-active {
         color: red !important;
+    }
+
+    /* Search button and input styles */
+    .search-btn, .form-control {
+        border: 1px solid #ced4da;
+        background-color: white;
+        padding: 10px 20px;
+        font-size: 20px;
+        border-radius: 10px;
+    }
+
+    .search-btn:hover {
+        background-color: #865439;
+        color: #FFF8E7;
+        border: 1px solid #ced4da;
+    }
+
+    /* Focus state for search input - remove the blue outline */
+    .form-control:focus {
+        outline: none;
+        border-color: #ced4da;
+        box-shadow: none;
+    }
+
+    /* Remove blue outline effect for category buttons */
+    .btn-link:focus {
+        outline: none;
+        box-shadow: none;
+    }
+
+    /* Remove blue outline effect */
+    .no-focus-outline:focus {
+        outline: none;
+        box-shadow: none;
+    }
+    a{
+        text-decoration: none;
     }
 </style>

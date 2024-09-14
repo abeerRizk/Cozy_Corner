@@ -16,5 +16,6 @@ namespace ITI_Project.BLL.Services.Interface
 
         public GetInvoiceVM GetByInvoiceId(int id);
         public GetInvoiceVM GetInvoiceByOrderId(int orderId);
+        public int getInvoiceByOrderId(int orderId);
     }
 }
