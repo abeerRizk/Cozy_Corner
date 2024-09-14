@@ -1,9 +1,9 @@
-﻿@model IEnumerable<ITI_Project.BLL.ModelVM.GetInvoiceVM>
+﻿@model ITI_Project.BLL.ModelVM.GetInvoiceVM
 
 @{
     ViewData["Title"] = "Read";
     ViewData["HideHeaderFooter"] = true;
-    Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <nav class="navbar navbar-expand-lg navbar-light bg-brown w-100">
@@ -24,74 +24,54 @@
         </div>
     </div>
 </nav>
+
 <div class="invoice-container">
     <p class="text-brown text-center" style="font-family: 'Times New Roman', serif; font-size: 30px; color: #674636;"> <b>Your Invoice </b><i class='fas fa-file-alt'></i></p>
-    
-        <div class="company-details">
-            <p><strong>Company Name :</strong> Funiture Gallery</p>
-            <p><strong>Date:</strong> @DateTime.Now</p>
-        </div>
 
-        <div class="customer-details">
-            <h3>Bill To:</h3>
-            Customer
-        </div>
+    <div class="company-details">
+        <p><strong>Company Name :</strong> Furniture Gallery</p>
+        <p><strong>Date:</strong> @DateTime.Now</p>
+    </div>
 
-        <table id="invoice-items">
-            <thead id="Thead">
-                <tr>
-                    <th>Invoice Id</th>
-                    <th>Net Price <i class='fas fa-dollar-sign'></i></th>
-                    <th>Payment Method <i class='fas fa-money-check-alt'></i></th>
-                    <th>Paid <i class='far fa-handshake'></i></th>
-                    <th>Payment Date <i class='fas fa-calendar-alt'></i></th>
-                </tr>
-            </thead>
-            <tbody id="items-body">
+    <div class="customer-details">
+        <h3>Bill To:</h3>
+        @Model.CustomerName <!-- Assuming the model has a property for the customer's name -->
+    </div>
+
+    <table id="invoice-items">
+        <thead id="Thead">
+            <tr>
+                
                
-                    @foreach(var items in Model)
-                    {
-                        <tr>
-                        <td>
-                            @items.Id
-                        </td>
-                        <td>
-                            @items.NetPrice
-                        </td>
-                        <td>
-                            @items.PaymentMethod
-                           
-                        </td>
-                        <td>
-                            @items.IsPaid
-                        </td>
-                        <td>
-                            @items.PaymentDate
-                        </td>
-                        </tr>
-         
-                   
-                    }
-
-            </tbody>
-        </table>
-
-        <a asp-action="Read" asp-controller="Product"  class="add-item mt-3" >Add Item</a>
+                <th>Payment Method <i class='fas fa-money-check-alt'></i></th>
+                <th>Paid <i class='far fa-handshake'></i></th>
+                <th>Payment Date <i class='fas fa-calendar-alt'></i></th>
+            </tr>
+        </thead>
+        <tbody id="items-body">
+            <tr>
+               
+              
+                <td>@Model.PaymentMethod</td>
+                <td>@(Model.IsPaid ? "Yes" : "No")</td>
+                <td>@Model.PaymentDate.ToString("MM/dd/yyyy")</td>
+            </tr>
+        </tbody>
+    </table>
 
     <center>
         <div class="Total">
-            @foreach (var item in Model)
-            {
-                <p><strong>Total:</strong>@item.TotallPrice <i class='fas fa-dollar-sign'></i></p>
-
-            }
+            <p><strong>Total:</strong> @Model.TotallPrice <i class='fas fa-dollar-sign'></i></p>
         </div>
-    </center>   
+    </center>
 
-        <center><button class="print-invoice mt-4">Print <i class='fas fa-print'></i></button></center>
-
-  
+    <center><button class="print-invoice mt-4">Print <i class='fas fa-print'></i></button></center>
 </div>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+
 <style>
     .navbar {
         padding: 5px;
@@ -128,7 +108,7 @@
         margin: 50px auto;
         background: #fff;
         padding: 20px;
-        box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     }
 
     h1 {
@@ -146,12 +126,12 @@
         border-color: #674636;
     }
 
-    table, th  {
+    table, th {
         border: 1px solid #ccc;
         background-color: #F7EFE5;
         padding: 10px;
         text-align: left;
-        color =#674636;
+        color: #674636;
     }
 
     table, td {
@@ -159,18 +139,6 @@
         background-color: #FCFAEE;
         padding: 10px;
         text-align: left;
-    }
-
-    input {
-        width: 100%;
-        padding: 5px;
-        box-sizing: border-box;
-    }
-
-    button {
-        padding: 10px 15px;
-        margin: 10px 0;
-        cursor: pointer;
     }
 
     .add-item {
@@ -185,14 +153,15 @@
         border-radius: 200px;
         border: none;
     }
+
         .add-item:hover {
-        box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
-        transition: all 0.3s ease;
-    }
+            box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+            transition: all 0.3s ease;
+        }
 
     .print-invoice {
         background-color: #dfbe9f;
-        align-content:center;
+        align-content: center;
         color: #734d26;
         padding: 10px 32px;
         text-align: center;
@@ -204,24 +173,22 @@
         border: none;
     }
 
-    .print-invoice:hover {
-        box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
-        transition: all 0.3s ease;
-    }
+        .print-invoice:hover {
+            box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+            transition: all 0.3s ease;
+        }
 
-  
     .Total {
         width: 150px;
         height: 75px;
-        background-color: #FCFAEE; /* Green background */
+        background-color: #FCFAEE;
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 2px solid #333; /* Border of the rectangle */
+        border: 2px solid #333;
         border-radius: 10px;
         color: #6C4E31;
         font-size: 20px;
         font-weight: bold;
     }
-
 </style>

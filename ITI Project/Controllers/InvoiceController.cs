@@ -16,9 +16,9 @@ namespace ITI_Project.Controllers
             this.mapper = mapper;
         }
 
-        public IActionResult Read()
+        public IActionResult Read(int id )
         {
-            var result =  invoiceService.GetAll();
+            var result =  invoiceService.GetByInvoiceId(id);
             return View(result);
         }
 

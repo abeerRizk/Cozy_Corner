@@ -99,33 +99,41 @@ namespace ITI_Project.Controllers
 
         public async Task<IActionResult> AddToCart(OrderItemsVM new_order)
         {
-            var user = await userManager.GetUserAsync(User);  
+            var user = await userManager.GetUserAsync(User);
             var customerId = customerService.GetCustomerId_ByUserId(user.Id);
+
+            // Calculate the total price of the new order item
+            new_order.TotalPrice = new_order.UnitPrice * new_order.Quantity;
 
             var product = productService.GetByProductId(new_order.ProductId);
             product.Quantity -= new_order.Quantity;
 
             UpdateProductVM updateProduct = mapper.Map<UpdateProductVM>(product);
             productService.Update(updateProduct);
+
             new_order.Status = "ordered";
-            _orderService.AddOrderItem(customerId, new_order);
-            return RedirectToAction("ViewProduct" , "Product" , new { id = new_order.ProductId });
+            _orderService.AddOrderItem(customerId, new_order); // Add the order item
+            return RedirectToAction("ViewProduct", "Product", new { id = new_order.ProductId });
         }
-            
-        public async Task<IActionResult>  ConfirmOrder(OrderModelVM order)
+
+
+        public async Task<IActionResult>  ConfirmOrder()
         {
 
             var user = await userManager.GetUserAsync(User);
 
             var customerId = customerService.GetCustomerId_ByUserId(user.Id);
 
+            var customer = customerService.GetByCustomerId(customerId);
+            var order = _orderService.GetOrderById(customer.CurrentOrderId);
+
             CreateInvoiceVM invoiceVM = new CreateInvoiceVM();
-            invoiceVM.CustomerId = order.CustomerId;
+            invoiceVM.CustomerId = customerId;
             invoiceVM.CustomerName = order.CustomerName;
             invoiceVM.TotallPrice = order.TotalPrice;
             invoiceVM.IsPaid = false;
             invoiceVM.OrderId = order.Id;
-            invoiceVM.NetPrice = order.TotalPrice;
+       
             invoiceVM.PaymentMethod = order.PaymentMethod;
             invoiceVM.InvoiceDate = DateTime.Now;
             invoiceService.Create(invoiceVM);

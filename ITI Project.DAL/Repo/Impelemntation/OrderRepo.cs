@@ -116,10 +116,10 @@ namespace ITI_Project.DAL.Repo.Impelemntation
         //}
 
 
-        public void AddOrderItem(int CustomerId, OrderItem item)
+        public void AddOrderItem(int customerId, OrderItem item)
         {
             // Retrieve the customer
-            Customer customer = db.Customers.FirstOrDefault(a => a.Id == CustomerId);
+            Customer customer = db.Customers.FirstOrDefault(a => a.Id == customerId);
 
             if (customer != null)
             {
@@ -149,8 +149,8 @@ namespace ITI_Project.DAL.Repo.Impelemntation
                         {
                             // Add the new item to the existing order
                             item.OrderId = customer.CurrentOrderId;
-                            order.TotalPrice += item.TotalPrice;
-                            order.Items.Add(item);
+                            order.TotalPrice += item.TotalPrice; // Update total price by adding new item's total price
+                            order.Items.Add(item); // Add new item to the order
                         }
 
                         db.SaveChanges(); // Save all changes
@@ -162,12 +162,11 @@ namespace ITI_Project.DAL.Repo.Impelemntation
                     Order order = new Order
                     {
                         OrderDate = DateTime.Now,
-                        CustomerId = CustomerId,
+                        CustomerId = customerId,
                         ShippingAddress = customer.Location,
-                        TotalPrice = item.TotalPrice,
+                        TotalPrice = item.TotalPrice, // Initialize with the first item's total price
                         Items = new List<OrderItem> { item }, // Add the item to the order
                         CustomerName = customer.Name,
-
                     };
 
                     db.Order.Add(order);
@@ -181,6 +180,7 @@ namespace ITI_Project.DAL.Repo.Impelemntation
                 }
             }
         }
+
 
     }
 }
