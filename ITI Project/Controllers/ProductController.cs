@@ -69,28 +69,54 @@ namespace ITI_Project.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Vendor")]
-        public async Task<IActionResult>  Create(CreateProductVM product)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(CreateProductVM model, IFormFileCollection images)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                var user = await userManager.GetUserAsync(User);
+
+                var vendorId = vendorService.GetVendorId_ByUserId(user.Id);
+                
+                var product = new CreateProductVM
                 {
-                    var user =  await userManager.GetUserAsync(User);
+                    Name = model.Name,
+                    Description = model.Description,
+                    Price = model.Price,
+                    Images = new List<string>(),
+                    VendorID = vendorId
+                };
 
-                    var VendorId = vendorService.GetVendorId_ByUserId(user.Id);
-                    product.VendorID = VendorId;
-                    var x = productService.Create(product);
-                    return RedirectToAction("Create", "Product");
+                // Save multiple images
+                foreach (var image in images)
+                {
+                    if (image != null && image.Length > 0)
+                    {
+                        var fileName = Path.GetFileName(image.FileName);
+                        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ImgProduct/Profile", fileName);
+
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await image.CopyToAsync(stream);
+                        }
+
+                        // Add the image URL to the product's image list
+                        product.Images.Add(fileName);
+                    }
                 }
-            }
-            catch (Exception)
-            {
-                return View(product);
+                productService.Create(product);
+                // Save product to the database (using your repository or db context)
+                // _context.Products.Add(product);
+                // await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index)); // Or wherever you want to redirect
             }
 
-            return View(product);
+            return View(model);
         }
 
+
+      
 
         [HttpGet]
         public IActionResult Delete(int id)

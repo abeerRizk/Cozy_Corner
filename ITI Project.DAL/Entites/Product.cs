@@ -13,7 +13,7 @@ namespace ITI_Project.DAL.Entites
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
-        public string? image {  get; set; }
+      
         public string? Description { get; set; }
         public  bool? Available { get; set; }
         public int?  Quantity { get; set; }
@@ -22,7 +22,12 @@ namespace ITI_Project.DAL.Entites
         public int? VendorID { get; set; }
         public Vendor? Vendor { get; set; }
         public List<Rating>? Ratings { get; set; }
-        
+      
+
+        public List<string> Images { get; set; }
+       
+  
+
         public bool IsDeleted { get; set; }
     }
 }

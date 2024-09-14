@@ -35,7 +35,18 @@ namespace ITI_Project.Controllers
 
             var customerId = customerService.GetCustomerId_ByUserId(user.Id);
             await _favoriteService.ChangeStatus(customerId, productId);
-            return RedirectToAction("Read", "Product");
+
+            // Get the referring URL from the request header
+            string refererUrl = Request.Headers["Referer"].ToString();
+
+            // If the referrer URL is present, redirect back to it, otherwise redirect to a fallback action
+            if (!string.IsNullOrEmpty(refererUrl))
+            {
+                return Redirect(refererUrl);  // Redirect to the referring view
+            }
+
+            return RedirectToAction("Read" , "Product");  //
+            
         }
     }
 }
