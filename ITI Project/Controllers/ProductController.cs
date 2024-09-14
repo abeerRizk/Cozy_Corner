@@ -80,7 +80,7 @@ namespace ITI_Project.Controllers
                     var VendorId = vendorService.GetVendorId_ByUserId(user.Id);
                     product.VendorID = VendorId;
                     var x = productService.Create(product);
-                    return RedirectToAction("Read", "Product");
+                    return RedirectToAction("Create", "Product");
                 }
             }
             catch (Exception)
@@ -106,7 +106,7 @@ namespace ITI_Project.Controllers
             try
             {
                 productService.Delete(product.Id);
-                return RedirectToAction("Read", "Product");
+                return RedirectToAction("Delete", "Product");
             }
             catch (Exception)
             {
@@ -133,7 +133,7 @@ namespace ITI_Project.Controllers
                 if (ModelState.IsValid)
                 {
                     productService.Update(product);
-                    return RedirectToAction("Read", "Product");
+                    return RedirectToAction("Update", "Product");
                 }
             }
             catch (Exception)

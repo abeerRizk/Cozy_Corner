@@ -3,7 +3,6 @@
 @{
     ViewData["HideHeaderFooter"] = true;
     Layout = "~/Views/Shared/_Layout.cshtml";
-    
 }
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -45,17 +44,25 @@
             <div class="product-details">
                 <h2>@Model.Name</h2>
                 <p>@Model.Description</p>
-                <p><strong>Price:</strong> $@Model.Price</p>
+                <p><strong>Price:</strong> @Model.Price$</p>
 
                 <form asp-action="AddToCart" asp-controller="Order" method="post" class="mt-4">
                     <input type="hidden" name="ProductId" value="@Model.Id" /> <!-- Pass Product ID -->
                     <input type="hidden" name="ProductName" value="@Model.Name" /> <!-- Pass Product Name -->
-                    
                     <input type="hidden" name="UnitPrice" value="@Model.Price" /> <!-- Pass Product Price -->
 
                     <div class="form-group">
                         <label for="quantity">Quantity</label>
-                        <input type="number" class="form-control" id="quantity" name="Quantity" min="1" value="1" required />
+                        <input type="number" class="form-control" id="quantity" name="Quantity" min="1" max="@Model.Quantity" value="1" required />
+                        
+                             @if(Model.Quantity == 0)
+                        {
+                            <small class="form-text text-muted">  The item is no more available </small>
+                        }
+                        else
+                        {
+                              <small class="form-text text-muted">    Maximum available quantity: @Model.Quantity</small>
+                        }
                     </div>
 
                     <div class="form-group">
@@ -63,9 +70,13 @@
                         <input type="text" class="form-control" id="totalPrice" readonly value="@Model.Price" />
                     </div>
 
-                    <button type="submit" class="btn btn-success">Add to Cart</button>
+                    <button type="submit" class="button1">Add to Cart</button>
                 </form>
 
+                <!-- Message for exceeding quantity -->
+                <div id="quantityMessage" class="alert alert-danger mt-2" style="display: none;">
+                    You cannot add more than @Model.Quantity items to the cart.
+                </div>
             </div>
         </div>
     </div>
@@ -92,10 +103,10 @@
         color: #FFF8E7 !important;
     }
 
-        .nav-link:hover, .dropdown-item:hover {
-            color: #FFF8E7 !important;
-            background-color: #654321 !important;
-        }
+    .nav-link:hover, .dropdown-item:hover {
+        color: #FFF8E7 !important;
+        background-color: #654321 !important;
+    }
 
     /* Main Content Styling */
     body {
@@ -106,7 +117,7 @@
     .product-img {
         width: 100%;
         height: auto;
-        max-height: 400px;
+        max-height: 600px; /* Increased image size */
         object-fit: cover;
         border-radius: 10px;
         margin-bottom: 20px;
@@ -116,43 +127,64 @@
         padding-left: 20px;
     }
 
-        .product-details h2 {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #674636;
-        }
-
-        .product-details p {
-            font-size: 1.2rem;
-            color: #555;
-        }
-
-    .btn {
-        font-size: 1.25rem;
+    .product-details h2 {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #674636;
     }
 
+    .product-details p {
+        font-size: 1.2rem;
+        color: #555;
+    }
+
+ /*    .btn {
+        font-size: 1.25rem;
+    }
+ */
     .form-group {
         margin-bottom: 1rem;
     }
 
-    .btn-success {
+  /*   .btn-success {
         font-size: 1.2rem;
         width: 100%;
         padding: 10px;
         background-color: #28a745;
         border: none;
-        border-radius: 5px;
+      
     }
 
-        .btn-success:hover {
-            background-color: #218838;
-            color: white;
+    .btn-success:hover {
+        background-color: #218838;
+        color: white;
+    } */
+      .button1 {
+        background-color: #dfbe9f;
+        color: #734d26;
+        padding: 10px 32px;
+        text-align: center;
+        font-weight: bold;
+        display: inline-block;
+        font-size: 20px;
+      
+        border-radius: 5px;
+        border: none;
+          width: 100%;
+    }
+
+        .button1:hover {
+            box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+            transition: all 0.3s ease;
+            text-decoration: none;
         }
     /* Favorite icon styles */
     .favorite-icon {
         color: #d3d3d3;
-        font-size: 24px;
-       
+        font-size: 40px; /* Increased size of the heart icon */
+        position: absolute;
+        top: 10px;
+        right: 20px;
     }
 
     .favorite-active {
@@ -162,10 +194,21 @@
 
 @section Scripts {
     <script>
+        const maxQuantity = @Model.Quantity;
+
         // Dynamically calculate the total price based on quantity entered
         document.getElementById('quantity').addEventListener('input', function () {
             const unitPrice = parseFloat('@Model.Price');
             const quantity = parseInt(this.value);
+            const quantityMessage = document.getElementById('quantityMessage');
+
+            if (quantity > maxQuantity) {
+                this.value = maxQuantity; // Reset to maximum allowed quantity
+                quantityMessage.style.display = 'block'; // Show the message
+            } else {
+                quantityMessage.style.display = 'none'; // Hide the message
+            }
+
             if (!isNaN(quantity) && quantity > 0) {
                 const totalPrice = unitPrice * quantity;
                 document.getElementById('totalPrice').value = totalPrice.toFixed(2);

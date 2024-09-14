@@ -55,7 +55,7 @@ namespace ITI_Project.DAL.Repo.Impelemntation
 
         public List<Product> GetAll()
         {
-            var result = db.Products.Where(a => a.IsDeleted != true).ToList();
+            var result = db.Products.Where(a => a.IsDeleted != true && a.Available == true).ToList();
             return result;
         }
 
@@ -65,7 +65,7 @@ namespace ITI_Project.DAL.Repo.Impelemntation
             return data;
         }
 
-        public Product GetByProductId(int id)
+        public Product GetByProductId(int? id)
         {
             var data = db.Products.Where(a => a.Id == id).FirstOrDefault();
             return data;
