@@ -77,7 +77,13 @@ namespace ITI_Project.Controllers
                 var user = await userManager.GetUserAsync(User);
 
                 var vendorId = vendorService.GetVendorId_ByUserId(user.Id);
-                
+                if (vendorId == null)
+                {
+                    // Handle the case where the vendor does not exist for the user
+                    ModelState.AddModelError("", "Vendor not found for the current user.");
+                    return View(model);
+                }
+
                 var product = new CreateProductVM
                 {
                     Name = model.Name,
