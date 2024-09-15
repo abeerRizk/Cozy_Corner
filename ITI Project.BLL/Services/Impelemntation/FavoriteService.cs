@@ -22,22 +22,13 @@ namespace ITI_Project.BLL.Services.Impelemntation
         {
             await favoriteRepo.ChangeStatus(customerId, ProductId);
         }
-        //public async Task<bool> ToggleFavorite(string userId, int productId)
-        //{
-        //    // Call ChangeStatus method from repository
-        //    await favoriteRepo.ChangeStatus(userId, productId);
-
-        //    // Fetch the updated favorite item to determine its new status
-        //    var favorite = favoriteRepo.GetFavorite(userId, productId);
-
-        //    // Return the updated status
-        //    return favorite != null && favorite.IsActive;
-        //}
+        
 
         public bool IsProductFavorite(int customerId, int productId)
         {
             return favoriteRepo.IsProductFavorite(customerId, productId);
         }
+
 
     }
 }

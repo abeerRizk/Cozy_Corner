@@ -3,7 +3,9 @@ using ITI_Project.BLL.Helper;
 using ITI_Project.BLL.ModelVM;
 using ITI_Project.BLL.Services.Interface;
 using ITI_Project.DAL.Entites;
+using ITI_Project.DAL.Repo.Impelemntation;
 using ITI_Project.DAL.Repo.Interface;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -103,7 +105,12 @@ namespace ITI_Project.BLL.Services.Impelemntation
             }
 
         }
-        
+        public List<Product> GetFavoriteProductsByCustomerId(int customerId)
+        {
+            return ProductRepo.GetFavoriteProductsByCustomerId(customerId);
+        }
+
+
 
     }
 }
