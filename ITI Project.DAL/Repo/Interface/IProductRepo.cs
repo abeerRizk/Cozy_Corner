@@ -19,6 +19,7 @@ namespace ITI_Project.DAL.Repo.Interface
         public List<Product> GetByVendorAndCategory(string Category , int VendorId);
         IEnumerable<Product> GetProductsBySearchAndCategory(string searchTerm, string category);
 
+        List<Product> GetFavoriteProductsByCustomerId(int customerId);
 
 
     }

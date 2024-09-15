@@ -115,13 +115,15 @@
 <!-- Additional CSS -->
 <style>
     /* Navbar Styling */
+   /* Navbar styling */
     .navbar {
-        padding: 10px;
+        padding: 5px;
         width: 100%;
-        position: fixed;
-        top: 0;
+        position: absolute;
         left: 0;
-        z-index: 1000;
+        right: 0;
+        top: 0;
+        z-index:1000;
     }
 
     .bg-brown {
@@ -137,6 +139,74 @@
             color: #FFF8E7 !important;
             background-color: #654321 !important;
         }
+
+    /* Custom Dropdown Styling */
+    .custom-dropdown:hover .dropdown-menu {
+        display: block; /* Dropdown opens on hover */
+    }
+
+    .dropdown-toggle {
+        background-color: #865439;
+        color: #FFF8E7 !important;
+        border-radius: 8px;
+        padding: 5px 10px;
+        display: flex;
+        align-items: center;
+        font-size: 18px;
+        text-decoration: none;
+    }
+
+        .dropdown-toggle i {
+            margin-right: 5px;
+            font-size: 20px;
+        }
+
+    /* Dropdown Menu */
+    .dropdown-menu {
+        background-color: #FFF8E7; /* Dark brown for dropdown menu */
+        border-radius: 8px;
+        border: none;
+        min-width: 200px;
+        padding: 10px 0;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        opacity: 0.95;
+        display: none;
+    }
+
+    .dropdown-item {
+        color: #865439; 
+        padding: 10px 20px;
+        font-size: 16px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+        .dropdown-item:hover {
+            background-color: #865439 !important;
+            color: #FFF8E7 !important;
+            border-radius: 40px;
+        }
+
+        /* Hover styling for Instagram with icon */
+        .dropdown-item.d-flex.justify-content-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dropdown-item i {
+            color: #FFF8E7;
+
+        }
+
+        .dropdown-item.d-flex.justify-content-between:hover {
+            background-color: #FFF8E7 !important;
+            border-radius: 4px;
+        }
+
+            .dropdown-item.d-flex.justify-content-between:hover i {
+                color: #FFF8E7 !important;
+                border-radius: 70px;
+            }
 
     /* Main Content Styling */
     body {

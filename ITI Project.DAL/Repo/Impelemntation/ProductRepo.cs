@@ -127,5 +127,13 @@ namespace ITI_Project.DAL.Repo.Impelemntation
                 return false;
             }
         }
+        public List<Product> GetFavoriteProductsByCustomerId(int customerId)
+        {
+            return db.Favorites
+                .Where(f => f.CutomerId == customerId && f.IsActive == true)
+                .Include(f => f.Product) 
+                .Select(f => f.Product)
+                .ToList();
+        }
     }
 }
