@@ -1,0 +1,275 @@
+﻿@model IEnumerable<ITI_Project.BLL.ModelVM.GetProductVM>
+
+@{
+    ViewData["Title"] = "My Favorites";
+    ViewData["HideHeaderFooter"] = true;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Navigation Bar -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<nav class="navbar navbar-expand-lg navbar-light bg-brown w-100">
+    <div class="container-fluid">
+        <a class="navbar-brand text-light" href="#">Furniture Store</a>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown custom-dropdown">
+                    <a class="navbar-brand text-light dropdown-toggle d-flex align-items-center" href="#" id="myAccountDropdown" role="button">
+                        <i class="fa fa-user-circle" aria-hidden="true"></i> My Account
+                    </a>
+                    <ul class="dropdown-menu dropdown-custom" aria-labelledby="myAccountDropdown">
+                        <li><a class="dropdown-item" asp-controller="Account" asp-action="Login">Login</a></li>
+                        <li><a class="dropdown-item" asp-controller="Account" asp-action="Register">Register</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Favorite Products Section -->
+<div class="container mt-5">
+    <div class="d-flex align-items-center mb-4">
+        <!-- Heart Icon -->
+        <i class="fa fa-heart" style="color: red; font-size: 30px; margin-right: 10px;"></i>
+        <!-- Title Text -->
+        <p class="mb-0" style="color: #865439; font-size: 24px;">My Favorites</p>
+    </div>
+    <div class="row" id="favoriteProductContainer">
+        @if (Model != null && Model.Any(p => p.isFavorite))
+        {
+            @foreach (var product in Model.Where(p => p.isFavorite))
+            {
+                        <div class="col-md-4 product-block" data-category="@product.Category" data-description="@product.Description">
+                            <div class="card mb-3">
+                                <div class="position-relative">
+                                    <!-- Carousel for product images -->
+                                    <div id="carousel-@product.Id" class="carousel slide" data-bs-ride="carousel">
+                                        <!-- Indicators -->
+                                        <ol class="carousel-indicators">
+                                    @for (var i = 0; i < product.Images.Count; i++)
+                                    {
+                                                    <li data-bs-target="#carousel-@product.Id" data-bs-slide-to="@i" class="@(i == 0 ? "active" : "")"></li>
+                                    }
+                                        </ol>
+
+                                        <!-- Inner items -->
+                                        <div class="carousel-inner">
+                                    @for (var i = 0; i < product.Images.Count; i++)
+                                    {
+                                                    <div class="carousel-item @(i == 0 ? "active" : "")">
+                                                        <!-- Clicking the image will redirect to the product details -->
+                                                        <a href="@Url.Action("ViewProduct", "Product", new { id = product.Id })">
+                                                            <img src="~/ImgProduct/Profile/@product.Images[i]" class="d-block w-100 card-img-top" alt="@product.Name">
+                                                        </a>
+                                                    </div>
+                                    }
+                                        </div>
+
+                                        <!-- Previous and Next controls -->
+                                        <a class="carousel-control-prev custom-carousel-control" href="#carousel-@product.Id" role="button" data-bs-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="carousel-control-next custom-carousel-control" href="#carousel-@product.Id" role="button" data-bs-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </div>
+
+                                    <!-- Favorite icon -->
+                                    <button type="button" class="btn position-absolute top-0 end-0 p-2 no-focus-outline"
+                                            onclick="event.stopPropagation(); window.location.href='@Url.Action("ToggleFavorite", "Favorites", new { productId = @product.Id })'">
+                                        <i class="fa fa-heart favorite-icon favorite-active" id="favoriteIcon-@product.Id"></i>
+                                    </button>
+                                </div>
+
+                                <!-- Product name and price, clicking redirects to product details -->
+                                <a href="@Url.Action("ViewProduct", "Product", new { id = product.Id })">
+                                    <div class="card-body px-3">
+                                        <div class="d-flex justify-content-between" style="padding: 5px 10px;">
+                                            <p>@product.Name</p>
+                                            <p>Price: @product.Price$</p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+            }
+        }
+        else
+        {
+                <p>No favorite products available.</p>
+        }
+    </div>
+</div>
+
+<!-- Custom Styles -->
+<style>
+    body {
+        background-color: #FFFBF5;
+        padding-top: 10px;
+    }
+
+    /* Navbar styling */
+    .navbar {
+        padding: 5px;
+        width: 100%;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        z-index:1000;
+    }
+
+    .bg-brown {
+        background-color: #865439;
+    }
+
+    .navbar-brand, .nav-link {
+        font-size: 18px;
+        color: #FFF8E7 !important;
+    }
+
+        .nav-link:hover, .dropdown-item:hover {
+            color: #FFF8E7 !important;
+            background-color: #654321 !important;
+        }
+
+    /* Custom Dropdown Styling */
+    .custom-dropdown:hover .dropdown-menu {
+        display: block; /* Dropdown opens on hover */
+    }
+
+    .dropdown-toggle {
+        background-color: #865439;
+        color: #FFF8E7 !important;
+        border-radius: 8px;
+        padding: 5px 10px;
+        display: flex;
+        align-items: center;
+        font-size: 18px;
+        text-decoration: none;
+    }
+
+        .dropdown-toggle i {
+            margin-right: 5px;
+            font-size: 20px;
+        }
+
+    /* Dropdown Menu */
+    .dropdown-menu {
+        background-color: #FFF8E7; /* Dark brown for dropdown menu */
+        border-radius: 8px;
+        border: none;
+        min-width: 200px;
+        padding: 10px 0;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        opacity: 0.95;
+        display: none;
+    }
+
+    .dropdown-item {
+        color: #865439; 
+        padding: 10px 20px;
+        font-size: 16px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+        .dropdown-item:hover {
+            background-color: #865439 !important;
+            color: #FFF8E7 !important;
+            border-radius: 40px;
+        }
+
+        /* Hover styling for Instagram with icon */
+        .dropdown-item.d-flex.justify-content-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dropdown-item i {
+            color: #FFF8E7;
+
+        }
+
+        .dropdown-item.d-flex.justify-content-between:hover {
+            background-color: #FFF8E7 !important;
+            border-radius: 4px;
+        }
+
+            .dropdown-item.d-flex.justify-content-between:hover i {
+                color: #FFF8E7 !important;
+                border-radius: 70px;
+            }
+
+    .container.mt-5 {
+        margin-top: 120px;
+    }
+
+    .btn-link {
+        color: #674636;
+        text-decoration: none;
+        padding: 8px 15px;
+        font-size: 16px;
+    }
+
+    .btn-link:hover, .btn-link.active {
+        text-decoration: none;
+        background-color: #865439;
+        color: #FFF8E7;
+    }
+
+    .product-block {
+        margin-bottom: 20px;
+    }
+
+    .card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        height: 450px;
+    }
+
+    .card-img-top {
+        width: 100%;
+        height: 380px;
+        object-fit: cover;
+    }
+
+    .card-body {
+        font-size: 20px;
+        font-weight: bold;
+        color: #865439;
+    }
+
+    .favorite-icon {
+        color: red;
+        font-size: 30px;
+    }
+
+    .favorite-active {
+        color: red !important;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    .carousel-control-prev, .carousel-control-next {
+        width: auto;
+        padding: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .custom-carousel-control {
+        width: auto !important;
+        background: none !important;
+    }
+
+    .carousel-control-prev-icon, .carousel-control-next-icon {
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 50%;
+    }
+</style>

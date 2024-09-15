@@ -15,6 +15,6 @@ namespace ITI_Project.DAL.Repo.Interface
         bool UpdateVendor(Vendor vendor);
         bool DeleteVendor(int id);
         public bool IsEmailExist(string email);
-        public int GetVendorId_ByUserId(string userId);
+        public int? GetVendorId_ByUserId(string userId);
     }
 }

@@ -77,6 +77,7 @@ namespace ITI_Project.BLL.Mapping
             CreateMap<FollowVM, Follow>();
 
 
+
         }
     }
 }
