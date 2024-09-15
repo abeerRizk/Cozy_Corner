@@ -37,7 +37,7 @@ namespace ITI_Project.Controllers
             var user = await userManager.GetUserAsync(User);
             var vendorId = vendorService.GetVendorId_ByUserId(user.Id);
 
-            var orders = _orderService.GetAllOrders();
+            var orders = _orderService.GetAllOrders().Where(a=> a.Status == "confirmed");
             List <OrderModelVM> lst = new List <OrderModelVM>();
             foreach(var order in orders)
             {
@@ -170,6 +170,7 @@ namespace ITI_Project.Controllers
             new_order.TotalPrice = new_order.UnitPrice * new_order.Quantity;
 
             var product = productService.GetByProductId(new_order.ProductId);
+
             product.Quantity += new_order.Quantity;
 
             UpdateProductVM updateProduct = mapper.Map<UpdateProductVM>(product);
@@ -220,6 +221,10 @@ namespace ITI_Project.Controllers
 
             var customer = customerService.GetByCustomerId(customerId);
             var order = _orderService.GetOrderById(customer.CurrentOrderId);
+
+            order.Status = "confirmed";
+            _orderService.UpdateOrder(order);
+
 
             CreateInvoiceVM invoiceVM = new CreateInvoiceVM();
             invoiceVM.CustomerId = customerId;

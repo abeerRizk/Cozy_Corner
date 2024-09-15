@@ -29,5 +29,8 @@ namespace ITI_Project.BLL.ModelVM
 
         public bool isFavorite { get; set; }
 
+        public bool? IsDeleted { get; set; }
+
+        public int vendorId { get; set; }
     }
 }

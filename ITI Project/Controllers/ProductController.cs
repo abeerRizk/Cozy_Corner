@@ -38,14 +38,26 @@ namespace ITI_Project.Controllers
         public async Task<IActionResult> Read()
         {
             var result = productService.GetAll();
-
-            var user = await userManager.GetUserAsync(User);
-            int customerId = customerService.GetCustomerId_ByUserId(user.Id);
-
-            foreach (var product in result)
+            if (User.Identity.IsAuthenticated)
             {
-                product.isFavorite = favoriteService.IsProductFavorite(customerId, product.Id);
+                var user = await userManager.GetUserAsync(User);
+                int customerId = customerService.GetCustomerId_ByUserId(user.Id);
+
+                foreach (var product in result)
+                {
+                    product.isFavorite = favoriteService.IsProductFavorite(customerId, product.Id);
+                }
             }
+
+            return View(result);
+        }
+
+        public async Task <IActionResult> VendorGallery()
+        {
+            var user = await userManager.GetUserAsync(User);
+            int? vendorId = vendorService.GetVendorId_ByUserId(user.Id);
+            var result = productService.GetAll().Where(a=>a.vendorId == vendorId && a.IsDeleted != true);
+
 
             return View(result);
         }
