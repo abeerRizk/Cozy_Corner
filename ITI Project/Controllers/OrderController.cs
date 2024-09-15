@@ -16,10 +16,12 @@ namespace ITI_Project.Controllers
         private readonly IMapper mapper;
         private readonly IInvoiceService invoiceService;
         private readonly IProductService productService;
+        private readonly IVendorService vendorService;
 
         public OrderController(IOrderService orderService , UserManager<User> userManager
             , ICustomerService customerService , IMapper mapper,      
-          IInvoiceService  invoiceService , IProductService productService)
+          IInvoiceService  invoiceService , IProductService productService
+            , IVendorService vendorService)
         {
             _orderService = orderService;
             this.userManager = userManager;
@@ -27,14 +29,56 @@ namespace ITI_Project.Controllers
             this.mapper = mapper;
             this.invoiceService = invoiceService;
             this.productService = productService;
+            this.vendorService = vendorService;
         }
-        public IActionResult Index()
+
+        public async Task  <IActionResult> Index()
         {
+            var user = await userManager.GetUserAsync(User);
+            var vendorId = vendorService.GetVendorId_ByUserId(user.Id);
+
             var orders = _orderService.GetAllOrders();
-            return View(orders);
+            List <OrderModelVM> lst = new List <OrderModelVM>();
+            foreach(var order in orders)
+            {
+                bool exist = false;
+                foreach(var item in order.Items)
+                {
+                    if (item.VendorId == vendorId)
+                    {
+                        exist = true;
+                        break;
+                    }
+                }
+                if(exist)
+                {
+                   OrderModelVM new_order = new OrderModelVM();
+                    new_order.OrderDate = order.OrderDate;
+                    new_order.CustomerId = order.CustomerId;
+                    new_order.CustomerName = order.CustomerName; 
+                    new_order.ShippingAddress = order.ShippingAddress;
+                    new_order.PaymentMethod = order.PaymentMethod;
+                    new_order.CustomerLocation = order.CustomerLocation;
+                    new_order.ExpectedDeliveryDate = order.ExpectedDeliveryDate;
+                    new_order.Status = order.Status;
+                    
+                    foreach (var item in order.Items)
+                    {
+                        if (item.VendorId == vendorId)
+                        {
+                            new_order.Items.Add(item);
+                        }
+                    }
+                    lst.Add(new_order);
+                }
+            }
+            return View(lst);
         }
+
+
         public IActionResult Details(int id)
         {
+
             var order = _orderService.GetOrderById(id);
             if (order == null)
             {
