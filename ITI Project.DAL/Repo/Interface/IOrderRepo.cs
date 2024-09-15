@@ -16,5 +16,6 @@ namespace ITI_Project.DAL.Repo.Interface
         void DeleteOrder(int id);
         public void AddOrderItem(int CustomerId, OrderItem item);
 
+        public void RemoveOrderItem(int customerId, OrderItem item);
     }
 }

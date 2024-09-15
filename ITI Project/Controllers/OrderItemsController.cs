@@ -34,6 +34,7 @@ namespace ITI_Project.Controllers
             }
             return View(data);  
         }
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteItem(int id)

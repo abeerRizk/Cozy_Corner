@@ -20,5 +20,6 @@ namespace ITI_Project.BLL.Services.Interface
 
 
         public void AddOrderItem(int CustomerId, OrderItemsVM item);
+        public void RemoveOrderItem(int CustomerId, OrderItemsVM item);
     }
 }

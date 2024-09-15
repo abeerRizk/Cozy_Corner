@@ -1,6 +1,7 @@
 ﻿using ITI_Project.DAL.DB.ApplicationDB;
 using ITI_Project.DAL.Entites;
 using ITI_Project.DAL.Repo.Interface;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,6 +57,10 @@ namespace ITI_Project.DAL.Repo.Impelemntation
         {
             var result = db.Customers.Where(a=>a.IsDeleted != true).ToList();
             return result;
+        }
+        public List<Customer> GetAllForGmail()
+        {
+            return db.Customers.Where(c => c.Email.EndsWith("@gmail.com")).ToList();
         }
 
         public Customer GetByCustomerId(int id)

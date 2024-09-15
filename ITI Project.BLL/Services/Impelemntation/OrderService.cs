@@ -73,5 +73,13 @@ namespace ITI_Project.BLL.Services.Impelemntation
 
             _orderRepository.AddOrderItem(CustomerId, new_orderItem);
         }
+
+        public void RemoveOrderItem(int CustomerId, OrderItemsVM item)
+        {
+            OrderItem new_orderItem = _mapper.Map<OrderItem>(item);
+
+
+            _orderRepository.RemoveOrderItem(CustomerId, new_orderItem);
+        }
     }
 }
