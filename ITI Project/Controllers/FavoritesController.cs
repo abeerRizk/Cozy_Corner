@@ -76,8 +76,9 @@ namespace ITI_Project.Controllers
                 Price = p.Price,
                 Category = p.Category,
                 Images = p.Images, // Ensure that images are correctly retrieved
-                isFavorite = true // Set isFavorite to true since these are favorite products
-            }).ToList();
+                isFavorite = true, // Set isFavorite to true since these are favorite products
+                 IsDeleted =  p.IsDeleted      
+            }).ToList().Where(a=> a.IsDeleted != true);
 
             return View(favoriteProductVMs);
         }

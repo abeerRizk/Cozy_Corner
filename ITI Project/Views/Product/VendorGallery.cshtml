@@ -1,7 +1,6 @@
 ﻿@model IEnumerable<ITI_Project.BLL.ModelVM.GetProductVM>
 
 @{
-    ViewData["Title"] = "Product View";
     ViewData["HideHeaderFooter"] = true;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -13,13 +12,6 @@
         <a class="navbar-brand text-light" href="#">Furniture Store</a>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
-                <!-- Favorite Icon -->
-                <li class="nav-item">
-                    <a class="nav-link text-light d-flex align-items-center" href="@Url.Action( User.Identity.IsAuthenticated? "FavoriteProducts" : "Login",  User.Identity.IsAuthenticated?  "Favorites" : "Account" )" title = "Favorite Products">
-                        <i class="fa fa-heart" aria-hidden="true" style="font-size: 24px;"></i>
-                    </a>
-                </li>
-
                 <!-- My Account Dropdown -->
                 <li class="nav-item dropdown custom-dropdown">
                     @if (User.Identity.IsAuthenticated)
@@ -77,7 +69,7 @@
     </div>
 </div>
 
-<!-- Product Cards with Carousel -->
+<!-- Product Cards without Link -->
 <div class="container mt-4">
     <div class="row" id="productContainer">
         @if (Model != null && Model.Any())
@@ -85,7 +77,6 @@
             @foreach (var product in Model)
             {
                 <div class="col-md-4 product-block" data-category="@product.Category" data-description="@product.Description">
-                    <!-- Make the whole card a link -->
                     <div class="card mb-3">
                         <div class="position-relative">
                             <!-- Carousel for product images -->
@@ -103,10 +94,7 @@
                                     @for (var i = 0; i < product.Images.Count; i++)
                                     {
                                         <div class="carousel-item @(i == 0 ? "active" : "")">
-                                            <!-- Redirect anonymous users to Login if they click -->
-                                            <a href="@Url.Action(User.Identity.IsAuthenticated ? "ViewProduct" : "Login", User.Identity.IsAuthenticated ? "Product" : "Account", new { id = product.Id })">
-                                                <img src="~/ImgProduct/Profile/@product.Images[i]" class="d-block w-100 card-img-top" alt="@product.Name">
-                                            </a>
+                                            <img src="~/ImgProduct/Profile/@product.Images[i]" class="d-block w-100 card-img-top" alt="@product.Name">
                                         </div>
                                     }
                                 </div>
@@ -121,24 +109,21 @@
                                     <span class="sr-only">Next</span>
                                 </a>
                             </div>
-
-                            <!-- Favorite icon -->
-                            <button type="button" class="btn position-absolute top-0 end-0 p-2 no-focus-outline"
-                                    onclick="event.stopPropagation(); window.location.href='@Url.Action(User.Identity.IsAuthenticated ? "ToggleFavorite" : "Login", User.Identity.IsAuthenticated ? "Favorites" : "Account", new { productId = @product.Id })'">
-                                <i class="fa fa-heart favorite-icon @(product.isFavorite ? "favorite-active" : "")" id="favoriteIcon-@product.Id"></i>
-                            </button>
                         </div>
 
-                        <!-- Redirect anonymous users to Login if they click -->
-                        <a href="@Url.Action(User.Identity.IsAuthenticated ? "ViewProduct" : "Login", User.Identity.IsAuthenticated ? "Product" : "Account", new { id = product.Id })">
-                            <div class="card-body px-3">
-                                <!-- Flex container for name and price -->
-                                <div class="d-flex justify-content-between" style="padding: 5px 10px;">
-                                    <p>@product.Name</p>
-                                    <p>Price: @product.Price$</p>
-                                </div>
+                        <div class="card-body px-3">
+                            <!-- Flex container for name and price -->
+                            <div class="d-flex justify-content-between" style="padding: 0px 10px;">
+                                <p>@product.Name</p>
+                                <p>Price: @product.Price$</p>
                             </div>
-                        </a>
+
+                            <!-- Edit and Delete buttons with custom styles -->
+                            <div class="d-flex justify-content-center ">
+                                <button class="btn btn-primary btn-custom me-2 card-button1" onclick="window.location.href='@Url.Action("Update", "Product", new { id = product.Id })'">Edit</button>
+                                <button class="btn btn-danger btn-custom card-button2" onclick="window.location.href='@Url.Action("Delete", "Product", new { id = product.Id })'">Delete</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             }
@@ -150,7 +135,7 @@
     </div>
 </div>
 
-<!-- JavaScript for category filtering, search functionality, and favorite toggle -->
+<!-- JavaScript for category filtering, search functionality -->
 <script>
     function filterByCategory(category) {
         var products = document.querySelectorAll('.product-block');
@@ -187,11 +172,9 @@
         var products = document.querySelectorAll('.product-block');
 
         products.forEach(function (product) {
-            // Get the product name and description from the dataset attributes
             var productName = product.querySelector('.d-flex p').innerText.toLowerCase();
-            var productDescription = product.getAttribute('data-description').toLowerCase(); // Accessing description directly from the attribute
+            var productDescription = product.getAttribute('data-description').toLowerCase();
 
-            // Check if either name or description contains the search term
             if (productName.includes(searchTerm) || productDescription.includes(searchTerm)) {
                 product.style.display = 'block';
             } else {
@@ -210,11 +193,10 @@
 <!-- Custom Styles -->
 <style>
     body {
-        background-color: #FFFBF5; /* Light beige */
+        background-color: #FFFBF5;
         padding-top: 10px;
     }
 
-    /* Navbar styling */
     .navbar {
         padding: 5px;
         width: 100%;
@@ -239,9 +221,8 @@
             background-color: #654321 !important;
         }
 
-    /* Custom Dropdown Styling */
     .custom-dropdown:hover .dropdown-menu {
-        display: block; /* Dropdown opens on hover */
+        display: block;
     }
 
     .dropdown-toggle {
@@ -260,9 +241,8 @@
             font-size: 20px;
         }
 
-    /* Dropdown Menu */
     .dropdown-menu {
-        background-color: #FFF8E7; /* Dark brown for dropdown menu */
+        background-color: #FFF8E7;
         border-radius: 8px;
         border: none;
         min-width: 200px;
@@ -312,15 +292,16 @@
         margin-bottom: 20px;
     }
 
+    <!-- Card Style -->
     .card {
         border: 1px solid #ddd;
         border-radius: 8px;
-        height: 450px; /* Increased height for the card */
+        height: 500px;
     }
 
     .card-img-top {
         width: 100%;
-        height: 380px; /* Adjust image height to take more space */
+        height: 380px;
         object-fit: cover;
     }
 
@@ -329,17 +310,44 @@
         font-weight: bold;
         color: #865439;
     }
-
-    .favorite-icon {
-        color: #d3d3d3;
-        font-size: 30px; /* Increased the size of the heart icon */
-        position: absolute;
-        top: 10px;
-        right: 20px;
+    .card-button1{
+        background-color: #C49A6C;
+        color: #FFFFFF;
+        border:none;
+        font-weight: bold;
     }
 
-    .favorite-active {
-        color: red !important;
+    .card-button2 {
+        background-color: #FFFBF5;
+        color: #C49A6C;
+        border: solid 0.5px #C49A6C;
+       
+        font-weight: bold;
+
+    }
+    .card-button1:hover{
+        background-color: #C49A6C;
+            color: #FFFFFF;
+            box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-weight: bold;
+            border:none
+    }
+
+        .card-button2:hover {
+        background-color: #865439;
+            color: #FFFFFF;
+            box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-weight: bold;
+            border:none
+        }
+    .btn-custom {
+        width: 100px; /* Set width for both buttons */
+        font-size: 16px; /* Increase font size */
+        padding: 10px 15px; /* Increase padding */
     }
 
     .search-btn, .form-control {
