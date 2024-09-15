@@ -22,6 +22,8 @@ namespace ITI_Project.BLL.ModelVM
         public int? CustomerId { get; set; }
         public Customer? Customer { get; set; }
         public string CustomerName { get; set; }
+        public string CustomerLocation { get; set; }
+
 
     }
 }

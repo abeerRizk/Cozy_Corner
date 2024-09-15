@@ -12,6 +12,7 @@ using ITI_Project.DAL.Entites;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -48,8 +49,6 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddHttpContextAccessor();
-
-
 //use configuration
 builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
@@ -66,8 +65,6 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
            options.LoginPath = new PathString("/Account/Register");
            options.AccessDeniedPath = new PathString("/Account/Register");
        });
-
-
 
 
 var app = builder.Build();
