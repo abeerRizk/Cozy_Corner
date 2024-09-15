@@ -1,4 +1,6 @@
-﻿using ITI_Project.BLL.Services.Impelemntation;
+﻿using AutoMapper;
+using ITI_Project.BLL.ModelVM;
+using ITI_Project.BLL.Services.Impelemntation;
 using ITI_Project.BLL.Services.Interface;
 using ITI_Project.DAL.Entites;
 using Microsoft.AspNetCore.Identity;
@@ -14,14 +16,17 @@ namespace ITI_Project.Controllers
         private readonly IUserService _userService; // Assuming you have a service to get the logged-in user
         private readonly UserManager<User> _userManager;
         private readonly ICustomerService customerService;
+        private readonly IMapper mapper;
 
-        public FavoritesController(IProductService productService, IFavoriteService favoriteService, IUserService userService, UserManager<User> userManager , ICustomerService customerService)
+        public FavoritesController(IProductService productService, IFavoriteService favoriteService, IUserService userService, UserManager<User> userManager 
+            , ICustomerService customerService, IMapper mapper)
         {
             _productService = productService;
             _favoriteService = favoriteService;
             _userService = userService;
             _userManager = userManager;
             this.customerService = customerService;
+            this.mapper = mapper;
         }
 
         [HttpGet]
@@ -48,5 +53,37 @@ namespace ITI_Project.Controllers
             return RedirectToAction("Read" , "Product");  //
             
         }
+
+        public async Task<IActionResult> FavoriteProducts()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            var customerId = customerService.GetCustomerId_ByUserId(user.Id);
+            var favoriteProducts = _productService.GetFavoriteProductsByCustomerId(customerId);
+
+            // Map the Product entities to GetProductVM
+            var favoriteProductVMs = favoriteProducts.Select(p => new GetProductVM
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Description = p.Description,
+                Available = p.Available,
+                Quantity = p.Quantity,
+                Price = p.Price,
+                Category = p.Category,
+                Images = p.Images, // Ensure that images are correctly retrieved
+                isFavorite = true // Set isFavorite to true since these are favorite products
+            }).ToList();
+
+            return View(favoriteProductVMs);
+        }
+
+
+
     }
 }
+
