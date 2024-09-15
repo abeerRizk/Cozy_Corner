@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+
 using ITI_Project.BLL.ModelVM;
 using ITI_Project.BLL.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,9 @@ namespace ITI_Project.Controllers
         private readonly IInvoiceService invoiceService;
         private readonly IMapper mapper;
 
-        public InvoiceController(IInvoiceService invoiceService, IMapper mapper)
+    
+
+        public InvoiceController(IInvoiceService invoiceService, IMapper mapper )
         {
             this.invoiceService = invoiceService;
             this.mapper = mapper;
