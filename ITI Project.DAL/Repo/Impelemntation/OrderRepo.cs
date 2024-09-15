@@ -167,6 +167,7 @@ namespace ITI_Project.DAL.Repo.Impelemntation
                         TotalPrice = item.TotalPrice, // Initialize with the first item's total price
                         Items = new List<OrderItem> { item }, // Add the item to the order
                         CustomerName = customer.Name,
+                        Status = "ordered",
                     };
 
                     db.Order.Add(order);
@@ -181,6 +182,30 @@ namespace ITI_Project.DAL.Repo.Impelemntation
             }
         }
 
+        public void RemoveOrderItem(int customerId, OrderItem item)
+        {
+            Customer customer = db.Customers.FirstOrDefault(a => a.Id == customerId);
+
+            if (customer != null)
+            {
+                var order = db.Order
+                        .Include(o => o.Items)
+                        .FirstOrDefault(o => o.Id == customer.CurrentOrderId);
+
+            var existingItem = order.Items.FirstOrDefault(a => a.ProductId == item.ProductId);
+                int? quantityDifference = item.Quantity;
+                existingItem.Quantity -= item.Quantity;
+                existingItem.TotalPrice = existingItem.UnitPrice * existingItem.Quantity;
+     
+                order.TotalPrice -= existingItem.UnitPrice * quantityDifference;
+                if (existingItem.Quantity == 0)
+                {
+                    existingItem.IsDeleted = true;
+                    order.Items.Remove(existingItem);
+                }
+                db.SaveChanges();
+            }
+        }
 
     }
 }

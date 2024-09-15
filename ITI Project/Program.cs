@@ -11,6 +11,7 @@ using ITI_Project.BLL.Services.Impelemntation;
 using ITI_Project.DAL.Entites;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -47,6 +48,8 @@ builder.Services.AddScoped<INotificationRepo, NotificationRepo>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddSingleton<EmailSender,EmailSender>();
 
 builder.Services.AddHttpContextAccessor();
 //use configuration

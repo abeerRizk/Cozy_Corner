@@ -20,9 +20,11 @@ namespace ITI_Project.Controllers
         private readonly UserManager<User> userManager;
         private readonly ICustomerService customerService;
         private readonly IFavoriteService favoriteService;
+        private readonly INotificationService notificationService;
 
         public ProductController(IProductService productService, IMapper mapper , IVendorService vendorService ,
-            UserManager<User> userManager , ICustomerService customerService , IFavoriteService favoriteService)
+            UserManager<User> userManager , ICustomerService customerService , IFavoriteService favoriteService
+            , INotificationService notificationService)
         {
             this.productService = productService;
             this.mapper = mapper;
@@ -30,6 +32,7 @@ namespace ITI_Project.Controllers
             this.userManager = userManager;
             this.customerService = customerService;
             this.favoriteService = favoriteService;
+            this.notificationService = notificationService;
         }
 
         public async Task<IActionResult> Read()
@@ -112,7 +115,7 @@ namespace ITI_Project.Controllers
                 // Save product to the database (using your repository or db context)
                 // _context.Products.Add(product);
                 // await _context.SaveChangesAsync();
-
+                notificationService.SendNotificationToGoogleEmails();
                 return RedirectToAction("Create" , "Product"); // Or wherever you want to redirect
             }
 
