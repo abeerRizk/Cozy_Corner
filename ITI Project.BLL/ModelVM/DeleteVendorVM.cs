@@ -17,6 +17,7 @@ namespace ITI_Project.BLL.ModelVM
         [Required]
         [EmailAddress]
         public string Email { get; set; }
+        [Range(10, 100)]
         public int? Age { get; set; }
         public DateTime? Createdon { get; set; } = DateTime.Now;
         public bool? IsDeleted { get; set; }

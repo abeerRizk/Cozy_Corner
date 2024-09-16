@@ -16,6 +16,7 @@ namespace ITI_Project.BLL.ModelVM
         [Required]
         [EmailAddress]
         public string? Email { get; set; }
+        [Range(10, 100)]
         public int? Age { get; set; }
         
         public string? Phone_Number { get; set; }
