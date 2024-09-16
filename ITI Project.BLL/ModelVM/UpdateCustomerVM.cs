@@ -14,7 +14,7 @@ namespace ITI_Project.BLL.ModelVM
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
-
+        [Range(10, 100)]
         public int? Age { get; set; }
 
         public string? Phone_Number { get; set; }
