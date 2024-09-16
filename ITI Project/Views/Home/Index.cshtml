@@ -3,20 +3,26 @@
     ViewData["HideHeaderFooter"] = true;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<!-- Navigation Bar -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <nav class="navbar navbar-expand-lg navbar-light bg-brown w-100">
     <div class="container-fluid">
-        <a class="navbar-brand text-light" href="#">Furniture Store</a>
+        <div class="navbar-brand text-light">Cozy Corner</div>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
+
+                <!-- My Account Dropdown -->
                 <li class="nav-item dropdown custom-dropdown">
-                    <a class="navbar-brand text-light dropdown-toggle d-flex align-items-center" href="#" id="myAccountDropdown" role="button">
-                        <i class="fa fa-user-circle" aria-hidden="true"></i> My Account
-                    </a>
-                    <ul class="dropdown-menu dropdown-custom" aria-labelledby="myAccountDropdown">
-                        <li><a class="dropdown-item" asp-controller="Account" asp-action="Login">Login</a></li>
-                        <li><a class="dropdown-item" asp-controller="Account" asp-action="Register">Register</a></li>
-                    </ul>
+
+                        <a class="navbar-brand text-light dropdown-toggle d-flex align-items-center" href="#" id="myAccountDropdown" role="button">
+                            <i class="fa fa-user-circle" aria-hidden="true"></i> Account
+                        </a>
+                        <ul class="dropdown-menu dropdown-custom" aria-labelledby="myAccountDropdown">
+                            <li><a class="dropdown-item" asp-controller="Account" asp-action="Login">Login</a></li>
+                            <li><a class="dropdown-item" asp-controller="Account" asp-action="Register">Register</a></li>
+                        </ul>
+                    
                 </li>
             </ul>
         </div>
@@ -29,12 +35,12 @@
         <div class="content-fixed">
             <!-- Welcome Text on the left -->
             <div class="welcome-message-container">
-                <h1 class="welcome-message">Welcome To  Our</h1>
-                <h1 class="welcome-message"> Furniture WebSite</h1>
+                <h1 class="welcome-message">Welcome To</h1>
+                <h1 class="welcome-message"> Cozy Corner Store</h1>
             </div>
             <!-- Overview Button on the right -->
             <div class="overview-button-container">
-                <button class="btn btn-outline-dark overview-btn">Overview</button>
+                <button class="btn btn-outline-dark overview-btn" onclick="location.href='@Url.Action("Read", "Product")'"  >Overview</button>
             </div>
         </div>
     </div>
@@ -42,6 +48,15 @@
 
 <style>
     /* Navbar styling */
+    /* Navbar styling */
+
+
+    * {
+        font-family: "Noto Sans JP", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 400;
+        font-style: normal;
+    }
     .navbar {
         padding: 5px;
         width: 100%;
@@ -49,7 +64,7 @@
         left: 0;
         right: 0;
         top: 0;
-        z-index:1000;
+        z-index: 1000;
     }
 
     .bg-brown {
@@ -59,6 +74,7 @@
     .navbar-brand, .nav-link {
         font-size: 18px;
         color: #FFF8E7 !important;
+
     }
 
         .nav-link:hover, .dropdown-item:hover {
@@ -100,7 +116,7 @@
     }
 
     .dropdown-item {
-        color: #865439; 
+        color: #865439;
         padding: 10px 20px;
         font-size: 16px;
         transition: background-color 0.3s ease, color 0.3s ease;
@@ -112,41 +128,9 @@
             border-radius: 40px;
         }
 
-        /* Hover styling for Instagram with icon */
-        .dropdown-item.d-flex.justify-content-between {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .dropdown-item i {
-            color: #FFF8E7;
-           
-        }
-
-        .dropdown-item.d-flex.justify-content-between:hover {
-            background-color: #FFF8E7 !important;
-            border-radius: 4px;
-        }
-
-            .dropdown-item.d-flex.justify-content-between:hover i {
-                color: #FFF8E7 !important;
-                border-radius: 70px;
-            }
-
-    /* Adjust the arrow position and color */
-    .dropdown-toggle::after {
-        display: inline-block;
-        margin-left: 0.255em;
-        vertical-align: 0.255em;
-        border-top: 0.3em solid #FFF8E7;
-        border-right: 0.3em solid transparent;
-        border-left: 0.3em solid transparent;
-    }
-
     /* Body and overflow adjustments */
     body {
-        font-family: 'Times New Roman', serif;
+     
         height: 100%;
         overflow: hidden; /* Disable scroll */
         margin: 0;
@@ -193,7 +177,7 @@
 
     /* Main content styling */
     .welcome-message {
-        font-family: 'Times New Roman', serif;
+       
         font-size: 40px;
         color: #865439;
     }

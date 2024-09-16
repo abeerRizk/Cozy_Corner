@@ -2,56 +2,18 @@
 
 @{
     ViewData["Title"] = "Update";
-    ViewData["HideHeaderFooter"] = true;
+   
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+@* <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+ *@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<nav class="navbar navbar-expand-lg navbar-light bg-brown w-100">
-    <div class="container-fluid">
-        <a class="navbar-brand text-light" href="#">Furniture Store</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
 
-        <div class="collapse navbar-collapse" id="navbarNav" >
-            <!-- Other navbar items can go here (if any) -->
 
-            <!-- Right-aligned icons and dropdown -->
-            <ul class="navbar-nav ms-auto d-flex align-items-center ">
-                <!-- Favorite Icon -->
-                <li class="nav-item">
-                    <a class="nav-link text-light d-flex align-items-center" href="@Url.Action( "FavoriteProducts" , "Favorites" )" title="Favorite Products">
-                        <i class="fa fa-heart" aria-hidden="true" style="font-size: 24px;"></i>
-                    </a>
-                </li>
-
-                <!-- Cart Icon -->
-                <li class="nav-item mx-2">
-                    <a class="nav-link text-light d-flex align-items-center" href="@Url.Action("Details", "Order")" title="View Cart">
-                        <i class="fa fa-shopping-cart" aria-hidden="true" style="font-size: 24px;"></i>
-                    </a>
-                </li>
-
-                <!-- My Account Dropdown -->
-                <li class="nav-item dropdown custom-dropdown mx-2">
-                
-                            <a class="navbar-brand text-light dropdown-toggle d-flex align-items-center" href="#" id="myAccountDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-user-circle" aria-hidden="true"></i> @User.Identity.Name
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right dropdown-custom" aria-labelledby="myAccountDropdown">
-                                <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a>
-                            </div>
-      
-     
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
 
 <div class="row justify-content-center align-items-center" style="min-height: 100vh;">
     <div class="col-md-6 p-4 shadow-sm rounded">
@@ -97,80 +59,7 @@
 }
 
 <style>
-   /* Navbar styling */
-    .navbar {
-        padding: 5px;
-        width: 100%;
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        z-index: 1000;
-    }
-
-    .bg-brown {
-        background-color: #865439;
-    }
-
-    .navbar-brand, .nav-link {
-        font-size: 18px;
-        color: #FFF8E7 !important;
-    }
-
-        .nav-link:hover, .dropdown-item:hover {
-            color: #FFF8E7 !important;
-            background-color: #654321 !important;
-        }
-
-    /* Custom Dropdown Styling */
-    .custom-dropdown:hover .dropdown-menu {
-        display: block; /* Dropdown opens on hover */
-    }
-
-    .dropdown-toggle {
-        background-color: #865439;
-        color: #FFF8E7 !important;
-        border-radius: 8px;
-        padding: 5px 10px;
-        display: flex;
-        align-items: center;
-        font-size: 18px;
-        text-decoration: none;
-    }
-
-        .dropdown-toggle i {
-            margin-right: 5px;
-            font-size: 20px;
-        }
-
-    /* Dropdown Menu */
-    .dropdown-menu {
-        background-color: #FFF8E7; /* Dark brown for dropdown menu */
-        border-radius: 8px;
-        border: none;
-        min-width: 200px;
-        padding: 10px 0;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-        opacity: 0.95;
-        display: none;
-    }
-
-    .dropdown-item {
-        color: #865439;
-        padding: 10px 20px;
-        font-size: 16px;
-        transition: background-color 0.3s ease, color 0.3s ease;
-
-    }
-
-        .dropdown-item:hover {
-            background-color: #865439 !important;
-            color: #FFF8E7 !important;
-            border-radius: 40px;
-            text-decoration: none;
-        }
-
-
+ 
 
     .button1 {
         background-color: #dfbe9f;
@@ -283,8 +172,5 @@
         border: none; /* Remove border */
     }
 
-    a:hover {
-        color: #8B4513;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    }
+
 </style>
