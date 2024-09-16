@@ -95,58 +95,6 @@ namespace ITI_Project.Controllers
             return View(order);
         }
 
-        [HttpGet]
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Create(OrderModelVM model)
-        {
-            if (ModelState.IsValid)
-            {
-                // Do not set model.Id here
-                _orderService.AddOrder(model);
-                return RedirectToAction("Index");
-            }
-            return View(model);
-        }
-        [HttpGet]
-        public IActionResult Edit(int id)
-        {
-            var order = _orderService.GetOrderById(id);
-            if (order == null) return NotFound();
-            return View(order);
-        }
-
-        
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, OrderModelVM orderViewModel)
-        {
-            if (ModelState.IsValid)
-            {
-                _orderService.UpdateOrder(orderViewModel);
-                return RedirectToAction(nameof(Index));
-            }
-            return View(orderViewModel);
-        }
-        public IActionResult Delete(int id)
-        {
-            var order = _orderService.GetOrderById(id);
-            if (order == null) return NotFound();
-            return View(order);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
-        {
-            _orderService.DeleteOrder(id);
-            return RedirectToAction(nameof(Index));
-        }
-
 
 
         public async Task<IActionResult> AddToCart(OrderItemsVM new_order)

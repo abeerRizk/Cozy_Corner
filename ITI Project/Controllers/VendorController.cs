@@ -22,42 +22,7 @@ namespace ITI_Project.Controllers
             _mapper = mapper;
             this.userManager = userManager;
         }
-        public IActionResult Index()
-        {
-            var vendors = _vendorService.GetAllVendors();
 
-            if (vendors == null || !vendors.Any()) // Check if vendors are null or empty
-            {
-                return View(new List<GetAllVendorVM>()); // Pass an empty list to avoid null reference errors
-            }
-
-            return View(vendors);
-        }
-        [HttpGet]
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Vendor/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(CreateVendorVM vendorVM)
-        {
-            if (ModelState.IsValid)
-            {
-                var (success, message) = _vendorService.AddVendor(vendorVM);
-                if (success)
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, message);
-                }
-            }
-            return View(vendorVM);
-        }
         [HttpGet]
         public async Task< IActionResult> Edit()
         {
@@ -96,32 +61,8 @@ namespace ITI_Project.Controllers
 
             return View(vendorVM);
         }
-        [HttpGet]
-        public IActionResult Delete(int id)
-        {
-            var vendor = _vendorService.GetVendorById(id);
-            if (vendor == null)
-            {
-                return NotFound();
-            }
 
-            var vendorVM = _mapper.Map<GetAllVendorVM>(vendor);
-            return View(vendorVM); 
-        }
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
-        {
-            var success = _vendorService.DeleteVendor(id);
-            if (success)
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            else
-            {
-                return NotFound();
-            }
-        }
+
 
 
 
