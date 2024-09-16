@@ -12,7 +12,7 @@ namespace ITI_Project.DAL.Entites
     {
         [Key]
         public int Id { get; set; }
-        public string? Status { get; set; }
+   
         public int? Quantity { get; set; }
         public double? UnitPrice { get; set; }
         public double? TotalPrice { get; set; }

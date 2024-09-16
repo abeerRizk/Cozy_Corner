@@ -56,7 +56,7 @@ namespace ITI_Project.DAL.Repo.Impelemntation
             {
                 var data = db.OrderItems.Where(a => a.Id == item.Id).FirstOrDefault();
                 data.Quantity = item.Quantity;
-                data.Status=item.Status;
+                
                 data.Quantity=item.Quantity;
                 data.TotalPrice = item.TotalPrice;
                 data.UnitPrice = item.UnitPrice;

@@ -212,22 +212,27 @@ namespace ITI_Project.Controllers
 
 
 
-        public async Task<IActionResult>  ConfirmOrder()
+        public async Task<IActionResult>  ConfirmOrder(int orderId)
         {
 
             var user = await userManager.GetUserAsync(User);
 
             var customerId = customerService.GetCustomerId_ByUserId(user.Id);
 
-            var customer = customerService.GetByCustomerId(customerId);
+           var customer = customerService.GetByCustomerId(customerId);
             var order = _orderService.GetOrderById(customer.CurrentOrderId);
+
+            if (order == null)
+            {
+                return NotFound("Order not found.");
+            }
 
             order.Status = "confirmed";
             _orderService.UpdateOrder(order);
 
 
             CreateInvoiceVM invoiceVM = new CreateInvoiceVM();
-            invoiceVM.CustomerId = customerId;
+            invoiceVM.CustomerId = order.CustomerId;
             invoiceVM.CustomerName = order.CustomerName;
             invoiceVM.TotallPrice = order.TotalPrice;
             invoiceVM.IsPaid = false;
@@ -238,6 +243,11 @@ namespace ITI_Project.Controllers
             invoiceService.Create(invoiceVM);
 
             int InvoiceId = invoiceService.getInvoiceByOrderId(order.Id);
+
+            customer.hasOrder = false;
+            UpdateCustomerVM updateCustomer = mapper.Map<UpdateCustomerVM>(customer);
+
+            customerService.Update(updateCustomer);
             return RedirectToAction("Read", "Invoice"  , new {id = InvoiceId});
         }
 

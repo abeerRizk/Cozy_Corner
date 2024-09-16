@@ -22,7 +22,7 @@ namespace ITI_Project.DAL.Entites
         public int? OrderId { get; set; }
         public Order? Order { get; set; }
         public bool isDeleted { get; set; }
-        public string CustomerName { get; set; }
+        public string? CustomerName { get; set; }
 
 
 

@@ -81,7 +81,9 @@
 
         </tbody>
     </table>
-    <center><button class="button2  mt-3" onclick="window.location.href='@Url.Action("EmptyTheCart", "Order", new { id = Model.Id })'">Delete Order  <span class="glyphicon glyphicon-trash"></span> </button></center>
+    <center><button class="button2  mt-3" onclick="window.location.href='@Url.Action("EmptyTheCart", "Order", new { id = Model.Id })'">Delete  <span class="glyphicon glyphicon-trash"></span> </button>
+        <button class="button2  mt-3" onclick="window.location.href='@Url.Action("ConfirmOrder", "Order" , new { id = Model.Id })'"> Confirm   </button>
+    </center>
 
 </div>
 

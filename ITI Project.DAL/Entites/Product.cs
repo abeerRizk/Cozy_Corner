@@ -21,12 +21,8 @@ namespace ITI_Project.DAL.Entites
         public  string? Category { get; set; }
         public int? VendorID { get; set; }
         public Vendor? Vendor { get; set; }
-        public List<Rating>? Ratings { get; set; }
-      
 
         public List<string> Images { get; set; }
-       
-  
 
         public bool IsDeleted { get; set; }
     }

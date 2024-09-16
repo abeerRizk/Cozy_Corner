@@ -31,6 +31,6 @@ namespace ITI_Project.BLL.ModelVM
 
         public bool? IsDeleted { get; set; }
 
-        public int vendorId { get; set; }
+        public int VendorId { get; set; }
     }
 }

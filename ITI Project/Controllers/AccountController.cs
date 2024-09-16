@@ -41,7 +41,8 @@ namespace ITI_Project.Controllers
                 {
                     UserName = newUserVM.UserName,
                     Email = newUserVM.Email,
-                    address = newUserVM.Address
+                    address = newUserVM.Location,
+                    
                     
                 };
 
@@ -57,7 +58,10 @@ namespace ITI_Project.Controllers
                         {
                             Name = newUserVM.UserName,
                             Email = newUserVM.Email,
-                            userId = userModel.Id
+                            userId = userModel.Id,
+                           Location = newUserVM.Location,
+                           Phone_Number = newUserVM.Phone_Number,
+                            
                         };
 
                         vendorService.AddVendor(vendor);
@@ -69,7 +73,10 @@ namespace ITI_Project.Controllers
                         {
                             Name = newUserVM.UserName,
                             Email = newUserVM.Email,
-                            userId = userModel.Id
+                            userId = userModel.Id,
+                            Location = newUserVM.Location,
+                            Phone_Number = newUserVM.Phone_Number,
+
 
                         };
 
