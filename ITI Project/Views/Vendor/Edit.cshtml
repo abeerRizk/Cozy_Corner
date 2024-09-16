@@ -7,7 +7,7 @@
 }
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <div class="row justify-content-center align-items-center" style="min-height: 100vh;">
     <div class="col-md-6 p-4 shadow-sm rounded">
@@ -22,11 +22,6 @@
                 <span asp-validation-for="Name" class="text-dark-brown"></span>
             </div>
 
-            <div class="form-group mb-4">
-                <label asp-for="Email" class="control-label text-darker-brown">Email <i class='fas fa-envelope-open'></i></label>
-                <input asp-for="Email" placeholder="Edit Email Of Vendor" class="form-control transparent-input border-dark-brown" type="email" autocomplete="off" />
-                <span asp-validation-for="Email" class="text-dark-brown"></span>
-            </div>
 
             <div class="form-group mb-4">
                 <label asp-for="Age" class="control-label text-darker-brown"></label>
@@ -34,10 +29,11 @@
                 <span asp-validation-for="Age" class="text-dark-brown"></span>
             </div>
             <div class="form-group mb-4">
-                <label asp-for="Phone_Number" class="control-label text-darker-brown">Phone Number <span class="glyphicon glyphicon-earphone"></span></</label>
-                <input asp-for="Phone_Number" placeholder="Edit Phone Number of Vendor " class="form-control transparent-input border-dark-brown" type="text" autocomplete="off" />
+                <label asp-for="Phone_Number" class="control-label text-darker-brown"> Phone Number <span class="glyphicon glyphicon-earphone"></span></label>
+                <input asp-for="Phone_Number" placeholder="Edit Your Phone Number" class="form-control transparent-input border-dark-brown" type="text" autocomplete="off" />
                 <span asp-validation-for="Phone_Number" class="text-dark-brown"></span>
             </div>
+
             <div class="form-group mb-4">
                 <label asp-for="Location" class="control-label text-darker-brown"> Location <i class="material-icons" style="font-size:20px">add_location</i></label>
                 <input asp-for="Location" placeholder="Edit Location Of Vendor" class="form-control transparent-input border-dark-brown" type="text" autocomplete="off" />

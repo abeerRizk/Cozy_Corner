@@ -89,7 +89,7 @@ namespace ITI_Project.DAL.Repo.Impelemntation
         }
         public int GetVendorId_ByUserId(string userId)
         {
-            var vendor = db.Vendor.FirstOrDefault(a => a.userId == userId);
+            var vendor = db.Vendor.First(a => a.userId == userId);
              return vendor.Id;
             
 

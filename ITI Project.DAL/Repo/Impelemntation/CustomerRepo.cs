@@ -100,7 +100,7 @@ namespace ITI_Project.DAL.Repo.Impelemntation
         }
         public int GetCustomerId_ByUserId(string userId)
         {
-            return db.Customers.Where(a=>a.userId==userId).FirstOrDefault().Id;
+            return db.Customers.Where(a=>a.userId==userId).First().Id;
 
         }
     }

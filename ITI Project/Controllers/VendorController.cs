@@ -62,7 +62,7 @@ namespace ITI_Project.Controllers
         public async Task< IActionResult> Edit()
         {
             var user = await userManager.GetUserAsync(User);
-            int vendorId= _vendorService.GetVendorId_ByUserId(user.Id);
+            int vendorId = _vendorService.GetVendorId_ByUserId(user.Id);
             var vendor = _vendorService.GetVendorById(vendorId);
             if (vendor == null)
             {
@@ -75,15 +75,14 @@ namespace ITI_Project.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, UpdateVendorVM vendorVM)
+        public async Task<IActionResult>  Edit( UpdateVendorVM vendorVM)
         {
-            if (id != vendorVM.Id)
-            {
-                return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
+                var user = await userManager.GetUserAsync(User);
+                int vendorId = _vendorService.GetVendorId_ByUserId(user.Id);
+                vendorVM.Id = vendorId;
                 var success = _vendorService.UpdateVendor(vendorVM);
                 if (success)
                 {
