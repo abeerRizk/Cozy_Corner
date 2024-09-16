@@ -71,7 +71,15 @@
                                                 <i class="fa fa-user-circle" aria-hidden="true"></i> @User.Identity.Name
                                             </a>
                                             <ul class="dropdown-menu dropdown-custom" aria-labelledby="myAccountDropdown">
-                                                <li><a class="dropdown-item" asp-controller="Customer" asp-action="Update">Edit Profile</a></li> <!-- Added Edit Profile option -->
+                                                @if(User.IsInRole("Vendor"))
+                                        {
+                                            <li><a class="dropdown-item" asp-controller="Vendor" asp-action="Edit">Edit Profile</a></li>
+                                        }
+                                        else
+                                        {
+                                            <li><a class="dropdown-item" asp-controller="Customer" asp-action="Update">Edit Profile</a></li>
+                                        }
+                                       <!-- Added Edit Profile option -->
                                                 <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a></li>
                                             </ul>
                                 }

@@ -89,21 +89,13 @@ namespace ITI_Project.BLL.Services.Implementation
         {
             try
             {
-                var vendor = _vendorRepo.GetVendorById(vendorVM.Id);
-                if (vendor == null)
-                {
-                    Console.WriteLine("Vendor not found");
-                    return false;
-                }
-
-                _mapper.Map(vendorVM, vendor);
-
-                _vendorRepo.UpdateVendor(vendor);
+                Vendor new_vendor = _mapper.Map<Vendor>(vendorVM);
+                new_vendor.Id = vendorVM.Id;
+                _vendorRepo.UpdateVendor(new_vendor);
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine(ex.Message);
                 return false;
             }
         }

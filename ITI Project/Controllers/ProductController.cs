@@ -55,7 +55,7 @@ namespace ITI_Project.Controllers
         public async Task <IActionResult> VendorGallery()
         {
             var user = await userManager.GetUserAsync(User);
-            int? vendorId = vendorService.GetVendorId_ByUserId(user.Id);
+            int vendorId = vendorService.GetVendorId_ByUserId(user.Id);
             var result = productService.GetAll().Where(a=>a.VendorId == vendorId && a.IsDeleted != true);
 
 
@@ -134,7 +134,7 @@ namespace ITI_Project.Controllers
                 // _context.Products.Add(product);
                 // await _context.SaveChangesAsync();
                 notificationService.SendNotificationToGoogleEmails();
-                return RedirectToAction("Create" , "Product"); // Or wherever you want to redirect
+                return RedirectToAction("VendorGallery", "Product"); // Or wherever you want to redirect
             }
 
             return View(model);
@@ -157,7 +157,7 @@ namespace ITI_Project.Controllers
             try
             {
                 productService.Delete(product.Id);
-                return RedirectToAction("Delete", "Product");
+                return RedirectToAction("VendorGallery", "Product");
             }
             catch (Exception)
             {
@@ -184,7 +184,7 @@ namespace ITI_Project.Controllers
                 if (ModelState.IsValid)
                 {
                     productService.Update(product);
-                    return RedirectToAction("Update", "Product");
+                    return RedirectToAction("VendorGallery", "Product");
                 }
             }
             catch (Exception)

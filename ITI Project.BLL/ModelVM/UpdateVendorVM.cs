@@ -14,9 +14,7 @@ namespace ITI_Project.BLL.ModelVM
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
-        [Required]
-        [EmailAddress]
-        public string ?Email { get; set; }
+
         public int? Age { get; set; }
         public string? Phone_Number { get; set; }
         public string? Location { get; set; }
