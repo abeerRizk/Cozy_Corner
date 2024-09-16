@@ -56,7 +56,7 @@ namespace ITI_Project.Controllers
         {
             var user = await userManager.GetUserAsync(User);
             int? vendorId = vendorService.GetVendorId_ByUserId(user.Id);
-            var result = productService.GetAll().Where(a=>a.vendorId == vendorId && a.IsDeleted != true);
+            var result = productService.GetAll().Where(a=>a.VendorId == vendorId && a.IsDeleted != true);
 
 
             return View(result);

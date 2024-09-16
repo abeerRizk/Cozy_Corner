@@ -14,7 +14,7 @@ namespace ITI_Project.BLL.ModelVM
         public int Id { get; set; }
         public string? ShippingAddress { get; set; }
         public DateTime OrderDate { get; set; } = DateTime.Now;
-        public string? Status { get; set; }
+        public string Status { get; set; }
         public DateTime ExpectedDeliveryDate { get; set; }
         public string? PaymentMethod { get; set; }
         public double? TotalPrice { get; set; }

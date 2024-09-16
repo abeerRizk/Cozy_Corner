@@ -45,18 +45,6 @@ namespace ITI_Project.BLL.Mapping
             CreateMap<OrderItem,OrderItemsVM>().ReverseMap();
 
 
-            CreateMap<Rating , CreateRatingVM>();
-            CreateMap<CreateRatingVM, Rating > ();
-
-            CreateMap<Rating , UpdateRatingVM>();
-            CreateMap<UpdateRatingVM, Rating>();
-
-
-            CreateMap<Rating , GetRatingVM>();
-            CreateMap<GetRatingVM, Rating>();
-
-            CreateMap<GetRatingVM, UpdateRatingVM>();
-            CreateMap<UpdateRatingVM, GetRatingVM>();
 
 
             CreateMap<Invoice, CreateInvoiceVM>();

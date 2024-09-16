@@ -37,8 +37,28 @@ namespace ITI_Project.DAL.Repo.Impelemntation
 
         public void UpdateOrder(Order order)
         {
-            db.Order.Update(order);
-            db.SaveChanges();
+            try
+            {
+                var data = db.Order.Where(a => a.Id == order.Id).FirstOrDefault();
+                data.Items = order.Items;
+                data.OrderDate = order.OrderDate;
+                data.ShippingAddress = order.ShippingAddress;   
+                data.CustomerId = order.CustomerId;
+                data.CustomerName = order.CustomerName;
+                data.Status = order.Status;
+                data.ExpectedDeliveryDate = order.ExpectedDeliveryDate;
+                data.IsDeleted = order.IsDeleted;
+                data.TotalPrice = order.TotalPrice;
+                
+                data.TotalPrice = order.TotalPrice;
+                
+                db.SaveChanges();
+               
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
         }
 
         public void DeleteOrder(int id)
