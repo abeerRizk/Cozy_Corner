@@ -1,30 +1,89 @@
 ﻿@{
     ViewData["Title"] = "Index";
+    ViewData["HideHeaderFooter"] = true;
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<nav class="navbar navbar-expand-lg navbar-light bg-brown w-100">
+    <div class="container-fluid">
+        <a class="navbar-brand text-light" href="#">Furniture Store</a>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown custom-dropdown">
+                    <a class="navbar-brand text-light dropdown-toggle d-flex align-items-center" href="#" id="myAccountDropdown" role="button">
+                        <i class="fa fa-user-circle" aria-hidden="true"></i> My Account
+                    </a>
+                    <ul class="dropdown-menu dropdown-custom" aria-labelledby="myAccountDropdown">
+                        <li><a class="dropdown-item" asp-controller="Account" asp-action="Login">Login</a></li>
+                        <li><a class="dropdown-item" asp-controller="Account" asp-action="Register">Register</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="Role-container">
+    <p class="text-brown text-center" style="font-family: 'Times New Roman', serif; font-size: 30px; color: #674636;"> <b>Roles</b> <i class='fas fa-thumbtack'></i></p>  
+    <center><a class="button1" asp-action="New" asp-controller="Role">New Role</a></center>
+</div>
 
-<h1>Index</h1>
-<a asp-action="New" class="btn btn-primary">New Role</a>
 
 <style>
-    .btn {
-        display: inline-block;
-        padding: 10px 20px;
-        font-size: 16px;
-        font-weight: 500;
+    .navbar {
+        padding: 5px;
+        width: 100%;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .bg-brown {
+        background-color: #865439;
+    }
+
+    .navbar-brand, .nav-link {
+        font-size: 18px;
+        color: #FFF8E7 !important;
+    }
+
+        .nav-link:hover, .dropdown-item:hover {
+            color: #FFF8E7 !important;
+            background-color: #654321 !important;
+        }
+
+    body {
+        background-color: #FFFBF5;
+        padding-top: 70px;
+    }
+
+    .Role-container {
+        max-width: 100%;
+        background-color: #F7EFE5;
+        margin: 50px auto;
+        background: #fff;
+        padding: 20px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .button1 {
+        background-color: #dfbe9f;
+        color: #734d26;
+        padding: 10px 32px;
         text-align: center;
-        text-decoration: none;
-        border-radius: 4px;
-        transition: background-color 0.3s ease;
+        font-weight: bold;
+        display: inline-block;
+        font-size: 20px;
+        width: 485px;
+        border-radius: 30px;
+        border: none;
     }
 
-    .btn-primary {
-        background-color: #007bff;
-        color: #fff;
-        border: 1px solid #007bff;
-    }
-
-    .btn-primary:hover {
-        background-color: #0056b3;
-        border-color: #004080;
-    }
+        .button1:hover {
+            box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
 </style>
