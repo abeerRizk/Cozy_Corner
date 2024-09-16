@@ -2,73 +2,214 @@
 
 @{
     ViewData["Title"] = "Order Details";
+    ViewData["HideHeaderFooter"] = true;
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Order Details</h1>
-
-<table class="table">
-    <tr>
-        <th>Id</th>
-        <td>@Model.Id</td>
-    </tr>
-    <tr>
-        <th>Shipping Address</th>
-        <td>@Model.ShippingAddress</td>
-    </tr>
-    <tr>
-        <th>Order Date</th>
-        <td>@Model.OrderDate</td>
-    </tr>
-    <tr>
-        <th>Status</th>
-        <td>@Model.Status</td>
-    </tr>
-    <tr>
-        <th>Expected Delivery Date</th>
-        <td>@Model.ExpectedDeliveryDate</td>
-    </tr>
-    <tr>
-        <th>Payment Method</th>
-        <td>@Model.PaymentMethod</td>
-    </tr>
-    <tr>
-        <th>Total Price</th>
-        <td>@Model.TotalPrice</td>
-    </tr>
-    <tr>
-        <th>Customer Id</th>
-        <td>@Model.CustomerId</td>
-    </tr>
-</table>
-
-<h2>Order Items</h2>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>Product Name</th>
-            <th>Quantity</th>
-            <th>Unit Price</th>
-            <th>Total Price</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Items)
-        {
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<nav class="navbar navbar-expand-lg navbar-light bg-brown w-100">
+    <div action="Details" class="container-fluid">
+        <a class="navbar-brand text-light" href="#">Furniture Store</a>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown custom-dropdown">
+                    <a class="navbar-brand text-light dropdown-toggle d-flex align-items-center" href="#" id="myAccountDropdown" role="button">
+                        <i class="fa fa-user-circle" aria-hidden="true"></i> My Account
+                    </a>
+                    <ul class="dropdown-menu dropdown-custom" aria-labelledby="myAccountDropdown">
+                        <li><a class="dropdown-item" asp-controller="Account" asp-action="Login">Login</a></li>
+                        <li><a class="dropdown-item" asp-controller="Account" asp-action="Register">Register</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="order-container">
+    <p class="text-brown text-center" style="font-family: 'Times New Roman', serif; font-size: 30px; color: #674636;"> <b>Your Orders</b> <i class='far fa-edit'></i></p>
+    <p style="color: #674636"><strong> Order Date <i class='fas fa-calendar-alt'></i>:</strong> @Model.OrderDate </p>
+    <table class="base-table ">
+        <thead>
+            <tr> 
+                <th class="Customer-Items">
+                    Order Items <i class='fas fa-cart-arrow-down'></i> :
+                </th>
+           </tr>
+        </thead>
+        <tbody>
             <tr>
-                <td>@item.ProductName</td>
-                <td>@item.Quantity</td>
-                <td>@item.UnitPrice</td>
-                <td>@(item.Quantity * item.UnitPrice)</td>
+              
                 <td>
-                    <a asp-action="EditItem" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
-                    <a asp-action="DeleteItem" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                    <table class="nested-table">
+                        <thead>
+                            <tr>
+                                <th>Prodcut Name :</th>
+                                <th> Unit Price <i class='fas fa-dollar-sign'></i> :</th>
+                                <th> Quantity :</th>
+                                <th> Total Price <i class='fas fa-dollar-sign'></i>  :</th>
+                                <th>Delete Item  <span class="glyphicon glyphicon-trash"></span> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var Items in Model.Items)
+                            {
+                                <tr>
+                                    <td>
+                                        @Items.ProductName
+                                    </td>
+                                    <td>
+                                        @Items.UnitPrice <i class='fas fa-dollar-sign'></i>
+                                    </td>
+                                    <td>
+                                        @Items.Quantity
+                                    </td>
+                                    <td>
+                                        @Items.TotalPrice <i class='fas fa-dollar-sign'></i>
+                                    </td>
+                                    <td>
+                                        <button onclick="window.location.href='@Url.Action("RemoveOrderFromCart", "Order", new { id = Model.Id })'" class="button1 w-100">Delete  <span class="glyphicon glyphicon-trash"></span> </button>
 
-<a asp-action="Index" class="btn btn-secondary">Back to List</a>
-<a asp-action="ConfirmOrder" asp-controller="Order" class="btn btn-secondary">Confirm</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </td>
+
+            </tr>
+
+        </tbody>
+    </table>
+    <center><button class="button2  mt-3" onclick="window.location.href='@Url.Action("EmptyTheCart", "Order", new { id = Model.Id })'">Delete Order  <span class="glyphicon glyphicon-trash"></span> </button></center>
+
+</div>
+
+
+<style>
+    .navbar {
+        padding: 5px;
+        width: 100%;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .bg-brown {
+        background-color: #865439;
+    }
+
+    .navbar-brand, .nav-link {
+        font-size: 18px;
+        color: #FFF8E7 !important;
+    }
+
+        .nav-link:hover, .dropdown-item:hover {
+            color: #FFF8E7 !important;
+            background-color: #654321 !important;
+        }
+
+    body {
+        background-color: #FFFBF5;
+        padding-top: 70px;
+    }
+
+    .order-container {
+        max-width: 100%;
+        background-color: #F7EFE5;
+        margin: 50px auto;
+        background: #fff;
+        padding: 20px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .base-table {
+        width: 100%;
+        border-color: #674636;
+    }
+
+        .base-table th, .base-table td {
+            border: 1px solid #ccc;
+            height: auto;
+            background-color: #F7EFE5;
+            padding: 10px;
+            text-align: left;
+            color: #674636;
+        }
+
+
+
+        .base-table td {
+            border: 1px solid #ccc;
+            background-color: #FCFAEE;
+            padding: 10px;
+            text-align: left;
+        }
+
+    /* Nested table styling */
+    .nested-table {
+        width: 100%;
+        border-color: #674636;
+        border-radius: 60px;
+    }
+
+        .nested-table th .nested-table td {
+            border: 1px solid #ccc;
+            background-color: #F7EFE5;
+            border-radius: 60px;
+            padding: 10px;
+            text-align: left;
+            color: #674636;
+        }
+
+        .nested-table td {
+            border: 1px solid #ccc;
+            background-color: #FCFAEE;
+            padding: 10px;
+            text-align: left;
+        }
+
+
+    .button1 {
+        background-color: #dfbe9f;
+        color: #734d26;
+        padding: 8px 12px;
+        text-align: center;
+        font-weight: bold;
+        display: inline-block;
+        font-size: 15px;
+        width: 85px;
+        border-radius: 100px;
+        border: none;
+    }
+
+        .button1:hover {
+            box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+    .button2 {
+        
+        background-color: #dfbe9f;
+        align-content: center;
+        align-self:center;
+        color: #734d26;
+        padding: 10px 32px;
+        text-align: center;
+        font-weight: bold;
+        display: inline-block;
+        font-size: 20px;
+        width: 285px;
+        border-radius: 3000px;
+        border: none;
+    }
+
+        .button2:hover {
+            box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+            transition: all 0.3s ease;
+        }
+
+</style>
