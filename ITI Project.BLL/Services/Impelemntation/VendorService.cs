@@ -108,7 +108,7 @@ namespace ITI_Project.BLL.Services.Implementation
             }
         }
 
-        public int? GetVendorId_ByUserId(string userId)
+        public int GetVendorId_ByUserId(string userId)
         {
 
             return _vendorRepo.GetVendorId_ByUserId(userId);

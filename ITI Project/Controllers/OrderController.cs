@@ -61,7 +61,7 @@ namespace ITI_Project.Controllers
                     new_order.CustomerLocation = order.CustomerLocation;
                     new_order.ExpectedDeliveryDate = order.ExpectedDeliveryDate;
                     new_order.Status = order.Status;
-                    new_order.Items = new List<OrderItem>();
+                    new_order.Items = new List<OrderItemsVM>();
                     foreach (var item in order.Items)
                     {
                         if (item.VendorId == vendorId)
@@ -85,11 +85,13 @@ namespace ITI_Project.Controllers
             var customerId = customerService.GetCustomerId_ByUserId(user.Id);
 
             var customer = customerService.GetByCustomerId(customerId);
-            var order = _orderService.GetOrderById(customer.CurrentOrderId);
-            if (order == null)
+            var order = new OrderModelVM();
+            if (customer.hasOrder == true)
             {
-                return NotFound($"Order with id {order.Id} not found."); 
+                 order = _orderService.GetOrderById(customer.CurrentOrderId);
             }
+
+
             return View(order);
         }
 
@@ -184,20 +186,20 @@ namespace ITI_Project.Controllers
 
             
             _orderService.RemoveOrderItem(customerId, new_order); // Add the order item
-            return RedirectToAction("ViewProduct", "Product", new { id = new_order.ProductId });
+            return RedirectToAction("details", "Order", new { id = new_order.ProductId });
         }
 
 
 
-        public async Task<IActionResult> EmptyTheCart(int id)
+        public async Task<IActionResult> EmptyTheCart()
         {
             var user = await userManager.GetUserAsync(User);
             var customerId = customerService.GetCustomerId_ByUserId(user.Id);
 
             var customer = customerService.GetByCustomerId(customerId); 
 
-            var order = _orderService.GetOrderById(id);
-
+            var order = _orderService.GetOrderById(customer.CurrentOrderId);
+            
             foreach (var item in order.Items)
             {
                 var product = productService.GetByProductId(item.ProductId);
@@ -205,12 +207,12 @@ namespace ITI_Project.Controllers
                 UpdateProductVM updateProduct = mapper.Map<UpdateProductVM>(product);
                 productService.Update(updateProduct);
             }
-
+            _orderService.DeleteOrder(customer.CurrentOrderId);
             customer.hasOrder = false;
             UpdateCustomerVM updateCustomer = mapper.Map<UpdateCustomerVM>(customer);
 
             customerService.Update(updateCustomer);
-            return RedirectToAction("read", "Product");
+            return RedirectToAction("Details", "Order");
         }
 
 
@@ -247,7 +249,7 @@ namespace ITI_Project.Controllers
             invoiceVM.PaymentMethod = order.PaymentMethod;
             invoiceVM.InvoiceDate = DateTime.Now;
             invoiceService.Create(invoiceVM);
-
+            
             int InvoiceId = invoiceService.getInvoiceByOrderId(order.Id);
 
             customer.hasOrder = false;

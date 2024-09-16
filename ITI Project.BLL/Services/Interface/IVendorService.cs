@@ -15,6 +15,6 @@ namespace ITI_Project.BLL.Services.Interface
         (bool sucess, string message) AddVendor(CreateVendorVM vendor);
         bool UpdateVendor(UpdateVendorVM vendorVM);
         bool DeleteVendor(int id);
-        public int? GetVendorId_ByUserId(string userId);
+        public int GetVendorId_ByUserId(string userId);
     }
 }

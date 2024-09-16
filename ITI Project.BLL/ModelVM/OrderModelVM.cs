@@ -18,11 +18,13 @@ namespace ITI_Project.BLL.ModelVM
         public DateTime ExpectedDeliveryDate { get; set; }
         public string? PaymentMethod { get; set; }
         public double? TotalPrice { get; set; }
-        public List<OrderItem>? Items { get; set; }
+        public List<OrderItemsVM>? Items { get; set; }
         public int? CustomerId { get; set; }
         public Customer? Customer { get; set; }
         public string CustomerName { get; set; }
         public string CustomerLocation { get; set; }
+
+        public bool IsDeleted { get; set; }
 
 
     }

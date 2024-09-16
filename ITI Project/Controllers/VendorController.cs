@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using ITI_Project.BLL.ModelVM;
+using ITI_Project.BLL.Services.Impelemntation;
 using ITI_Project.BLL.Services.Interface;
 using ITI_Project.DAL.Entites;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,11 +13,14 @@ namespace ITI_Project.Controllers
     {
         private readonly IVendorService _vendorService;
         private readonly IMapper _mapper;
+        private readonly UserManager<User> userManager;
 
-        public VendorController(IVendorService vendorService, IMapper mapper)
+        public VendorController(IVendorService vendorService, IMapper mapper
+            , UserManager<User> userManager)
         {
             _vendorService = vendorService;
             _mapper = mapper;
+            this.userManager = userManager;
         }
         public IActionResult Index()
         {
@@ -54,9 +59,11 @@ namespace ITI_Project.Controllers
             return View(vendorVM);
         }
         [HttpGet]
-        public IActionResult Edit(int id)
+        public async Task< IActionResult> Edit()
         {
-            var vendor = _vendorService.GetVendorById(id);
+            var user = await userManager.GetUserAsync(User);
+            int vendorId= _vendorService.GetVendorId_ByUserId(user.Id);
+            var vendor = _vendorService.GetVendorById(vendorId);
             if (vendor == null)
             {
                 return NotFound();
@@ -80,7 +87,7 @@ namespace ITI_Project.Controllers
                 var success = _vendorService.UpdateVendor(vendorVM);
                 if (success)
                 {
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("VendorGallery" , "Product");
                 }
                 else
                 {

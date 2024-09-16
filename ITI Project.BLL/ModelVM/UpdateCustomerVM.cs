@@ -20,6 +20,8 @@ namespace ITI_Project.BLL.ModelVM
         public string? Phone_Number { get; set; }
         public string? Location { get; set; }
 
+        public bool hasOrder { get; set; }
+
 
     }
 }
