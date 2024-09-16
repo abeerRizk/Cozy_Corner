@@ -5,26 +5,30 @@
     ViewData["HideHeaderFooter"] = true;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <nav class="navbar navbar-expand-lg navbar-light bg-brown w-100">
     <div class="container-fluid">
-        <a class="navbar-brand text-light" href="#">Furniture Store</a>
+        <div class="navbar-brand text-light">Cozy Corner</div>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
+
+                <!-- My Account Dropdown -->
                 <li class="nav-item dropdown custom-dropdown">
+
                     <a class="navbar-brand text-light dropdown-toggle d-flex align-items-center" href="#" id="myAccountDropdown" role="button">
-                        <i class="fa fa-user-circle" aria-hidden="true"></i> My Account
+                        <i class="fa fa-user-circle" aria-hidden="true"></i> Account
                     </a>
                     <ul class="dropdown-menu dropdown-custom" aria-labelledby="myAccountDropdown">
                         <li><a class="dropdown-item" asp-controller="Account" asp-action="Login">Login</a></li>
                         <li><a class="dropdown-item" asp-controller="Account" asp-action="Register">Register</a></li>
                     </ul>
+
                 </li>
             </ul>
         </div>
     </div>
 </nav>
-
 <div class="blurred-background">
     <div class="row justify-content-center align-items-center" style="min-height: 100vh;">
       

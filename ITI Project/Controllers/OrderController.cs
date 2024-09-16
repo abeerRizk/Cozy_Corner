@@ -61,12 +61,15 @@ namespace ITI_Project.Controllers
                     new_order.CustomerLocation = order.CustomerLocation;
                     new_order.ExpectedDeliveryDate = order.ExpectedDeliveryDate;
                     new_order.Status = order.Status;
-                    
+                    new_order.Items = new List<OrderItem>();
                     foreach (var item in order.Items)
                     {
                         if (item.VendorId == vendorId)
                         {
-                            new_order.Items.Add(item);
+                            if (item != null)
+                            {
+                                new_order.Items.Add(item);
+                            }
                         }
                     }
                     lst.Add(new_order);
@@ -76,13 +79,16 @@ namespace ITI_Project.Controllers
         }
 
 
-        public IActionResult Details(int id)
+        public async Task <IActionResult> Details()
         {
+            var user = await userManager.GetUserAsync(User);
+            var customerId = customerService.GetCustomerId_ByUserId(user.Id);
 
-            var order = _orderService.GetOrderById(id);
+            var customer = customerService.GetByCustomerId(customerId);
+            var order = _orderService.GetOrderById(customer.CurrentOrderId);
             if (order == null)
             {
-                return NotFound($"Order with id {id} not found."); 
+                return NotFound($"Order with id {order.Id} not found."); 
             }
             return View(order);
         }

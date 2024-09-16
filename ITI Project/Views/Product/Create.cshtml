@@ -2,28 +2,11 @@
 
 @{
     ViewData["Title"] = "Create";
-    ViewData["HideHeaderFooter"] = true;
+   
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<nav class="navbar navbar-expand-lg navbar-light bg-brown w-100">
-    <div class="container-fluid">
-        <a class="navbar-brand text-light" href="#">Furniture Store</a>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item dropdown custom-dropdown">
-                    <a class="navbar-brand text-light dropdown-toggle d-flex align-items-center" href="#" id="myAccountDropdown" role="button">
-                        <i class="fa fa-user-circle" aria-hidden="true"></i> My Account
-                    </a>
-                    <ul class="dropdown-menu dropdown-custom" aria-labelledby="myAccountDropdown">
-                        <li><a class="dropdown-item" asp-controller="Account" asp-action="Login">Login</a></li>
-                        <li><a class="dropdown-item" asp-controller="Account" asp-action="Register">Register</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+
 
 <div class="row justify-content-center align-items-center" style="min-height: 100vh;">
     <div class="col-md-6 p-4 shadow-sm rounded">
@@ -99,32 +82,7 @@
 }
 
 <style>
-    
-    .navbar {
-        padding: 5px;
-        width: 100%;
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        z-index: 1000;
-    }
-
-    .bg-brown {
-        background-color: #865439;
-    }
-
-    .navbar-brand, .nav-link {
-        font-size: 18px;
-        color: #FFF8E7 !important;
-    }
-
-    .nav-link:hover, .dropdown-item:hover {
-        color: #FFF8E7 !important;
-        background-color: #654321 !important;
-    }
-
-
+   
     .button1 {
         background-color: #dfbe9f;
         color: #734d26;
