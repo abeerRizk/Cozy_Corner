@@ -63,12 +63,10 @@ namespace ITI_Project.DAL.Repo.Impelemntation
 
         public void DeleteOrder(int id)
         {
-            var order = db.Order.Find(id);
-            if (order != null)
-            {
-                db.Order.Remove(order);
-                db.SaveChanges();
-            }
+            var order = db.Order.Where(a => a.Id == id).FirstOrDefault();
+            order.IsDeleted = true;
+            db.SaveChanges();
+
         }
 
         //public void AddOrderItem(int CustomerId, OrderItem item)

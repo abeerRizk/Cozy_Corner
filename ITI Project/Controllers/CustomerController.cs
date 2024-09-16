@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using ITI_Project.BLL.ModelVM;
+using ITI_Project.BLL.Services.Implementation;
 using ITI_Project.BLL.Services.Interface;
+using ITI_Project.DAL.Entites;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ITI_Project.Controllers
@@ -9,11 +12,14 @@ namespace ITI_Project.Controllers
     {
         private readonly ICustomerService customerService;
         private readonly IMapper mapper;
+        private readonly UserManager<User> userManager;
 
-        public CustomerController(ICustomerService customerService , IMapper mapper)
+        public CustomerController(ICustomerService customerService , IMapper mapper ,
+            UserManager<User> userManager)
         {
             this.customerService = customerService;
             this.mapper = mapper;
+            this.userManager = userManager;
         }
 
         public IActionResult Read()
@@ -74,24 +80,29 @@ namespace ITI_Project.Controllers
 
 
         [HttpGet]
-        public IActionResult Update(int id)
+        public async Task< IActionResult> Update()
         {
-            var data = customerService.GetByCustomerId(id);
+            var user = await userManager.GetUserAsync(User);
+            var customerId = customerService.GetCustomerId_ByUserId(user.Id);
+            var data = customerService.GetByCustomerId(customerId);
             UpdateCustomerVM new_data = mapper.Map<UpdateCustomerVM>(data);
+           
             return View(new_data);
         }
 
 
         [HttpPost]
-        public IActionResult Update(UpdateCustomerVM customer)
+        public async Task<IActionResult> Update(UpdateCustomerVM customer)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-
+                    var user = await userManager.GetUserAsync(User);
+                    var customerId = customerService.GetCustomerId_ByUserId(user.Id);
+                    customer.Id = customerId;
                     customerService.Update(customer);
-                    return RedirectToAction("Read", "Customer");
+                    return RedirectToAction("Read", "Product");
                 }
             }
             catch (Exception)

@@ -9,8 +9,15 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 @* <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> *@
 
+
 <div class="order-container">
     <p class="text-brown text-center" style="font-family: 'Times New Roman', serif; font-size: 30px; color: #674636;"> <b>Your Orders</b> <i class='far fa-edit'></i></p>
+    @if (@Model == null || @Model.Items == null || Model.Items.Count == 0)
+{
+        <p style="color: #674636">You did not order anything yet! </p>
+    }else
+{
+ 
     <p style="color: #674636"><strong> Order Date <i class='fas fa-calendar-alt'></i>:</strong> @Model.OrderDate </p>
     <table class="base-table ">
         <thead>
@@ -51,7 +58,7 @@
                                         @Items.TotalPrice <i class='fas fa-dollar-sign'></i>
                                     </td>
                                     <td>
-                                        <button onclick="window.location.href='@Url.Action("RemoveOrderFromCart", "Order", new { id = Model.Id })'" class="button1 w-100">Delete  <span class="glyphicon glyphicon-trash"></span> </button>
+                                        <button onclick="window.location.href='@Url.Action("RemoveOrderFromCart", "Order", Items)'" class="button1 w-100">Delete  <span class="glyphicon glyphicon-trash"></span> </button>
 
                                     </td>
                                 </tr>
@@ -64,10 +71,10 @@
 
         </tbody>
     </table>
-    <center><button class="button2  mt-3" onclick="window.location.href='@Url.Action("EmptyTheCart", "Order", new { id = Model.Id })'">Delete  <span class="glyphicon glyphicon-trash"></span> </button>
-        <button class="button2  mt-3" onclick="window.location.href='@Url.Action("ConfirmOrder", "Order" , new { id = Model.Id })'"> Confirm   </button>
+    <center><button class="button2  mt-3" onclick="window.location.href='@Url.Action("EmptyTheCart", "Order")'">Delete  <span class="glyphicon glyphicon-trash"></span> </button>
+        <button class="button2  mt-3" onclick="window.location.href='@Url.Action("ConfirmOrder", "Order" , new { id = @Model.Id })'"> Confirm   </button>
     </center>
-
+}
 </div>
 
 

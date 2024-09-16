@@ -12,8 +12,8 @@
     <p class="text-brown text-center" style="font-family: 'Times New Roman', serif; font-size: 30px; color: #674636;"> <b>Your Invoice </b><i class='fas fa-file-alt'></i></p>
 
     <div class="company-details">
-        <p><strong>Company Name :</strong> Furniture Gallery</p>
-        <p><strong>Date:</strong> @DateTime.Now</p>
+        <p><strong>Store Name :</strong> Cozy Corner</p>
+       
     </div>
 
     <div class="customer-details">
@@ -28,16 +28,16 @@
                
                 <th>Payment Method <i class='fas fa-money-check-alt'></i></th>
                 <th>Paid <i class='far fa-handshake'></i></th>
-                <th>Payment Date <i class='fas fa-calendar-alt'></i></th>
+                <th>Invoice Date <i class='fas fa-calendar-alt'></i></th>
             </tr>
         </thead>
         <tbody id="items-body">
             <tr>
                
               
-                <td>@Model.PaymentMethod</td>
+                <td>Cash on Delivery</td>
                 <td>@(Model.IsPaid ? "Yes" : "No")</td>
-                <td>@Model.PaymentDate.ToString("MM/dd/yyyy")</td>
+                <td>@Model.InvoiceDate.ToString("MM/dd/yyyy")</td>
             </tr>
         </tbody>
     </table>

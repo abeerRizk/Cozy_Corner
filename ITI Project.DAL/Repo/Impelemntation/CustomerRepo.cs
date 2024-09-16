@@ -79,6 +79,8 @@ namespace ITI_Project.DAL.Repo.Impelemntation
                 data.Name = customer.Name;
                 data.Phone_Number = customer.Phone_Number;
                 data.Location = customer.Location;
+                data.hasOrder = customer.hasOrder;
+                
                 db.SaveChanges();
                 return true;
             }

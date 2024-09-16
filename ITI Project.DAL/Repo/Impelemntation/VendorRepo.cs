@@ -87,16 +87,13 @@ namespace ITI_Project.DAL.Repo.Impelemntation
         {
             return db.Vendor.Any(a => a.Email == email);
         }
-        public int? GetVendorId_ByUserId(string userId)
+        public int GetVendorId_ByUserId(string userId)
         {
             var vendor = db.Vendor.FirstOrDefault(a => a.userId == userId);
+             return vendor.Id;
+            
 
-            if (vendor != null)
-            {
-                return vendor.Id;
-            }
-
-            return null; // or throw an exception, or handle the error in a way that fits your logic
+           
         }
 
     }
