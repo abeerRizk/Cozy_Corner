@@ -24,7 +24,7 @@
             <ul class="navbar-nav ms-auto d-flex align-items-center ">
                 <!-- Favorite Icon -->
                 <li class="nav-item">
-                    <a class="nav-link text-light d-flex align-items-center" href="@Url.Action(User.Identity.IsAuthenticated ? "FavoriteProducts" : "Login", User.Identity.IsAuthenticated ? "Favorites" : "Account")" title="Favorite Products">
+                    <a class="nav-link text-light d-flex align-items-center" href="@Url.Action( "FavoriteProducts" , "Favorites" )" title="Favorite Products">
                         <i class="fa fa-heart" aria-hidden="true" style="font-size: 24px;"></i>
                     </a>
                 </li>
@@ -38,25 +38,15 @@
 
                 <!-- My Account Dropdown -->
                 <li class="nav-item dropdown custom-dropdown mx-2">
-                    @if (User.Identity.IsAuthenticated)
-                    {
+                
                             <a class="navbar-brand text-light dropdown-toggle d-flex align-items-center" href="#" id="myAccountDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-user-circle" aria-hidden="true"></i> @User.Identity.Name
                             </a>
                             <div class="dropdown-menu dropdown-menu-right dropdown-custom" aria-labelledby="myAccountDropdown">
                                 <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a>
                             </div>
-                    }
-                    else
-                    {
-                            <a class="navbar-brand text-light dropdown-toggle d-flex align-items-center" href="#" id="myAccountDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-user-circle" aria-hidden="true"></i> My Account
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right dropdown-custom" aria-labelledby="myAccountDropdown">
-                                <a class="dropdown-item" asp-controller="Account" asp-action="Login">Login</a>
-                                <a class="dropdown-item" asp-controller="Account" asp-action="Register">Register</a>
-                            </div>
-                    }
+      
+     
                 </li>
             </ul>
         </div>
