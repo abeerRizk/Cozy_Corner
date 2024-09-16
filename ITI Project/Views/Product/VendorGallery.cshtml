@@ -8,8 +8,7 @@
 <!-- Navigation Bar -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-
-<!-- Search Bar -->
+<!-- Search Bar with Create Product Button -->
 <div class="container mt-7">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -18,8 +17,15 @@
                 <button class="btn btn-outline-secondary search-btn no-focus-outline" type="button" id="button-search" onclick="searchProducts()">Search</button>
             </div>
         </div>
+
+        <!-- Custom Button for Create Product -->
+        <div class="col-md-2 d-flex justify-content-end">
+            <button class="btn custom-create-btn no-focus-outline" onclick="window.location.href='@Url.Action("Create", "Product")'">Create</button>
+        </div>
     </div>
 </div>
+
+
 
 <!-- Category Filters -->
 <div class="container-fluid">
@@ -163,10 +169,44 @@
 <!-- Custom Styles -->
 <style>
 
+
+
     body {
         background-color: #FFFBF5;
         padding-top: 10px;
     }
+    .custom-create-btn {
+    width: auto; /* Let width adjust to content */
+    height: 50px; /* Same height as the search button */
+    background-color: #865439;  /* Matches the color of the edit button */
+    color: #FFFFFF;
+    border: none;
+    font-weight: normal; /* Text is not bold */
+    padding: 10px 20px; /* Same padding as the search button */
+    border-radius: 10px; /* Match the search button's rounded corners */
+    margin-left: 5px; /* Adjust spacing to bring it closer to the search button */
+}
+
+.custom-create-btn:hover {
+    background-color:#865439;  /* Same hover effect as the edit button */
+    color: #FFFFFF;
+    box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    border: none;
+
+}
+
+.input-group.mb-3 {
+    width: 100%; /* Make sure the search bar takes the full width */
+}
+
+.input-group .form-control {
+    width: auto;
+    flex: 1;
+}
+
+
 
     
     .container.mt-7 {
