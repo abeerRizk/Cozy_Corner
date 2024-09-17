@@ -67,20 +67,20 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
        });
 
 
-builder.Services.AddHangfire(config =>
-    config.UseSqlServerStorage(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddHangfireServer();
+//builder.Services.AddHangfire(config =>
+//    config.UseSqlServerStorage(builder.Configuration.GetConnectionString("DefaultConnection")));
+//builder.Services.AddHangfireServer();
 
 var app = builder.Build();
 
 // Use Hangfire dashboard (only once)
-app.UseHangfireDashboard();
+//app.UseHangfireDashboard();
 
-// Register the recurring job (only once)
-RecurringJob.AddOrUpdate<IOrderService>(
-    "delete-unconfirmed-orders",  // Unique job identifier
-    orderService => orderService.DeleteUnconfirmedOrders(), // Method to call
-    "* * * * *"); // Every one minute
+//// Register the recurring job (only once)
+//RecurringJob.AddOrUpdate<IOrderService>(
+//    "delete-unconfirmed-orders",  // Unique job identifier
+//    orderService => orderService.DeleteUnconfirmedOrders(), // Method to call
+//    "* * * * *"); // Every one minute
 
 
 

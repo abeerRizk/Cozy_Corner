@@ -21,6 +21,8 @@ namespace ITI_Project.BLL.ModelVM
         public string? Location { get; set; }
 
         public bool hasOrder { get; set; }
+        public string userId { get; set; }
+
 
 
     }

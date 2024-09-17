@@ -24,5 +24,6 @@ namespace ITI_Project.BLL.ModelVM
         public string? Phone_Number { get; set; }
         public string? Location { get; set; }
         public List<Product>? Products { get; set; }
+        public string userId { get; set; }
     }
 }

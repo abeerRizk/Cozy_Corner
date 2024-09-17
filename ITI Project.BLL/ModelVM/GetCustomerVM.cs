@@ -24,6 +24,8 @@ namespace ITI_Project.BLL.ModelVM
         public List<Order>? Orders { get; set; }
         public bool hasOrder { get; set; }
         public int CurrentOrderId { get; set; }
+        public string userId { get; set; }
+
 
     }
 

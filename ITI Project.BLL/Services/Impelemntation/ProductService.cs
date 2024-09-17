@@ -78,7 +78,7 @@ namespace ITI_Project.BLL.Services.Impelemntation
             {
                 Product new_product = mapper.Map<Product>(product);
 
-                 ProductRepo.Update(new_product);
+               await  ProductRepo.Update(new_product);
                 return true;
             }
             catch (Exception e)

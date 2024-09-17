@@ -64,7 +64,7 @@ namespace ITI_Project.Controllers
                             
                         };
 
-                        vendorService.AddVendor(vendor);
+                        await vendorService.AddVendor(vendor);
                         await userManager.AddToRoleAsync(userModel, "Vendor");
                         // Sign in the user after registration
                         await signInManager.SignInAsync(userModel, false);
@@ -86,7 +86,7 @@ namespace ITI_Project.Controllers
                         };
 
 
-                        customerService.Create(customer);
+                        await customerService.Create(customer);
                         await userManager.AddToRoleAsync(userModel, "Customer");
                         // Sign in the user after registration
                         await signInManager.SignInAsync(userModel, false);

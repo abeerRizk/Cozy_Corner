@@ -15,14 +15,16 @@ namespace ITI_Project.BLL.Services.Impelemntation
 {
     public class CustomerService : ICustomerService
     {
+        
         private readonly ICustomerRepo customerRepo;
-        private readonly IOrderRepo orderRepo;
         private readonly IMapper mapper;
+        private readonly IUserService _userService;
 
-        public CustomerService(ICustomerRepo customerRepo, IMapper mapper)
+        public CustomerService(ICustomerRepo customerRepo, IMapper mapper, IUserService userService)
         {
             this.customerRepo = customerRepo;
             this.mapper = mapper;
+            _userService = userService;
         }
 
         public async Task< (bool sucess, string message)> Create(CreateCustomerVM customer)
@@ -59,8 +61,13 @@ namespace ITI_Project.BLL.Services.Impelemntation
         {
             try
             {
+                var user = await _userService.GetUserByIdAsync(customer.userId);
+                user.UserName = customer.Name;
+                user.PhoneNumber = customer.Phone_Number;
+                user.address = customer.Location;
                 Customer new_customer = mapper.Map<Customer>(customer);
                 await customerRepo.Update(new_customer);
+                await _userService.UpdateUserAsync(user); 
                 return true;
             }
             catch (Exception)

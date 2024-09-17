@@ -1,5 +1,6 @@
 ﻿using AutoMapper; // Ensure AutoMapper is being used
 using ITI_Project.BLL.ModelVM;
+using ITI_Project.BLL.Services.Impelemntation;
 using ITI_Project.BLL.Services.Interface;
 using ITI_Project.DAL.Entites;
 using ITI_Project.DAL.Repo.Impelemntation;
@@ -14,11 +15,14 @@ namespace ITI_Project.BLL.Services.Implementation
     {
         private readonly IVendorRepo _vendorRepo;
         private readonly IMapper _mapper;
+        private readonly IUserService _userService;
 
-        public VendorService(IVendorRepo vendorRepo, IMapper mapper) 
+
+        public VendorService(IVendorRepo vendorRepo, IMapper mapper, IUserService userService)
         {
             _vendorRepo = vendorRepo;
-            _mapper = mapper; 
+            _mapper = mapper;
+            _userService = userService;
         }
 
         public async Task <IEnumerable<GetAllVendorVM>> GetAllVendors()
@@ -70,9 +74,15 @@ namespace ITI_Project.BLL.Services.Implementation
         {
             try
             {
+                var user = await _userService.GetUserByIdAsync(vendorVM.userId);
+                user.UserName = vendorVM.Name;
+                user.PhoneNumber = vendorVM.Phone_Number;
+                user.address = vendorVM.Location;
                 Vendor new_vendor = _mapper.Map<Vendor>(vendorVM);
                 new_vendor.Id = vendorVM.Id;
                 await _vendorRepo.UpdateVendor(new_vendor);
+                await _userService.UpdateUserAsync(user);
+
                 return true;
             }
             catch (Exception)

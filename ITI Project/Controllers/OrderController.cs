@@ -140,13 +140,13 @@ namespace ITI_Project.Controllers
 
 
 
-        public async Task<IActionResult> EmptyTheCart(int orderId, int customerId)
+        public async Task<IActionResult> EmptyTheCart()
         {
             var user = await userManager.GetUserAsync(User);
-
+            var customerId = await customerService.GetCustomerId_ByUserId(user.Id);
             var customer = await customerService.GetByCustomerId(customerId); 
 
-            var order = await _orderService.GetOrderById(orderId);
+            var order = await _orderService.GetOrderById(customer.CurrentOrderId);
             
             foreach (var item in order.Items)
             {
