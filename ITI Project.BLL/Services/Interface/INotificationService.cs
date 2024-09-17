@@ -10,9 +10,7 @@ namespace ITI_Project.BLL.Services.Interface
 {
     public interface INotificationService
     {
-        //public void SendNotificationToFollowers(int customerId, string message);
-        //public IEnumerable<AddNotificationVM> GetNotificationsForCustomer(int customerId);
-        //public void MarkAsRead(int notificationId);
+
         public Task SendNotificationToGoogleEmails();
     }
 }

@@ -19,12 +19,12 @@ namespace ITI_Project.DAL.Repo.Impelemntation
         {
             db = dbContext;
         }
-        public bool Create(Customer customer)
+        public async Task<bool> Create(Customer customer)
         {
             try
             {
-                db.Customers.Add(customer);
-                db.SaveChanges();
+                await db.Customers.AddAsync(customer);
+                await db.SaveChangesAsync();
                 return true;
             }
             catch (Exception)
@@ -33,55 +33,44 @@ namespace ITI_Project.DAL.Repo.Impelemntation
             }
         }
 
-        public bool Delete(int id)
-        {
-            try
-            {
-                var data = db.Customers.Where(a => a.Id == id).FirstOrDefault();
-                if (data.IsDeleted == true)
-                {
-                    throw new Exception("The Customer is already deleted");
 
-                }
-                data.IsDeleted = true;
-                db.SaveChanges();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
 
-        public List<Customer> GetAll()
+        public async Task<List<Customer>> GetAll()
         {
-            var result = db.Customers.Where(a=>a.IsDeleted != true).ToList();
+            var result = await db.Customers.Where(a=>a.IsDeleted != true).ToListAsync();
             return result;
         }
-        public List<Customer> GetAllForGmail()
+        public async Task<List<Customer>> GetAllForGmail()
         {
-            return db.Customers.Where(c => c.Email.EndsWith("@gmail.com")).ToList();
+            return  await db.Customers.Where(c => c.Email.EndsWith("@gmail.com")).ToListAsync();
         }
 
-        public Customer GetByCustomerId(int id)
+        public async Task< Customer> GetByCustomerId(int id)
         {
-            var data = db.Customers.Where(a => a.Id == id).FirstOrDefault();
+            var data =  await db.Customers.Where(a => a.Id == id).FirstOrDefaultAsync();
             return data;
         }
 
-        public bool Update(Customer customer)
+        public async Task<bool> Update(Customer customer)
         {
             try
             {
-                var data = db.Customers.Where(a => a.Id == customer.Id).FirstOrDefault();
+                var data = await db.Customers.FirstOrDefaultAsync(t=>t.Id==customer.Id);
 
                 data.Age = customer.Age;
                 data.Name = customer.Name;
                 data.Phone_Number = customer.Phone_Number;
                 data.Location = customer.Location;
                 data.hasOrder = customer.hasOrder;
-                
-                db.SaveChanges();
+
+                try
+                {
+                  await  db.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error saving changes: {ex.Message}");
+                }
                 return true;
             }
             catch (Exception)
@@ -89,18 +78,19 @@ namespace ITI_Project.DAL.Repo.Impelemntation
                 return false;
             }
         }
-        public bool IsEmailExist(string email)
+        public async Task<bool> IsEmailExist(string email)
         {
-            return db.Customers.Any(a => a.Email == email);
+            return await db.Customers.AnyAsync(a => a.Email == email);
         }
 
         public void SaveChanges()
         {
             db.SaveChanges();
         }
-        public int GetCustomerId_ByUserId(string userId)
+        public async Task <int> GetCustomerId_ByUserId(string userId)
         {
-            return db.Customers.Where(a=>a.userId==userId).First().Id;
+            var data = await db.Customers.FirstOrDefaultAsync(a => a.userId == userId);
+            return data.Id;
 
         }
     }

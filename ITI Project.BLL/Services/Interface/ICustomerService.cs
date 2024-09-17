@@ -9,12 +9,12 @@ namespace ITI_Project.BLL.Services.Interface
 {
     public interface ICustomerService
     {
-        public (bool sucess, string message) Create(CreateCustomerVM customer);
-        public bool Update(UpdateCustomerVM product);
-        public bool Delete(int id);
-        public IEnumerable<GetCustomerVM> GetAll();
-        public GetCustomerVM GetByCustomerId(int id);
+        public Task<(bool sucess, string message)> Create(CreateCustomerVM customer);
+        public Task<bool> Update(UpdateCustomerVM product);
+ 
+        public Task<IEnumerable<GetCustomerVM>> GetAll();
+        public Task<GetCustomerVM> GetByCustomerId(int id);
 
-        public int GetCustomerId_ByUserId(string userId);
+        public Task<int> GetCustomerId_ByUserId(string userId);
     }
 }

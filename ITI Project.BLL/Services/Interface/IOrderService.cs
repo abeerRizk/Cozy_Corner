@@ -10,16 +10,16 @@ namespace ITI_Project.BLL.Services.Interface
 {
     public interface IOrderService
     {
-        OrderModelVM GetOrderById(int id);
-        IEnumerable<OrderModelVM> GetAllOrders();
-        void AddOrder(OrderModelVM orderViewModel);
-        void UpdateOrder(OrderModelVM orderViewModel);
-        void DeleteOrder(int id);
-
-        public void ConfirmOrder(int OrderId);
+        public Task<OrderModelVM> GetOrderById(int id);
+         Task <IEnumerable<OrderModelVM>> GetAllOrders();
 
 
-        public void AddOrderItem(int CustomerId, OrderItemsVM item);
-        public void RemoveOrderItem(int CustomerId, OrderItemsVM item);
+        public Task AddOrderItem(int CustomerId, OrderItemsVM item);
+        public Task RemoveOrderItem(int CustomerId, OrderItemsVM item);
+
+        public Task UpdateOrder(OrderModelVM orderViewModel);
+        Task UpdateOrderStatus(OrderModelVM orderViewModel);
+        public Task DeleteOrder(int id);
+
     }
 }

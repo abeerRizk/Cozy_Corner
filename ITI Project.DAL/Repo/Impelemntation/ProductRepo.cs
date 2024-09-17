@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ITI_Project.DAL.Repo.Impelemntation
 {
@@ -18,13 +19,13 @@ namespace ITI_Project.DAL.Repo.Impelemntation
         {
             db = dbContext;
         }
-        public bool Create(Product product)
+        public async Task<bool> Create(Product product)
         {
             try
             {
                 product.Available = true;
-                db.Products.Add(product);
-                db.SaveChanges();
+                await db.Products.AddAsync(product);
+                await db.SaveChangesAsync();
                 return true;
             }
             catch (Exception)
@@ -33,18 +34,20 @@ namespace ITI_Project.DAL.Repo.Impelemntation
             }
         }
 
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
             try
             {
-                var data = db.Products.Where(a => a.Id == id).FirstOrDefault();
+                var data =  await db.Products.FirstOrDefaultAsync(a => a.Id == id);
                 if (data.IsDeleted)
                 {
                     throw new Exception("The Product is already deleted");
 
                 }
+              
+          
                 data.IsDeleted = true;
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 return true;
             }
             catch (Exception)
@@ -53,58 +56,24 @@ namespace ITI_Project.DAL.Repo.Impelemntation
             }
         }
 
-        public List<Product> GetAll()
+        public async Task<List<Product>> GetAll()
         {
-            var result = db.Products.Where(a => a.IsDeleted != true && a.Available == true).ToList();
+            var result = await db.Products.Where(a => a.IsDeleted != true && a.Available == true).ToListAsync();
             return result;
         }
 
-        public List<Product> GetByCategory(string Category)
+
+        public async Task<Product> GetByProductId(int? id)
         {
-            var data = db.Products.Where(a => a.Category == Category).ToList();
+            var data = await db.Products.Where(a => a.Id == id).FirstOrDefaultAsync();
             return data;
         }
-
-        public Product GetByProductId(int? id)
-        {
-            var data = db.Products.Where(a => a.Id == id).FirstOrDefault();
-            return data;
-        }
-
-        public List<Product> GetByVendor(int VendorId)
-        {
-            var data = db.Products.Where(a => a.VendorID == VendorId).ToList();
-            return data;
-        }
-
-        public List<Product> GetByVendorAndCategory(string Category, int VendorId)
-        {
-            var data = db.Products.Where(a => a.VendorID ==VendorId && a.Category == Category).ToList();
-            return data;
-        }
-
-        public IEnumerable<Product> GetProductsBySearchAndCategory(string searchTerm, string category)
-        {
-            var query = db.Products.AsQueryable();
-
-            if (!string.IsNullOrEmpty(searchTerm))
-            {
-                query = query.Where(p => p.Name.Contains(searchTerm) || p.Description.Contains(searchTerm));
-            }
-
-            if (!string.IsNullOrEmpty(category))
-            {
-                query = query.Where(p => p.Category.Equals(category, StringComparison.OrdinalIgnoreCase));
-            }
-
-            return query.ToList();
-        }
-
-        public bool Update(Product product)
+        public async Task< bool> Update(Product product)
         {
             try
             {
-                var data = db.Products.Where(a => a.Id == product.Id).FirstOrDefault();
+                var data =  await db.Products.Where(a => a.Id == product.Id).FirstOrDefaultAsync();
+
                 data.Name = product.Name;
                 
                 data.Description = product.Description;
@@ -119,7 +88,8 @@ namespace ITI_Project.DAL.Repo.Impelemntation
                 {
                     data.Available = true;
                 }
-                db.SaveChanges();
+                data.Images = product.Images;
+                await db.SaveChangesAsync();
                 return true;
             }
             catch (Exception)
@@ -127,14 +97,11 @@ namespace ITI_Project.DAL.Repo.Impelemntation
                 return false;
             }
         }
-        public List<Product> GetFavoriteProductsByCustomerId(int customerId)
+        public async Task< List<Product>> GetFavoriteProductsByCustomerId(int customerId)
         {
             
-            return db.Favorites
-                .Where(f => f.CutomerId == customerId && f.IsActive == true  )
-                .Include(f => f.Product) 
-                .Select(f => f.Product)
-                .ToList();
+            return await db.Favorites.Where(f => f.CutomerId == customerId && f.IsActive == true  )
+                .Include(f => f.Product).Select(f => f.Product).ToListAsync();
         }
     }
 }

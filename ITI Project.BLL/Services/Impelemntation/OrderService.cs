@@ -25,48 +25,22 @@ namespace ITI_Project.BLL.Services.Impelemntation
             this.invoiceRepo = invoiceRepo ?? throw new ArgumentNullException(nameof(invoiceRepo)); 
         }
 
-        public OrderModelVM GetOrderById(int id)
+        public async Task < OrderModelVM> GetOrderById(int id)
         {
-            var order = _orderRepository.GetOrderById(id);
+            var order =  await _orderRepository.GetOrderById(id);
             return _mapper.Map<OrderModelVM>(order);
         }
 
-        public IEnumerable<OrderModelVM> GetAllOrders()
+        public async Task< IEnumerable<OrderModelVM>> GetAllOrders()
         {
-            var orders = _orderRepository.GetAllOrders();
+            var orders = await _orderRepository.GetAllOrders();
             return _mapper.Map<IEnumerable<OrderModelVM>>(orders);
         }
 
-        public void AddOrder(OrderModelVM orderViewModel)
-        {
-            var order = _mapper.Map<Order>(orderViewModel);
-            _orderRepository.AddOrder(order);
-        }
 
-        public void UpdateOrder(OrderModelVM orderViewModel)
-        {
-            var order = _mapper.Map<Order>(orderViewModel);
-            _orderRepository.UpdateOrder(order);
-        }
 
-        public void DeleteOrder(int id)
-        {
-            _orderRepository.DeleteOrder(id);
-        }
 
-        public void ConfirmOrder(int OrderId)
-        {
-            Order order = _orderRepository.GetOrderById(OrderId);
-            Invoice invoice = new Invoice();
-            invoice.OrderId = OrderId;
-            invoice.Order = order;
-            invoice.TotallPrice = order.TotalPrice;
-            invoice.IsPaid = false;
-
-           invoiceRepo.Create(invoice);
-        }
-
-        public void AddOrderItem(int CustomerId , OrderItemsVM item)
+        public async Task AddOrderItem(int CustomerId , OrderItemsVM item)
         {
             OrderItem new_orderItem = _mapper.Map<OrderItem>(item);
 
@@ -74,12 +48,29 @@ namespace ITI_Project.BLL.Services.Impelemntation
             _orderRepository.AddOrderItem(CustomerId, new_orderItem);
         }
 
-        public void RemoveOrderItem(int CustomerId, OrderItemsVM item)
+        public async Task RemoveOrderItem(int CustomerId, OrderItemsVM item)
         {
             OrderItem new_orderItem = _mapper.Map<OrderItem>(item);
 
 
             _orderRepository.RemoveOrderItem(CustomerId, new_orderItem);
         }
+
+        public async Task UpdateOrder(OrderModelVM orderViewModel)
+        {
+            var order = _mapper.Map<Order>(orderViewModel);
+              _orderRepository.UpdateOrder(order);
+        }
+        public async Task UpdateOrderStatus(OrderModelVM orderViewModel)
+        {
+            var order = _mapper.Map<Order>(orderViewModel);
+            await  _orderRepository.UpdateOrderStatus(order);
+        }
+
+        public async Task DeleteOrder(int id)
+        {
+            _orderRepository.DeleteOrder(id);
+        }
+
     }
 }

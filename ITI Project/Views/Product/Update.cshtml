@@ -11,7 +11,7 @@
 <div class="row justify-content-center align-items-center" style="min-height: 100vh;">
     <div class="col-md-6 p-4 shadow-sm rounded">
         <p class="text-brown text-center" style="font-family: 'Times New Roman', serif; font-size: 30px; color: #674636;"> <b>Edit Product</b> <i class="fas fa-marker"></i></p>
-        <form asp-action="Update" style="border: none; padding: 20px;">
+        <form asp-action="Update" style="border: none; padding: 20px;" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-dark-brown"></div>
    
 
@@ -52,7 +52,7 @@
             
             <!-- Custom Image Upload input-->
             <div class="input-group mb-3 px-2 py-2 input-group-custom">
-                <input asp-for="Images" id="upload" type="file" onchange="readURL(this);" class="form-control border-0 " multiple>
+                <input asp-for="Images" id="upload" type="file" multiple  class="form-control border-0 " >
                 <label id="upload-label" for="upload" class="font-weight-light text-muted">Choose Image</label>
                 <div class="input-group-append">
                     <label for="upload" class="btn btn-light m-0 px-4 label-custom choose-file-large">

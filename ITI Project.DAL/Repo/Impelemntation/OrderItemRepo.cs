@@ -1,6 +1,7 @@
 ﻿using ITI_Project.DAL.DB.ApplicationDB;
 using ITI_Project.DAL.Entites;
 using ITI_Project.DAL.Repo.Interface;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,54 +20,21 @@ namespace ITI_Project.DAL.Repo.Impelemntation
             this.db = db;
         }
 
-        public void Create(OrderItem item)
-        {
-            db.OrderItems.Add(item);
-            db.SaveChanges();
-        }
 
-        public void Delete(int id)
-        {
-            var item = db.OrderItems.FirstOrDefault(x => x.Id == id);
-            if (item != null)
-            {
-                {
-                    db.Remove(item);
-                    db.SaveChanges();
 
-                }
-            }
-        }
 
-        public IEnumerable<OrderItem> GetAll()
+        public async Task< IEnumerable<OrderItem>> GetAll()
         {
-            var data = db.OrderItems.Where(a => a.IsDeleted != true).ToList();
+            var data = await db.OrderItems.Where(a => a.IsDeleted != true).ToListAsync();
             return data;
         }
 
-        public OrderItem GetById(int id)
+        public async Task< OrderItem> GetById(int id)
         {
-            var item = db.OrderItems.Where(a => a.Id == id).FirstOrDefault();
+            var item = await db.OrderItems.Where(a => a.Id == id).FirstOrDefaultAsync();
             return item;
         }
 
-        public bool Update(OrderItem item)
-        {
-            try
-            {
-                var data = db.OrderItems.Where(a => a.Id == item.Id).FirstOrDefault();
-                data.Quantity = item.Quantity;
-                
-                data.Quantity=item.Quantity;
-                data.TotalPrice = item.TotalPrice;
-                data.UnitPrice = item.UnitPrice;
-                db.SaveChanges();
-                return true;
-            }
-            catch (Exception ex) 
-                {
-                return false;
-                }
-        }
+
     }
 }

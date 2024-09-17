@@ -23,72 +23,31 @@ namespace ITI_Project.BLL.Services.Impelemntation
             this.mapper = mapper;
         }
 
-        public bool Create(CreateInvoiceVM invoice)
+        public int Create(CreateInvoiceVM invoice)
         {
-            try
-            {
-                var data = mapper.Map<Invoice>(invoice);
-                iNvoiceRepo.Create(data);
-                return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
+
+            var data = mapper.Map<Invoice>(invoice);
+            int InvoiceId =  iNvoiceRepo.Create(data);
+            return InvoiceId;
+
         }
 
-        public bool Delete(int id)
-        {
-            try
-            {
 
-                iNvoiceRepo.Delete(id);
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
 
-        public IEnumerable<GetInvoiceVM> GetAll()
-        {
-            var result = iNvoiceRepo.GetAll().Where(a => a.isDeleted == false).ToList();
-            List<GetInvoiceVM> newResult = mapper.Map<List<GetInvoiceVM>>(result);
-            return newResult;
-        }
+  
 
-        public GetInvoiceVM GetByInvoiceId(int id)
+        public async Task< GetInvoiceVM> GetByInvoiceId(int id)
         {
-            Invoice invoice = iNvoiceRepo.GetByInvoiceId(id);
+            Invoice invoice = await iNvoiceRepo.GetByInvoiceId(id);
             return mapper.Map<GetInvoiceVM>(invoice);
         }
 
-        public GetInvoiceVM GetInvoiceByOrderId(int orderId)
+        public async Task<GetInvoiceVM> GetInvoiceByOrderId(int orderId)
         {
-            Invoice invoice = iNvoiceRepo.GetInvoiceByOrderId(orderId);
+            Invoice invoice = await iNvoiceRepo.GetInvoiceByOrderId(orderId);
             return mapper.Map<GetInvoiceVM>(invoice);
         }
 
-        public bool Update(UpdateInvoiceVM invoice)
-        {
-            try
-            {
-                Invoice new_invoice = mapper.Map<Invoice>(invoice);
-                
-                iNvoiceRepo.Update(new_invoice);
-                return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
 
-        }
-
-        public int getInvoiceByOrderId(int orderId)
-        {
-            return iNvoiceRepo.getInvoiceByOrderId(orderId);
-        }
     }
 }

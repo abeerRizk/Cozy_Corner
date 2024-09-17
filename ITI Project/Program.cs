@@ -40,10 +40,7 @@ builder.Services.AddScoped<IInvoiceService, InvoiceService>();
 builder.Services.AddScoped<IFavoriteRepo, FavoriteRepo>();
 builder.Services.AddScoped<IFavoriteService, FavoriteService>();
 
-builder.Services.AddScoped<IFollowRepo, FollowRepo>();
-builder.Services.AddScoped<IFollowService, FollowService>();
 
-builder.Services.AddScoped<INotificationRepo, NotificationRepo>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();

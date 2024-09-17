@@ -1,6 +1,7 @@
 ﻿using ITI_Project.DAL.DB.ApplicationDB;
 using ITI_Project.DAL.Entites;
 using ITI_Project.DAL.Repo.Interface;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,85 +18,37 @@ namespace ITI_Project.DAL.Repo.Impelemntation
         {
             db = dbContext;
         }
-        public bool Create(Invoice invoice)
-        {
+        public int Create(Invoice invoice)
+            {
             try
             {
-                db.Invoices.Add(invoice);
-                db.SaveChanges();
-                return true;
+                 db.Invoices.Add(invoice);
+                 db.SaveChanges();
+                return invoice.Id;
+                
             }
             catch (Exception)
             {
-                return false;
+                return 0;
             }
         }
 
-        public bool Delete(int id)
-        {
-            try
-            {
-                var data = db.Invoices.Where(a => a.Id == id).FirstOrDefault();
-                if (data.isDeleted == true)
-                {
-                    throw new Exception("The Invoice is already deleted");
 
-                }
-                data.isDeleted = true;
-                db.SaveChanges();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        public List<Invoice> GetAll()
+        public async Task< Invoice> GetByInvoiceId(int id)
         {
-            var result = db.Invoices.Where(a => a.isDeleted != true).ToList();
-            return result;
-        }
-
-        public Invoice GetByInvoiceId(int id)
-        {
-            var data = db.Invoices.Where(a => a.Id == id).FirstOrDefault();
+            var data = await db.Invoices.FirstOrDefaultAsync(a => a.Id == id);
             return data;
         }
 
-        public Invoice GetInvoiceByOrderId(int orderId)
+        public async Task< Invoice> GetInvoiceByOrderId(int orderId)
         {
-           return db.Invoices.Where(a=> a.OrderId == orderId).FirstOrDefault();
+           return await db.Invoices.FirstOrDefaultAsync((a => a.OrderId == orderId));
         }
 
 
 
-        public bool Update(Invoice invoice)
-        {
-            try
-            {
-                var data = db.Invoices.Where(a => a.Id == invoice.Id).FirstOrDefault();
-
-                data.OrderId = invoice.OrderId; 
-                data.TotallPrice    = invoice.TotallPrice;
-              
-                data.PaymentMethod =  invoice.PaymentMethod;
-                data.IsPaid = true;
-                data.PaymentDate = DateTime.Now;
-                db.SaveChanges();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
 
 
-        public int getInvoiceByOrderId(int orderId)
-        {
-            return db.Invoices.Where(a=>a.OrderId == orderId).FirstOrDefault().Id;
-        }
 
     }
 }

@@ -27,8 +27,8 @@ namespace ITI_Project.Controllers
         public async Task< IActionResult> Edit()
         {
             var user = await userManager.GetUserAsync(User);
-            int vendorId = _vendorService.GetVendorId_ByUserId(user.Id);
-            var vendor = _vendorService.GetVendorById(vendorId);
+            int vendorId = await _vendorService.GetVendorId_ByUserId(user.Id);
+            var vendor = await _vendorService.GetVendorById(vendorId);
             if (vendor == null)
             {
                 return NotFound();
@@ -46,9 +46,9 @@ namespace ITI_Project.Controllers
             if (ModelState.IsValid)
             {
                 var user = await userManager.GetUserAsync(User);
-                int vendorId = _vendorService.GetVendorId_ByUserId(user.Id);
+                int vendorId = await _vendorService.GetVendorId_ByUserId(user.Id);
                 vendorVM.Id = vendorId;
-                var success = _vendorService.UpdateVendor(vendorVM);
+                var success = await _vendorService.UpdateVendor(vendorVM);
                 if (success)
                 {
                     return RedirectToAction("VendorGallery" , "Product");

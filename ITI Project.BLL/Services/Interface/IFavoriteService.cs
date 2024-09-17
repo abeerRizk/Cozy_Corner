@@ -11,6 +11,6 @@ namespace ITI_Project.BLL.Services.Interface
         public  Task ChangeStatus(int customerId, int ProductId);
         //Task<bool> ToggleFavorite(string userId, int productId);
 
-        public bool IsProductFavorite(int customerId, int productId);
+        public Task <bool> IsProductFavorite(int customerId, int productId);
     }
 }

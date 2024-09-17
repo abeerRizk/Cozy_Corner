@@ -21,11 +21,11 @@ namespace ITI_Project.BLL.Services.Implementation
             _mapper = mapper; 
         }
 
-        public IEnumerable<GetAllVendorVM> GetAllVendors()
+        public async Task <IEnumerable<GetAllVendorVM>> GetAllVendors()
         {
             try
             {
-                var vendors = _vendorRepo.GetAllVendors();
+                var vendors = await  _vendorRepo.GetAllVendors();
 
                 var vendorVMs = _mapper.Map<IEnumerable<GetAllVendorVM>>(vendors);
 
@@ -38,23 +38,23 @@ namespace ITI_Project.BLL.Services.Implementation
             }
         }
 
-        public Vendor GetVendorById(int id)
+        public async Task<Vendor> GetVendorById(int id)
         {
-            return _vendorRepo.GetVendorById(id);
+            return await  _vendorRepo.GetVendorById(id);
         }
 
-        public (bool sucess, string message) AddVendor(CreateVendorVM vendorVM)
+        public async Task<(bool sucess, string message)> AddVendor(CreateVendorVM vendorVM)
         {
             try
             {
                 
 
                 var vendorEntity = _mapper.Map<Vendor>(vendorVM);
-                if (_vendorRepo.IsEmailExist(vendorEntity.Email))
+                if (await _vendorRepo.IsEmailExist(vendorEntity.Email))
                     return (false, "Email is already exist");
 
 
-                return (_vendorRepo.AddVendor(vendorEntity),string.Empty);
+                return ( await _vendorRepo.AddVendor(vendorEntity),string.Empty);
             }
             catch (Exception ex)
             {
@@ -64,34 +64,15 @@ namespace ITI_Project.BLL.Services.Implementation
             }
         }
 
-        public bool DeleteVendor(int id)
-        {
-            try
-            {
-                var vendor = _vendorRepo.GetVendorById(id);
-                if (vendor == null)
-                {
-                    Console.WriteLine("Vendor not found");
-                    return false;
-                }
 
-                _vendorRepo.DeleteVendor(id); 
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return false;
-            }
-        }
 
-        public bool UpdateVendor(UpdateVendorVM vendorVM)
+        public async Task <bool> UpdateVendor(UpdateVendorVM vendorVM)
         {
             try
             {
                 Vendor new_vendor = _mapper.Map<Vendor>(vendorVM);
                 new_vendor.Id = vendorVM.Id;
-                _vendorRepo.UpdateVendor(new_vendor);
+                await _vendorRepo.UpdateVendor(new_vendor);
                 return true;
             }
             catch (Exception)
@@ -100,10 +81,10 @@ namespace ITI_Project.BLL.Services.Implementation
             }
         }
 
-        public int GetVendorId_ByUserId(string userId)
+        public async Task< int> GetVendorId_ByUserId(string userId)
         {
 
-            return _vendorRepo.GetVendorId_ByUserId(userId);
+            return await _vendorRepo.GetVendorId_ByUserId(userId);
         }
     }
 }

@@ -9,10 +9,8 @@ namespace ITI_Project.DAL.Repo.Interface
 {
     public interface IOrderItemRepo
     {
-        public void Create(OrderItem item);
-        public bool Update(OrderItem item);
-        public void Delete(int id);
-        public OrderItem GetById(int id);
-        public IEnumerable<OrderItem> GetAll();
+ 
+        public Task<OrderItem> GetById(int id);
+        public Task<IEnumerable<OrderItem>> GetAll();
     }
 }

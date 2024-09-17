@@ -9,15 +9,13 @@ namespace ITI_Project.DAL.Repo.Interface
 {
     public interface IINvoiceRepo
     {
-        public bool Create(Invoice invoice);
-        public bool Update(Invoice invoice);
-        public bool Delete(int id);
-        public List<Invoice> GetAll();
+        public int Create(Invoice invoice);
 
-        public Invoice GetByInvoiceId(int id);
-        public Invoice GetInvoiceByOrderId(int orderId);
 
-        public int getInvoiceByOrderId(int orderId);
+        public Task<Invoice> GetByInvoiceId(int id);
+        public Task<Invoice> GetInvoiceByOrderId(int orderId);
+
+      
 
 
     }

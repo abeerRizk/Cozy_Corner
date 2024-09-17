@@ -13,15 +13,15 @@ namespace ITI_Project.Controllers
 
     
 
-        public InvoiceController(IInvoiceService invoiceService, IMapper mapper )
+        public  InvoiceController(IInvoiceService invoiceService, IMapper mapper )
         {
             this.invoiceService = invoiceService;
             this.mapper = mapper;
         }
 
-        public IActionResult Read(int id )
+        public async Task<IActionResult> Read(int id )
         {
-            var result =  invoiceService.GetByInvoiceId(id);
+            var result =  await invoiceService.GetByInvoiceId(id);
             return View(result);
         }
 

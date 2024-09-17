@@ -22,8 +22,8 @@ namespace ITI_Project.DAL.Repo.Impelemntation
         public async Task ChangeStatus(int customerId, int productId)
         {
 
-            var existingFavorite = db.Favorites
-                .FirstOrDefault(f => f.CutomerId == customerId && f.ProductId == productId);
+            var existingFavorite = await db.Favorites
+                .FirstOrDefaultAsync(f => f.CutomerId == customerId && f.ProductId == productId);
 
             if (existingFavorite == null)
             {
@@ -34,7 +34,7 @@ namespace ITI_Project.DAL.Repo.Impelemntation
                     IsActive = true
                 };
 
-                db.Favorites.Add(favorite);
+                await db.Favorites.AddAsync(favorite);
 
 
             }
@@ -45,26 +45,10 @@ namespace ITI_Project.DAL.Repo.Impelemntation
             await db.SaveChangesAsync();
 
         }
-        public Favorite GetFavorite(int userId, int productId)
-        {
-            return db.Favorites.FirstOrDefault(f => f.CutomerId == userId && f.ProductId == productId);
-        }
 
-        public void AddFavorite(Favorite favorite)
+        public async Task<bool> IsProductFavorite(int customerId, int productId)
         {
-            db.Favorites.Add(favorite);
-            db.SaveChanges();
-        }
-
-        public void RemoveFavorite(Favorite favorite)
-        {
-           db.Favorites.Remove(favorite);
-            db.SaveChanges();
-        }
-
-        public bool IsProductFavorite(int customerId, int productId)
-        {
-            return db.Favorites.Any(f => f.CutomerId == customerId && f.ProductId == productId && f.IsActive == true);
+            return await db.Favorites.AnyAsync(f => f.CutomerId == customerId && f.ProductId == productId && f.IsActive == true);
         }
 
     }

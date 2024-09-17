@@ -9,13 +9,14 @@ namespace ITI_Project.DAL.Repo.Interface
 {
     public interface IOrderRepo
     {
-        Order GetOrderById(int id);
-        IEnumerable<Order> GetAllOrders();
-        void AddOrder(Order order);
-        void UpdateOrder(Order order);
-        void DeleteOrder(int id);
-        public void AddOrderItem(int CustomerId, OrderItem item);
+        public  Task<Order> GetOrderById(int id);
+        Task<IEnumerable<Order>> GetAllOrders();
+
+        public void AddOrderItem(int customerId, OrderItem item);
 
         public void RemoveOrderItem(int customerId, OrderItem item);
+        public void UpdateOrder(Order order);
+        Task UpdateOrderStatus(Order order);
+        public void DeleteOrder(int id);
     }
 }

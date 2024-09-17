@@ -10,18 +10,15 @@ namespace ITI_Project.BLL.Services.Interface
 {
     public interface IProductService
     {
-        public bool Create(CreateProductVM product);
-        public bool Update(UpdateProductVM product);
-        public bool Delete(int id);
-        public IEnumerable<GetProductVM> GetAll();
+        public Task< bool> Create(CreateProductVM product);
+        public Task <bool> Update(UpdateProductVM product);
+        public Task <bool> Delete(int id);
+        public Task< IEnumerable<GetProductVM>> GetAll();
 
-        public GetProductVM GetByProductId(int? id);
+        public Task <GetProductVM> GetByProductId(int? id);
 
-        public List<GetProductVM> GetByCategory(string Category);
-        public List<GetProductVM> GetByVendor(int VendorId);
-        public List<GetProductVM> GetByVendorAndCategory(string Category, int VendorId);
 
-        List<Product> GetFavoriteProductsByCustomerId(int customerId);
+        public Task<List<Product>> GetFavoriteProductsByCustomerId(int customerId);
 
     }
 }

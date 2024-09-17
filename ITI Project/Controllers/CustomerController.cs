@@ -30,8 +30,8 @@ namespace ITI_Project.Controllers
         public async Task< IActionResult> Update()
         {
             var user = await userManager.GetUserAsync(User);
-            var customerId = customerService.GetCustomerId_ByUserId(user.Id);
-            var data = customerService.GetByCustomerId(customerId);
+            var customerId = await customerService.GetCustomerId_ByUserId(user.Id);
+            var data =  await customerService.GetByCustomerId(customerId);
             UpdateCustomerVM new_data = mapper.Map<UpdateCustomerVM>(data);
            
             return View(new_data);
@@ -46,10 +46,7 @@ namespace ITI_Project.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var user = await userManager.GetUserAsync(User);
-                    var customerId = customerService.GetCustomerId_ByUserId(user.Id);
-                    customer.Id = customerId;
-                    customerService.Update(customer);
+                    await customerService.Update(customer);
                     return RedirectToAction("Read", "Product");
                 }
             }

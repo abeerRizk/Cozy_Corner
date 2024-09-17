@@ -24,9 +24,9 @@ namespace ITI_Project.BLL.Services.Impelemntation
         }
         
 
-        public bool IsProductFavorite(int customerId, int productId)
+        public async Task< bool> IsProductFavorite(int customerId, int productId)
         {
-            return favoriteRepo.IsProductFavorite(customerId, productId);
+            return await favoriteRepo.IsProductFavorite(customerId, productId);
         }
 
 

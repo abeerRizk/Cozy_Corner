@@ -17,7 +17,7 @@
         <p style="color: #674636">You did not order anything yet! </p>
     }else
 {
- 
+ <input asp-for="Id" hidden />
     <p style="color: #674636"><strong> Order Date <i class='fas fa-calendar-alt'></i>:</strong> @Model.OrderDate </p>
     <table class="base-table ">
         <thead>
@@ -72,7 +72,7 @@
         </tbody>
     </table>
     <center><button class="button2  mt-3" onclick="window.location.href='@Url.Action("EmptyTheCart", "Order")'">Delete  <span class="glyphicon glyphicon-trash"></span> </button>
-        <button class="button2  mt-3" onclick="window.location.href='@Url.Action("ConfirmOrder", "Order" , new { id = @Model.Id })'"> Confirm   </button>
+            <button class="button2  mt-3" onclick="window.location.href='@Url.Action("ConfirmOrder", "Order" , new { orderId = @Model.Id ,customerId=Model.CustomerId})'"> Confirm   </button>
     </center>
 }
 </div>
