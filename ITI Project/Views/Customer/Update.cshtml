@@ -20,7 +20,7 @@
         <p class="text-brown text-center" style="font-family: 'Times New Roman', serif; font-size: 30px; color: #674636;"> <b>Edit Your Profile</b> <i class="fas fa-marker"></i></p>
         <form asp-action="Update" style="border: none; padding: 20px;">
             <div asp-validation-summary="ModelOnly" class="text-dark-brown"></div>
-
+            <input asp-for=userId hidden />
             <input asp-for="Id" hidden />
             <div class="form-group mb-4">
                 <label asp-for="Name" class="control-label text-darker-brown"></label>

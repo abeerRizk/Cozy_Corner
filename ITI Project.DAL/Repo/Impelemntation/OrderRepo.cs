@@ -19,10 +19,9 @@ namespace ITI_Project.DAL.Repo.Impelemntation
             db = context;
         }
 
-         public async Task<Order> GetOrderById(int id)
+        public async Task<Order> GetOrderById(int id)
         {
-            var data = await db.Order.Include(o => o.Items).FirstOrDefaultAsync(o => o.Id == id);
-            return data;
+           return await db.Order.Include(o => o.Items).FirstOrDefaultAsync(o => o.Id == id);
         }
 
         public async Task< IEnumerable<Order>> GetAllOrders()
@@ -31,84 +30,84 @@ namespace ITI_Project.DAL.Repo.Impelemntation
         }
 
 
-        public  void AddOrderItem(int customerId, OrderItem item)
-
+        public async Task AddOrderItem(int customerId, OrderItem item)
         {
             // Retrieve the customer
-            Customer customer =   db.Customers.FirstOrDefault(a => a.Id == customerId);
+            var customer = await  db.Customers.FirstOrDefaultAsync(a => a.Id == customerId);
 
             if (customer != null)
             {
-                if (customer.hasOrder == true)
+                if (customer.hasOrder)
                 {
                     // Retrieve the current order and its items
-                    var order =  db.Order
-                        .Include(o => o.Items)
-                        .FirstOrDefault(o => o.Id == customer.CurrentOrderId);
+                    var order = await  db.Order.Include(o => o.Items)
+                                              .FirstOrDefaultAsync(o => o.Id == customer.CurrentOrderId);
 
                     if (order != null)
                     {
                         // Check if the order already contains the same product
-                        var existingItem =  order.Items.FirstOrDefault(a => a.ProductId == item.ProductId);
+                        var existingItem =  db.OrderItems
+                            .FirstOrDefault(a => a.ProductId == item.ProductId && a.OrderId == order.Id);
 
                         if (existingItem != null)
                         {
                             // Update the quantity and total price of the existing item
-                            int? quantityDifference = item.Quantity;
                             existingItem.Quantity += item.Quantity;
                             existingItem.TotalPrice = existingItem.UnitPrice * existingItem.Quantity;
 
-                            // Update the order's total price based on the difference in price
-                            order.TotalPrice += existingItem.UnitPrice * quantityDifference;
+                            // Update the order's total price
+                            order.TotalPrice += item.UnitPrice * item.Quantity;
                         }
                         else
                         {
-                            // Add the new item to the existing order
-                            item.OrderId = customer.CurrentOrderId;
-                            order.TotalPrice += item.TotalPrice; // Update total price by adding new item's total price
-                            order.Items.Add(item); // Add new item to the order
+                            // Add the new item to the order
+                            item.OrderId = order.Id;
+                            order.TotalPrice += item.TotalPrice;
+                            db.OrderItems.Add(item); // Directly add to OrderItems table
                         }
 
-                         db.SaveChanges(); // Save all changes
+                       await  db.SaveChangesAsync(); // Save changes for both order and order items
                     }
                 }
                 else
                 {
-                    // Create a new order if the customer doesn't have one
+                    // Create a new order
                     Order order = new Order
                     {
                         OrderDate = DateTime.Now,
                         CustomerId = customerId,
                         ShippingAddress = customer.Location,
-                        TotalPrice = item.TotalPrice, // Initialize with the first item's total price
-                        Items = new List<OrderItem> { item }, // Add the item to the order
+                        TotalPrice = item.TotalPrice,
+                        Items = new List<OrderItem> { item },
                         CustomerName = customer.Name,
                         Status = "ordered",
                     };
 
-                     db.Order.Add(order);
-                     db.SaveChanges(); // Save to generate the order's ID
+                   await  db.Order.AddAsync(order);
+                    await db.SaveChangesAsync();
 
-                    // Update the customer's order tracking
+                    // Update customer's order information
                     customer.hasOrder = true;
                     customer.CurrentOrderId = order.Id;
 
-                     db.SaveChanges(); // Save the changes to the customer
+                     db.SaveChanges();
                 }
             }
         }
 
-        public void RemoveOrderItem(int customerId, OrderItem item)
+
+        public async Task RemoveOrderItem(int customerId, OrderItem item)
         {
-            Customer customer =  db.Customers.FirstOrDefault(a => a.Id == customerId);
+            var customer = await db.Customers.FirstOrDefaultAsync(a => a.Id == customerId);
 
             if (customer != null)
             {
-                var order =   db.Order
+                var order = await  db.Order
                         .Include(o => o.Items)
-                        .FirstOrDefault(o => o.Id == customer.CurrentOrderId);
+                        .FirstOrDefaultAsync(o => o.Id == customer.CurrentOrderId);
 
-            var existingItem = order.Items.FirstOrDefault(a => a.ProductId == item.ProductId);
+               
+                var existingItem =  db.OrderItems.FirstOrDefault(a => a.ProductId == item.ProductId && a.OrderId == order.Id);
                 int? quantityDifference = item.Quantity;
                 existingItem.Quantity -= item.Quantity;
                 existingItem.TotalPrice = existingItem.UnitPrice * existingItem.Quantity;
@@ -119,16 +118,16 @@ namespace ITI_Project.DAL.Repo.Impelemntation
                     existingItem.IsDeleted = true;
                     order.Items.Remove(existingItem);
                 }
-                 db.SaveChanges();
+                  await db.SaveChangesAsync();
             }
         }
 
 
-        public  void UpdateOrder(Order order)
+        public  async Task UpdateOrder(Order order)
         {
             try
             {
-                var data =  db.Order.Where(a => a.Id == order.Id).FirstOrDefault();
+                var data = await  db.Order.Where(a => a.Id == order.Id).FirstOrDefaultAsync();
              
                 data.OrderDate = order.OrderDate; data.ShippingAddress = order.ShippingAddress;
                 data.CustomerId = order.CustomerId; data.CustomerName = order.CustomerName;
@@ -136,7 +135,7 @@ namespace ITI_Project.DAL.Repo.Impelemntation
                 data.IsDeleted = order.IsDeleted; data.TotalPrice = order.TotalPrice;
                 data.TotalPrice = order.TotalPrice;
                 data.Items = order.Items;
-                 db.SaveChanges();
+                 await db.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -148,21 +147,32 @@ namespace ITI_Project.DAL.Repo.Impelemntation
             try
             {
                 var data = await db.Order.Where(a => a.Id == order.Id).FirstOrDefaultAsync();
-                data.Status = order.Status; 
-
-                await  db.SaveChangesAsync();
+                data.Status = order.Status;
+                await db.SaveChangesAsync();
             }
             catch (Exception ex)
             {
                 return;
             }
         }
-        public  void DeleteOrder(int id)
+        public async Task DeleteOrder(int id)
         {
-            var order =  db.Order.Find(id); if (order != null)
+            var order = await  db.Order.Where(a=> a.Id == id).FirstOrDefaultAsync();
+            order.IsDeleted = true;
+            await db.SaveChangesAsync();
+            
+        }
+
+        public async Task DeleteUnconfirmedOrders()
+        {
+            List<Order> order =  await db.Order.Where(a => a.Status == "ordered").ToListAsync();
+            foreach (Order item in order)
             {
-                db.Order.Remove(order);
-                 db.SaveChanges();
+                var customer= await db.Customers.Where(a=>a.Id == item.CustomerId).FirstOrDefaultAsync();
+                customer.hasOrder = false;
+                // return Quantity to product
+                 await  DeleteOrder(item.Id);
+                 await db.SaveChangesAsync();
             }
         }
     }

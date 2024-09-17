@@ -124,7 +124,6 @@ namespace ITI_Project.Controllers
             var user = await userManager.GetUserAsync(User);
             var customerId = await customerService.GetCustomerId_ByUserId(user.Id);
 
-            // Calculate the total price of the new order item
             new_order.TotalPrice = new_order.UnitPrice * new_order.Quantity;
 
             var product = await productService.GetByProductId(new_order.ProductId);
@@ -144,8 +143,7 @@ namespace ITI_Project.Controllers
         public async Task<IActionResult> EmptyTheCart()
         {
             var user = await userManager.GetUserAsync(User);
-            var customerId =   await customerService.GetCustomerId_ByUserId(user.Id);
-
+            var customerId = await customerService.GetCustomerId_ByUserId(user.Id);
             var customer = await customerService.GetByCustomerId(customerId); 
 
             var order = await _orderService.GetOrderById(customer.CurrentOrderId);

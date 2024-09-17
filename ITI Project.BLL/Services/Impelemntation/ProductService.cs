@@ -78,7 +78,7 @@ namespace ITI_Project.BLL.Services.Impelemntation
             {
                 Product new_product = mapper.Map<Product>(product);
 
-                await ProductRepo.Update(new_product);
+               await  ProductRepo.Update(new_product);
                 return true;
             }
             catch (Exception e)
@@ -89,7 +89,7 @@ namespace ITI_Project.BLL.Services.Impelemntation
         }
         public async Task<List<Product>> GetFavoriteProductsByCustomerId(int customerId)
         {
-            return await ProductRepo.GetFavoriteProductsByCustomerId(customerId);
+            return  await ProductRepo.GetFavoriteProductsByCustomerId(customerId);
         }
 
 
