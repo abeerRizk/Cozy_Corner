@@ -9,15 +9,13 @@ namespace ITI_Project.DAL.Repo.Interface
 {
     public interface ICustomerRepo
     {
-        public bool Create(Customer customer);
-        public bool Update(Customer customer);
-        public bool Delete(int id);
-        public List<Customer> GetAll();
+        public Task <bool> Create(Customer customer);
+        public Task<bool> Update(Customer customer);
+        public Task <List<Customer>> GetAll();
+        public  Task<Customer> GetByCustomerId(int id);
+        public Task<bool> IsEmailExist(string email);
 
-        public Customer GetByCustomerId(int id);
-        public bool IsEmailExist(string email);
-        public void SaveChanges();
-        public int GetCustomerId_ByUserId(string userId);
-        public List<Customer> GetAllForGmail();
+        public Task<int> GetCustomerId_ByUserId(string userId);
+        public Task< List<Customer>> GetAllForGmail();
     }
 }

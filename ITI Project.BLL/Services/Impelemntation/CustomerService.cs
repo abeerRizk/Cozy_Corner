@@ -25,14 +25,14 @@ namespace ITI_Project.BLL.Services.Impelemntation
             this.mapper = mapper;
         }
 
-        public (bool sucess, string message) Create(CreateCustomerVM customer)
+        public async Task< (bool sucess, string message)> Create(CreateCustomerVM customer)
         {
             try
             {
                 Customer new_customer = mapper.Map<Customer>(customer);
-                if (customerRepo.IsEmailExist(new_customer.Email) )
+                if (await customerRepo.IsEmailExist(new_customer.Email) )
                     return (false, "Email is already exist");
-                customerRepo.Create(new_customer);
+                await customerRepo.Create(new_customer);
                 return (true , string.Empty);
             }
             catch (Exception e)
@@ -41,38 +41,26 @@ namespace ITI_Project.BLL.Services.Impelemntation
             }
         }
 
-        public bool Delete(int id)
-        {
-            try
-            {
-                customerRepo.Delete(id);
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
 
-        public IEnumerable<GetCustomerVM> GetAll()
+        public async Task< IEnumerable<GetCustomerVM>> GetAll()
         {
-            var result = customerRepo.GetAll().Where(a => a.IsDeleted != true).ToList();
+            var result = await customerRepo.GetAll();
             List<GetCustomerVM> newResult = mapper.Map<List<GetCustomerVM>>(result);
             return newResult;
         }
 
-        public GetCustomerVM GetByCustomerId(int id)
+        public async Task< GetCustomerVM> GetByCustomerId(int id)
         {
-            Customer customer = customerRepo.GetByCustomerId(id);
+            Customer customer = await customerRepo.GetByCustomerId(id);
             return mapper.Map<GetCustomerVM>(customer);
         }
 
-        public bool Update(UpdateCustomerVM customer)
+        public async Task<bool> Update(UpdateCustomerVM customer)
         {
             try
             {
-                Customer new_customer = mapper.Map<Customer>(customer);     
-                customerRepo.Update(new_customer);
+                Customer new_customer = mapper.Map<Customer>(customer);
+                await customerRepo.Update(new_customer);
                 return true;
             }
             catch (Exception)
@@ -81,9 +69,9 @@ namespace ITI_Project.BLL.Services.Impelemntation
             }
 
         }
-        public int GetCustomerId_ByUserId(string userId)
+        public  async Task< int >GetCustomerId_ByUserId(string userId)
         {
-            return customerRepo.GetCustomerId_ByUserId(userId);
+            return await customerRepo.GetCustomerId_ByUserId(userId);
         }
 
 

@@ -9,17 +9,13 @@ namespace ITI_Project.DAL.Repo.Interface
 {
     public interface IProductRepo
     {
-        public bool Create(Product product);
-        public bool Update(Product product);
-        public bool Delete(int id);
-        public List<Product> GetAll();
-        public Product GetByProductId(int? id);
-        public List<Product> GetByCategory(string Category);
-        public List<Product> GetByVendor(int VendorId);
-        public List<Product> GetByVendorAndCategory(string Category , int VendorId);
-        IEnumerable<Product> GetProductsBySearchAndCategory(string searchTerm, string category);
-
-        List<Product> GetFavoriteProductsByCustomerId(int customerId);
+        public Task<bool> Create(Product product);
+        public Task<bool> Update(Product product);
+        public Task< bool> Delete(int id);
+        public Task< List<Product>> GetAll();
+        public Task< Product> GetByProductId(int? id);
+  
+        Task<List<Product>> GetFavoriteProductsByCustomerId(int customerId);
 
 
     }

@@ -35,9 +35,11 @@ namespace ITI_Project.Controllers
         public async Task  <IActionResult> Index()
         {
             var user = await userManager.GetUserAsync(User);
-            var vendorId = vendorService.GetVendorId_ByUserId(user.Id);
+            var vendorId = await vendorService.GetVendorId_ByUserId(user.Id);
 
-            var orders = _orderService.GetAllOrders().Where(a=> a.Status == "confirmed");
+            var temp = await _orderService.GetAllOrders();
+             var orders = temp.Where(a=> a.Status == "confirmed");
+
             List <OrderModelVM> lst = new List <OrderModelVM>();
             foreach(var order in orders)
             {
@@ -82,13 +84,13 @@ namespace ITI_Project.Controllers
         public async Task <IActionResult> Details()
         {
             var user = await userManager.GetUserAsync(User);
-            var customerId = customerService.GetCustomerId_ByUserId(user.Id);
+            var customerId =   await customerService.GetCustomerId_ByUserId(user.Id);
 
-            var customer = customerService.GetByCustomerId(customerId);
+            var customer = await customerService.GetByCustomerId(customerId);
             var order = new OrderModelVM();
             if (customer.hasOrder == true)
             {
-                 order = _orderService.GetOrderById(customer.CurrentOrderId);
+                 order = await _orderService.GetOrderById(customer.CurrentOrderId);
             }
 
 
@@ -100,19 +102,19 @@ namespace ITI_Project.Controllers
         public async Task<IActionResult> AddToCart(OrderItemsVM new_order)
         {
             var user = await userManager.GetUserAsync(User);
-            var customerId = customerService.GetCustomerId_ByUserId(user.Id);
+            var customerId = await customerService.GetCustomerId_ByUserId(user.Id);
 
             // Calculate the total price of the new order item
             new_order.TotalPrice = new_order.UnitPrice * new_order.Quantity;
 
-            var product = productService.GetByProductId(new_order.ProductId);
+            var product = await productService.GetByProductId(new_order.ProductId);
             product.Quantity -= new_order.Quantity;
 
             UpdateProductVM updateProduct = mapper.Map<UpdateProductVM>(product);
-            productService.Update(updateProduct);
+            await productService.Update(updateProduct);
 
          
-            _orderService.AddOrderItem(customerId, new_order); // Add the order item
+             await _orderService.AddOrderItem(customerId, new_order); // Add the order item
             return RedirectToAction("ViewProduct", "Product", new { id = new_order.ProductId });
         }
 
@@ -120,20 +122,20 @@ namespace ITI_Project.Controllers
         public async Task<IActionResult> RemoveOrderFromCart(OrderItemsVM new_order)
         {
             var user = await userManager.GetUserAsync(User);
-            var customerId = customerService.GetCustomerId_ByUserId(user.Id);
+            var customerId = await customerService.GetCustomerId_ByUserId(user.Id);
 
             // Calculate the total price of the new order item
             new_order.TotalPrice = new_order.UnitPrice * new_order.Quantity;
 
-            var product = productService.GetByProductId(new_order.ProductId);
+            var product = await productService.GetByProductId(new_order.ProductId);
 
             product.Quantity += new_order.Quantity;
 
             UpdateProductVM updateProduct = mapper.Map<UpdateProductVM>(product);
-            productService.Update(updateProduct);
+            await productService.Update(updateProduct);
 
             
-            _orderService.RemoveOrderItem(customerId, new_order); // Add the order item
+             await _orderService.RemoveOrderItem(customerId, new_order); // Add the order item
             return RedirectToAction("details", "Order", new { id = new_order.ProductId });
         }
 
@@ -142,24 +144,24 @@ namespace ITI_Project.Controllers
         public async Task<IActionResult> EmptyTheCart()
         {
             var user = await userManager.GetUserAsync(User);
-            var customerId = customerService.GetCustomerId_ByUserId(user.Id);
+            var customerId =   await customerService.GetCustomerId_ByUserId(user.Id);
 
-            var customer = customerService.GetByCustomerId(customerId); 
+            var customer = await customerService.GetByCustomerId(customerId); 
 
-            var order = _orderService.GetOrderById(customer.CurrentOrderId);
+            var order = await _orderService.GetOrderById(customer.CurrentOrderId);
             
             foreach (var item in order.Items)
             {
-                var product = productService.GetByProductId(item.ProductId);
+                var product = await productService.GetByProductId(item.ProductId);
                 product.Quantity += item.Quantity;
                 UpdateProductVM updateProduct = mapper.Map<UpdateProductVM>(product);
-                productService.Update(updateProduct);
+                await productService.Update(updateProduct);
             }
-            _orderService.DeleteOrder(customer.CurrentOrderId);
+          
             customer.hasOrder = false;
             UpdateCustomerVM updateCustomer = mapper.Map<UpdateCustomerVM>(customer);
 
-            customerService.Update(updateCustomer);
+            await customerService.Update(updateCustomer);
             return RedirectToAction("Details", "Order");
         }
 
@@ -168,43 +170,40 @@ namespace ITI_Project.Controllers
 
 
 
-        public async Task<IActionResult>  ConfirmOrder(int orderId)
+        public async Task<IActionResult>  ConfirmOrder(int orderId,int customerId)
         {
 
-            var user = await userManager.GetUserAsync(User);
-
-            var customerId = customerService.GetCustomerId_ByUserId(user.Id);
-
-           var customer = customerService.GetByCustomerId(customerId);
-            var order = _orderService.GetOrderById(customer.CurrentOrderId);
-
+        
+            var order = await _orderService.GetOrderById(orderId);
+            var customer= await customerService.GetByCustomerId(customerId);
             if (order == null)
             {
                 return NotFound("Order not found.");
             }
 
             order.Status = "confirmed";
-            _orderService.UpdateOrder(order);
+            await  _orderService.UpdateOrderStatus(order);
 
+            // update customer status
+            customer.hasOrder = false;
+            UpdateCustomerVM updateCustomer = mapper.Map<UpdateCustomerVM>(customer);
+            await customerService.Update(updateCustomer);
 
+            // create invoice
             CreateInvoiceVM invoiceVM = new CreateInvoiceVM();
             invoiceVM.CustomerId = order.CustomerId;
             invoiceVM.CustomerName = order.CustomerName;
             invoiceVM.TotallPrice = order.TotalPrice;
             invoiceVM.IsPaid = false;
             invoiceVM.OrderId = order.Id;
-       
+
             invoiceVM.PaymentMethod = order.PaymentMethod;
             invoiceVM.InvoiceDate = DateTime.Now;
-            invoiceService.Create(invoiceVM);
-            
-            int InvoiceId = invoiceService.getInvoiceByOrderId(order.Id);
+            int InvoiceId =  invoiceService.Create(invoiceVM);
 
-            customer.hasOrder = false;
-            UpdateCustomerVM updateCustomer = mapper.Map<UpdateCustomerVM>(customer);
 
-            customerService.Update(updateCustomer);
-            return RedirectToAction("Read", "Invoice"  , new {id = InvoiceId});
+
+            return RedirectToAction("Read", "Invoice"  , new {id =InvoiceId});
         }
 
 

@@ -9,12 +9,12 @@ namespace ITI_Project.DAL.Repo.Interface
 {
     public interface IVendorRepo
     {
-        IEnumerable<Vendor> GetAllVendors();
-        Vendor GetVendorById(int id);
-        bool AddVendor(Vendor vendor);
-        bool UpdateVendor(Vendor vendor);
-        bool DeleteVendor(int id);
-        public bool IsEmailExist(string email);
-        public int GetVendorId_ByUserId(string userId);
+        Task <IEnumerable <Vendor>> GetAllVendors();
+        Task<Vendor> GetVendorById(int id);
+        Task<bool> AddVendor(Vendor vendor);
+        Task<bool> UpdateVendor(Vendor vendor);
+        Task<bool> DeleteVendor(int id);
+        public Task< bool> IsEmailExist(string email);
+        public Task<int> GetVendorId_ByUserId(string userId);
     }
 }

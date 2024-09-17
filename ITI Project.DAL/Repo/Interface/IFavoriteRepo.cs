@@ -10,10 +10,8 @@ namespace ITI_Project.DAL.Repo.Interface
 {
     public interface IFavoriteRepo
     {
-        public Task ChangeStatus(int customerId, int productId);
-        Favorite GetFavorite(int userId, int productId);
-        void AddFavorite(Favorite favorite);
-        void RemoveFavorite(Favorite favorite);
-        public bool IsProductFavorite(int customerId, int productId);
+        public  Task ChangeStatus(int customerId, int productId);
+
+        public Task<bool> IsProductFavorite(int customerId, int productId);
     }
 } 

@@ -21,33 +21,19 @@ namespace ITI_Project.BLL.Services.Impelemntation
             this.mapper = mapper;
         }
 
-        public void Create(OrderItemsVM orderItems)
-        {
-            var data = mapper.Map<OrderItem>( orderItems);
-            orderItemRepo.Create( data );
-        }
 
-        public void Delete(int id)
-        {
-            orderItemRepo.Delete(id);
-        }
 
-        public OrderItemsVM GetById(int id)
+        public async Task < OrderItemsVM> GetById(int id)
         {
-            var item = orderItemRepo.GetById(id);
+            var item =await  orderItemRepo.GetById(id);
             return mapper.Map<OrderItemsVM>(item);
         }
 
-        public IEnumerable<OrderItemsVM> GetAll()
+        public async Task <IEnumerable<OrderItemsVM>> GetAll()
         {
-            var data = orderItemRepo.GetAll();
+            var data = await orderItemRepo.GetAll();
             return mapper.Map<IEnumerable<OrderItemsVM>>(data);
         }
 
-        public bool Update(OrderItemsVM orderItems)
-        {
-            var data = mapper.Map<OrderItem>(orderItems);
-            return orderItemRepo.Update(data);
-        }
     }
 }

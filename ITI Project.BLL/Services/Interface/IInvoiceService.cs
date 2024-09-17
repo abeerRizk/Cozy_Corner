@@ -9,13 +9,10 @@ namespace ITI_Project.BLL.Services.Interface
 {
     public interface IInvoiceService
     {
-        public bool Create(CreateInvoiceVM invoice);
-        public bool Update(UpdateInvoiceVM invoice);
-        public bool Delete(int id);
-        public IEnumerable<GetInvoiceVM> GetAll();
+        public int Create(CreateInvoiceVM invoice);
 
-        public GetInvoiceVM GetByInvoiceId(int id);
-        public GetInvoiceVM GetInvoiceByOrderId(int orderId);
-        public int getInvoiceByOrderId(int orderId);
+        public  Task<GetInvoiceVM>  GetByInvoiceId(int id);
+        public  Task<GetInvoiceVM> GetInvoiceByOrderId(int orderId);
+       
     }
 }

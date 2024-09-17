@@ -38,7 +38,7 @@ namespace ITI_Project.Controllers
                 return Unauthorized(); 
             }
 
-            var customerId = customerService.GetCustomerId_ByUserId(user.Id);
+            var customerId = await customerService.GetCustomerId_ByUserId(user.Id);
             await _favoriteService.ChangeStatus(customerId, productId);
 
             // Get the referring URL from the request header
@@ -62,8 +62,8 @@ namespace ITI_Project.Controllers
                 return Unauthorized();
             }
 
-            var customerId = customerService.GetCustomerId_ByUserId(user.Id);
-            var favoriteProducts = _productService.GetFavoriteProductsByCustomerId(customerId);
+            var customerId = await customerService.GetCustomerId_ByUserId(user.Id);
+            var favoriteProducts = await _productService.GetFavoriteProductsByCustomerId(customerId);
 
             // Map the Product entities to GetProductVM
             var favoriteProductVMs = favoriteProducts.Select(p => new GetProductVM

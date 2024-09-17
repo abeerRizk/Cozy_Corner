@@ -24,17 +24,13 @@ namespace ITI_Project.BLL.Services.Impelemntation
             this.ProductRepo = ProductRepo;
             this.mapper = mapper;
         }
-        public bool Create(CreateProductVM product)
+        public async  Task <bool> Create(CreateProductVM product)
         {
             try
             {
-                // Upload the image to the correct folder inside wwwroot/ImgProduct/Profile
-                //product.Image = UploadImg.UploadFile("Profile", product.ImageName);
-
-                // Map the view model to the Product entity and save it
                 Product new_product = mapper.Map<Product>(product);
                 
-                ProductRepo.Create(new_product);
+                await ProductRepo.Create(new_product);
                 return true;
             }
             catch (Exception e)
@@ -45,12 +41,12 @@ namespace ITI_Project.BLL.Services.Impelemntation
         }
 
 
-        public bool Delete(int id)
+        public async Task< bool> Delete(int id)
         {
             try
             {
 
-                ProductRepo.Delete(id);
+                await ProductRepo.Delete(id);
                 return true;
             }
             catch (Exception)
@@ -59,44 +55,30 @@ namespace ITI_Project.BLL.Services.Impelemntation
             }
         }
 
-        public IEnumerable<GetProductVM> GetAll()
+        public async  Task<IEnumerable<GetProductVM>> GetAll()
         {
-            var result = ProductRepo.GetAll().Where(a => a.IsDeleted == false).ToList();
+            var result = await ProductRepo.GetAll();
             List<GetProductVM> newResult = mapper.Map<List<GetProductVM>>(result);
             return newResult;
         }
 
-        public List<GetProductVM> GetByCategory(string Category)
-        {
-            return  mapper.Map<List< GetProductVM >> (ProductRepo.GetByCategory(Category));
-           
-        }
 
-        public GetProductVM GetByProductId(int? id)
+
+        public async Task<GetProductVM> GetByProductId(int? id)
         {
-            Product product = ProductRepo.GetByProductId(id);
+            Product product = await ProductRepo.GetByProductId(id);
             return mapper.Map<GetProductVM>(product);
         }
 
-        public List<GetProductVM> GetByVendor(int VendorId)
-        {
-            return mapper.Map<List<GetProductVM>>(ProductRepo.GetByVendor(VendorId));
-        }
 
-        public List<GetProductVM> GetByVendorAndCategory(string Category, int VendorId)
-        {
-            return mapper.Map<List<GetProductVM>>(ProductRepo.GetByVendorAndCategory(Category , VendorId));
 
-        }
-
-        public bool Update(UpdateProductVM product)
+        public async Task< bool> Update(UpdateProductVM product)
         {
             try
             {
                 Product new_product = mapper.Map<Product>(product);
-                //UploadImg.RemoveFile("Profile", new_product.image);
-                //new_product.image = UploadImg.UploadFile("Profile", product.ImageName);
-                ProductRepo.Update(new_product);
+
+                await ProductRepo.Update(new_product);
                 return true;
             }
             catch (Exception e)
@@ -105,11 +87,10 @@ namespace ITI_Project.BLL.Services.Impelemntation
             }
 
         }
-        public List<Product> GetFavoriteProductsByCustomerId(int customerId)
+        public async Task<List<Product>> GetFavoriteProductsByCustomerId(int customerId)
         {
-            return ProductRepo.GetFavoriteProductsByCustomerId(customerId);
+            return await ProductRepo.GetFavoriteProductsByCustomerId(customerId);
         }
-
 
 
     }

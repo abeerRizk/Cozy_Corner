@@ -24,9 +24,9 @@ namespace ITI_Project.BLL.ModelVM
         public string? Category { get; set; }
 
         // A list of image URLs
-        public List<string> Images { get; set; }
+        public List<string>? Images { get; set; }
 
         // Optional: you can add a property for file uploads
-        public List<IFormFile> ImageFiles { get; set; }
+        public List<IFormFile>? ImageFiles { get; set; }
     }
 }

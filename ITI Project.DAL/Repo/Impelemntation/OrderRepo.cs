@@ -19,139 +19,37 @@ namespace ITI_Project.DAL.Repo.Impelemntation
             db = context;
         }
 
-        public Order GetOrderById(int id)
+         public async Task<Order> GetOrderById(int id)
         {
-            return db.Order.Include(o => o.Items).FirstOrDefault(o => o.Id == id);
+            var data = await db.Order.Include(o => o.Items).FirstOrDefaultAsync(o => o.Id == id);
+            return data;
         }
 
-        public IEnumerable<Order> GetAllOrders()
+        public async Task< IEnumerable<Order>> GetAllOrders()
         {
-            return db.Order.Include(o => o.Items).Where(a => a.IsDeleted != true).ToList();
+            return await db.Order.Include(o => o.Items).Where(a => a.IsDeleted != true).ToListAsync();
         }
 
-        public void AddOrder(Order order)
-        {
-            db.Order.Add(order);
-            db.SaveChanges();
-        }
 
-        public void UpdateOrder(Order order)
-        {
-            try
-            {
-                var data = db.Order.Where(a => a.Id == order.Id).FirstOrDefault();
-                data.Items = order.Items;
-                data.OrderDate = order.OrderDate;
-                data.ShippingAddress = order.ShippingAddress;   
-                data.CustomerId = order.CustomerId;
-                data.CustomerName = order.CustomerName;
-                data.Status = order.Status;
-                data.ExpectedDeliveryDate = order.ExpectedDeliveryDate;
-                data.IsDeleted = order.IsDeleted;
-                data.TotalPrice = order.TotalPrice;
-                
-                data.TotalPrice = order.TotalPrice;
-                
-                db.SaveChanges();
-               
-            }
-            catch (Exception ex)
-            {
-                return;
-            }
-        }
+        public  void AddOrderItem(int customerId, OrderItem item)
 
-        public void DeleteOrder(int id)
-        {
-            var order = db.Order.Where(a => a.Id == id).FirstOrDefault();
-            order.IsDeleted = true;
-            db.SaveChanges();
-
-        }
-
-        //public void AddOrderItem(int CustomerId, OrderItem item)
-        //{
-
-        //    Customer customer = db.Customers.Where(a=>a.Id == CustomerId).FirstOrDefault();
-
-        //    if(customer.hasOrder == true)
-        //    {
-        //         var order = db.Order
-        //        .Include(o => o.Items) 
-        //        .FirstOrDefault(o => o.Id == customer.CurrentOrderId);
-
-
-        //        /*  Check if it has order item with the same product */
-        //        bool exist = db.OrderItems.Any(a => a.ProductId == item.ProductId && a.OrderId == item.OrderId);
-
-        //        if(exist)
-        //        {
-        //            var orderItem =db.OrderItems.Where(a => a.ProductId == item.ProductId && a.OrderId == item.OrderId).FirstOrDefault();
-
-        //            orderItem.Quantity += item.Quantity;
-        //            orderItem.TotalPrice = orderItem.UnitPrice * orderItem.Quantity;
-        //            order.TotalPrice += item.TotalPrice;
-
-        //        }
-        //        else
-        //        {
-        //            item.OrderId = customer.CurrentOrderId;
-        //            order.TotalPrice += item.TotalPrice;
-        //            order.Items.Add(item);
-        //        }
-
-
-
-        //        db.SaveChanges();
-        //    }
-        //    else
-        //    {
-        //        Order order = new Order();
-        //        order.OrderDate = DateTime.Now;
-        //        order.CustomerId = CustomerId;
-        //        order.ShippingAddress = customer.Location;
-        //        order.TotalPrice = item.TotalPrice;
-
-        //        db.Order.Add(order); // Add the new order to the context
-        //        db.SaveChanges(); // Save the new order so the database generates an OrderId
-
-        //        customer.hasOrder = true;
-        //        customer.CurrentOrderId = order.Id; // Now the Id will be set after the save
-
-        //        item.OrderId = order.Id; // Now that order.Id is generated, assign it to the item
-
-        //        if (order.Items == null) // Check if the Items collection is initialized
-        //        {
-        //            order.Items = new List<OrderItem>(); // Initialize if null
-        //        }
-
-        //        order.Items.Add(item); // Add the item to the order
-
-        //        db.SaveChanges(); // Save the final changes, including the new OrderItem
-        //    }
-
-
-        //}
-
-
-        public void AddOrderItem(int customerId, OrderItem item)
         {
             // Retrieve the customer
-            Customer customer = db.Customers.FirstOrDefault(a => a.Id == customerId);
+            Customer customer =   db.Customers.FirstOrDefault(a => a.Id == customerId);
 
             if (customer != null)
             {
                 if (customer.hasOrder == true)
                 {
                     // Retrieve the current order and its items
-                    var order = db.Order
+                    var order =  db.Order
                         .Include(o => o.Items)
                         .FirstOrDefault(o => o.Id == customer.CurrentOrderId);
 
                     if (order != null)
                     {
                         // Check if the order already contains the same product
-                        var existingItem = order.Items.FirstOrDefault(a => a.ProductId == item.ProductId);
+                        var existingItem =  order.Items.FirstOrDefault(a => a.ProductId == item.ProductId);
 
                         if (existingItem != null)
                         {
@@ -171,7 +69,7 @@ namespace ITI_Project.DAL.Repo.Impelemntation
                             order.Items.Add(item); // Add new item to the order
                         }
 
-                        db.SaveChanges(); // Save all changes
+                         db.SaveChanges(); // Save all changes
                     }
                 }
                 else
@@ -188,25 +86,25 @@ namespace ITI_Project.DAL.Repo.Impelemntation
                         Status = "ordered",
                     };
 
-                    db.Order.Add(order);
-                    db.SaveChanges(); // Save to generate the order's ID
+                     db.Order.Add(order);
+                     db.SaveChanges(); // Save to generate the order's ID
 
                     // Update the customer's order tracking
                     customer.hasOrder = true;
                     customer.CurrentOrderId = order.Id;
 
-                    db.SaveChanges(); // Save the changes to the customer
+                     db.SaveChanges(); // Save the changes to the customer
                 }
             }
         }
 
         public void RemoveOrderItem(int customerId, OrderItem item)
         {
-            Customer customer = db.Customers.FirstOrDefault(a => a.Id == customerId);
+            Customer customer =  db.Customers.FirstOrDefault(a => a.Id == customerId);
 
             if (customer != null)
             {
-                var order = db.Order
+                var order =   db.Order
                         .Include(o => o.Items)
                         .FirstOrDefault(o => o.Id == customer.CurrentOrderId);
 
@@ -221,9 +119,51 @@ namespace ITI_Project.DAL.Repo.Impelemntation
                     existingItem.IsDeleted = true;
                     order.Items.Remove(existingItem);
                 }
-                db.SaveChanges();
+                 db.SaveChanges();
             }
         }
 
+
+        public  void UpdateOrder(Order order)
+        {
+            try
+            {
+                var data =  db.Order.Where(a => a.Id == order.Id).FirstOrDefault();
+             
+                data.OrderDate = order.OrderDate; data.ShippingAddress = order.ShippingAddress;
+                data.CustomerId = order.CustomerId; data.CustomerName = order.CustomerName;
+                data.Status = order.Status; data.ExpectedDeliveryDate = order.ExpectedDeliveryDate;
+                data.IsDeleted = order.IsDeleted; data.TotalPrice = order.TotalPrice;
+                data.TotalPrice = order.TotalPrice;
+                data.Items = order.Items;
+                 db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
+        }
+        public async Task UpdateOrderStatus(Order order)
+        {
+            try
+            {
+                var data = await db.Order.Where(a => a.Id == order.Id).FirstOrDefaultAsync();
+                data.Status = order.Status; 
+
+                await  db.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
+        }
+        public  void DeleteOrder(int id)
+        {
+            var order =  db.Order.Find(id); if (order != null)
+            {
+                db.Order.Remove(order);
+                 db.SaveChanges();
+            }
+        }
     }
 }

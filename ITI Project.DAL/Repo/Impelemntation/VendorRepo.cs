@@ -18,13 +18,13 @@ namespace ITI_Project.DAL.Repo.Impelemntation
         {
             db = context;
         }
-        public bool AddVendor(Vendor vendor)
+        public async Task<bool> AddVendor(Vendor vendor)
         {
             try
             {
                 
-                db.Vendor.Add(vendor);
-                db.SaveChanges();
+                await db.Vendor.AddAsync(vendor);
+                await db.SaveChangesAsync();
                 return true;
 
             }
@@ -35,15 +35,15 @@ namespace ITI_Project.DAL.Repo.Impelemntation
             }
         }
 
-        public bool DeleteVendor(int id)
+        public async Task <bool> DeleteVendor(int id)
         {
             try
             {
-                var ven = db.Vendor.FirstOrDefault(e => e.Id == id);
+                var ven = await db.Vendor.FirstOrDefaultAsync(e => e.Id == id);
                 if (ven != null)
                 {
                     ven.IsDeleted = !ven.IsDeleted;
-                    db.SaveChanges();
+                    await db.SaveChangesAsync();
                     return true;
                 }
                 return false;
@@ -54,27 +54,28 @@ namespace ITI_Project.DAL.Repo.Impelemntation
             }
         }
 
-        public IEnumerable<Vendor> GetAllVendors()
+        public async Task< IEnumerable<Vendor>> GetAllVendors()
         {
-            return db.Vendor.Where(a => a.IsDeleted != true).ToList();
+            return await db.Vendor.Where(a => a.IsDeleted != true).ToListAsync();
         }
 
-        public Vendor GetVendorById(int id)
+        public async Task <Vendor> GetVendorById(int id)
         {
-            return db.Vendor.FirstOrDefault(v => v.Id == id);
+            var data =  await db.Vendor.FirstOrDefaultAsync(v => v.Id == id);
+            return data;
         }
 
-        public bool UpdateVendor(Vendor vendor)
+        public  async Task< bool> UpdateVendor(Vendor vendor)
         {
             try
             {
-                var ven = db.Vendor.Where(a => a.Id == vendor.Id).FirstOrDefault();
+                var ven = await db.Vendor.FirstOrDefaultAsync(a => a.Id == vendor.Id);
                 ven.Age = vendor.Age;
                 ven.Name = vendor.Name;
                 ven.Phone_Number = vendor.Phone_Number;
                 ven.Location = vendor.Location;
 
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 return true;
 
             }
@@ -83,13 +84,13 @@ namespace ITI_Project.DAL.Repo.Impelemntation
                 return false;
             }
         }
-        public bool IsEmailExist(string email)
+        public async Task <bool> IsEmailExist(string email)
         {
-            return db.Vendor.Any(a => a.Email == email);
+            return await db.Vendor.AnyAsync(a => a.Email == email);
         }
-        public int GetVendorId_ByUserId(string userId)
+        public async Task< int> GetVendorId_ByUserId(string userId)
         {
-            var vendor = db.Vendor.First(a => a.userId == userId);
+            var vendor = await db.Vendor.FirstOrDefaultAsync(a => a.userId == userId);
              return vendor.Id;
             
 

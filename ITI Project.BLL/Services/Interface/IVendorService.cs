@@ -10,11 +10,11 @@ namespace ITI_Project.BLL.Services.Interface
 {
     public interface IVendorService
     {
-        IEnumerable<GetAllVendorVM> GetAllVendors();
-        Vendor GetVendorById(int id);
-        (bool sucess, string message) AddVendor(CreateVendorVM vendor);
-        bool UpdateVendor(UpdateVendorVM vendorVM);
-        bool DeleteVendor(int id);
-        public int GetVendorId_ByUserId(string userId);
+        Task< IEnumerable<GetAllVendorVM>> GetAllVendors();
+        Task<Vendor> GetVendorById(int id);
+        public Task<(bool sucess, string message)> AddVendor(CreateVendorVM vendor);
+        public Task<bool> UpdateVendor(UpdateVendorVM vendorVM);
+     
+        public Task<int> GetVendorId_ByUserId(string userId);
     }
 }

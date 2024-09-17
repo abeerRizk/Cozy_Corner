@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ITI_Project.Controllers
 {
@@ -37,15 +38,15 @@ namespace ITI_Project.Controllers
 
         public async Task<IActionResult> Read()
         {
-            var result = productService.GetAll();
-            if (User.Identity.IsAuthenticated)
+            var result = await productService.GetAll();
+            if ( User.Identity.IsAuthenticated)
             {
                 var user = await userManager.GetUserAsync(User);
-                int customerId = customerService.GetCustomerId_ByUserId(user.Id);
+                int customerId = await customerService.GetCustomerId_ByUserId(user.Id);
 
                 foreach (var product in result)
                 {
-                    product.isFavorite = favoriteService.IsProductFavorite(customerId, product.Id);
+                    product.isFavorite = await favoriteService.IsProductFavorite(customerId, product.Id);
                 }
             }
 
@@ -55,20 +56,20 @@ namespace ITI_Project.Controllers
         public async Task <IActionResult> VendorGallery()
         {
             var user = await userManager.GetUserAsync(User);
-            int vendorId = vendorService.GetVendorId_ByUserId(user.Id);
-            var result = productService.GetAll().Where(a=>a.VendorId == vendorId && a.IsDeleted != true);
+            int vendorId = await vendorService.GetVendorId_ByUserId(user.Id);
+            var result = await productService.GetAll() ;
+            var new_result = result.Where(a => a.VendorId == vendorId && a.IsDeleted != true);
 
-
-            return View(result);
+            return View(new_result);
         }
 
 
         public async Task<IActionResult> ViewProduct(int id)
         {
-            var result = productService.GetByProductId(id);
+            var result = await productService.GetByProductId(id);
             var user = await userManager.GetUserAsync(User);
-            int customerId = customerService.GetCustomerId_ByUserId(user.Id);
-            result.isFavorite = favoriteService.IsProductFavorite(customerId, id);
+            int customerId = await customerService.GetCustomerId_ByUserId(user.Id);
+            result.isFavorite =  await favoriteService.IsProductFavorite(customerId, id);
             return View(result);
         }
 
@@ -91,7 +92,7 @@ namespace ITI_Project.Controllers
             {
                 var user = await userManager.GetUserAsync(User);
 
-                var vendorId = vendorService.GetVendorId_ByUserId(user.Id);
+                var vendorId =  await vendorService.GetVendorId_ByUserId(user.Id);
                 if (vendorId == null)
                 {
                     // Handle the case where the vendor does not exist for the user
@@ -129,11 +130,9 @@ namespace ITI_Project.Controllers
                         product.Images.Add(fileName);
                     }
                 }
-                productService.Create(product);
-                // Save product to the database (using your repository or db context)
-                // _context.Products.Add(product);
-                // await _context.SaveChangesAsync();
-                notificationService.SendNotificationToGoogleEmails();
+                await productService.Create(product);
+
+                await notificationService.SendNotificationToGoogleEmails();
                 return RedirectToAction("VendorGallery", "Product"); // Or wherever you want to redirect
             }
 
@@ -144,19 +143,31 @@ namespace ITI_Project.Controllers
       
 
         [HttpGet]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var data = productService.GetByProductId(id);
+            var data = await productService.GetByProductId(id);
             return View(data);
         }
 
 
         [HttpPost]
-        public IActionResult Delete(GetProductVM product)
+        public async Task<IActionResult> Delete(GetProductVM product)
         {
             try
             {
-                productService.Delete(product.Id);
+                // delete Existing images
+                var data = await productService.GetByProductId(product.Id);
+                foreach (var oldImage in data.Images)
+                {
+                    var oldImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ImgProduct/Profile", oldImage);
+                    if (System.IO.File.Exists(oldImagePath))
+                    {
+                        System.IO.File.Delete(oldImagePath);
+                    }
+                }
+                data.Images.Clear();
+
+                await productService.Delete(product.Id);
                 return RedirectToAction("VendorGallery", "Product");
             }
             catch (Exception)
@@ -168,22 +179,50 @@ namespace ITI_Project.Controllers
 
 
         [HttpGet]
-        public IActionResult Update(int id)
+        public async Task<IActionResult> Update(int id)
         {
-            var data = productService.GetByProductId(id);
+            var data = await productService.GetByProductId(id);
             UpdateProductVM new_data = mapper.Map<UpdateProductVM>(data);
             return View(new_data);
         }
 
 
         [HttpPost]
-        public IActionResult Update(UpdateProductVM product)
+        public async Task<IActionResult> Update(UpdateProductVM product, IFormFileCollection images)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    productService.Update(product);
+
+                    // delete Existing images
+                    var data = await productService.GetByProductId(product.Id);
+                    foreach (var oldImage in data.Images)
+                    {
+                        var oldImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ImgProduct/Profile", oldImage);
+                        if (System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
+                    data.Images.Clear();
+                    foreach (var image in images)
+                    {
+                        if (image != null && image.Length > 0)
+                        {
+                            var fileName = Path.GetFileName(image.FileName);
+                            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ImgProduct/Profile", fileName);
+
+                            using (var stream = new FileStream(filePath, FileMode.Create))
+                            {
+                                await image.CopyToAsync(stream);
+                            }
+
+                            // Add the image URL to the product's image list
+                            product.Images.Add(fileName);
+                        }
+                    }
+                    await productService.Update(product);
                     return RedirectToAction("VendorGallery", "Product");
                 }
             }
@@ -195,10 +234,10 @@ namespace ITI_Project.Controllers
             return View(product);
 
         }
-        public IActionResult Search(string searchTerm)
+        public async Task<IActionResult> Search(string searchTerm)
         {
             // Fetch all products first
-            var allProducts = productService.GetAll();
+            var allProducts = await productService.GetAll();
 
             // Filter products based on the search term in both name and description
             var filteredProducts = allProducts

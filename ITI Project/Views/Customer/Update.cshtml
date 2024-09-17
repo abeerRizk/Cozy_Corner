@@ -21,7 +21,7 @@
         <form asp-action="Update" style="border: none; padding: 20px;">
             <div asp-validation-summary="ModelOnly" class="text-dark-brown"></div>
 
-
+            <input asp-for="Id" hidden />
             <div class="form-group mb-4">
                 <label asp-for="Name" class="control-label text-darker-brown"></label>
                 <input asp-for="Name" placeholder="Edit Your Name" class="form-control transparent-input border-dark-brown" type="text" autocomplete="off" />
@@ -45,6 +45,7 @@
                 <input asp-for="Location" placeholder="Edit Your Location" class="form-control transparent-input border-dark-brown" type="text" autocomplete="off" />
                 <span asp-validation-for="Location" class="text-dark-brown"></span>
             </div>
+            <input asp-for="hasOrder" hidden />
             <div class="form-group mb-4">
                 <button type="submit" class="button1 w-100">Edit <i class="fas fa-marker" style="font-size:20px"></i></button>
             </div>
