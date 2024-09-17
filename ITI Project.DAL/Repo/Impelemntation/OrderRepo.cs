@@ -159,11 +159,22 @@ namespace ITI_Project.DAL.Repo.Impelemntation
         }
         public  void DeleteOrder(int id)
         {
-            var order =  db.Order.Find(id); if (order != null)
+            var order =  db.Order.Where(a=> a.Id == id).FirstOrDefault();
+            order.IsDeleted = true;
+            db.SaveChanges();
+            
+        }
+
+        public void DeleteUnconfirmedOrders()
+        {
+            List<Order> order = db.Order.Where(a=>a.Status == "ordered" ).ToList();
+            foreach (Order item in order)
             {
-                db.Order.Remove(order);
-                 db.SaveChanges();
+                Customer customer= db.Customers.Where(a=>a.Id == item.CustomerId).FirstOrDefault();
+                customer.hasOrder = false;
+                DeleteOrder(item.Id);
+                db.SaveChanges();
             }
         }
-    }
+        }
 }

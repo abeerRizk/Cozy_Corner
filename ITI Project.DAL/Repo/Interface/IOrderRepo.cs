@@ -18,5 +18,6 @@ namespace ITI_Project.DAL.Repo.Interface
         public void UpdateOrder(Order order);
         Task UpdateOrderStatus(Order order);
         public void DeleteOrder(int id);
+        public void DeleteUnconfirmedOrders();
     }
 }

@@ -71,6 +71,10 @@ namespace ITI_Project.BLL.Services.Impelemntation
         {
             _orderRepository.DeleteOrder(id);
         }
+        public void DeleteUnconfirmedOrders()
+        {
+            _orderRepository.DeleteUnconfirmedOrders();
+        }
 
     }
 }

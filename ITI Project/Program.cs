@@ -12,7 +12,8 @@ using ITI_Project.DAL.Entites;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
-
+using Hangfire;
+ 
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -66,7 +67,30 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
        });
 
 
+builder.Services.AddHangfire(config =>
+    config.UseSqlServerStorage(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddHangfireServer();
+
 var app = builder.Build();
+
+// Use Hangfire dashboard (only once)
+app.UseHangfireDashboard();
+
+// Register the recurring job (only once)
+RecurringJob.AddOrUpdate<IOrderService>(
+    "delete-unconfirmed-orders",  // Unique job identifier
+    orderService => orderService.DeleteUnconfirmedOrders(), // Method to call
+    "* * * * *"); // Every one minute
+
+
+
+//RecurringJob.AddOrUpdate<IOrderService>(
+//    "delete-unconfirmed-orders",  // Unique job identifier
+//    orderService => orderService.DeleteUnconfirmedOrders(), // Method from repository
+//    "0 */12 * * *");  // Every 12 hours
+
+
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
