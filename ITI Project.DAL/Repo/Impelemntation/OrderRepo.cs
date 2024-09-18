@@ -1,4 +1,5 @@
-﻿using ITI_Project.DAL.DB.ApplicationDB;
+﻿using Hangfire.Server;
+using ITI_Project.DAL.DB.ApplicationDB;
 using ITI_Project.DAL.Entites;
 using ITI_Project.DAL.Repo.Interface;
 using Microsoft.EntityFrameworkCore;
@@ -165,15 +166,32 @@ namespace ITI_Project.DAL.Repo.Impelemntation
 
         public async Task DeleteUnconfirmedOrders()
         {
-            List<Order> order =  await db.Order.Where(a => a.Status == "ordered").ToListAsync();
-            foreach (Order item in order)
+            
+           List <Customer> customers = await db.Customers.Where(c=>c.hasOrder == true).ToListAsync();
+            List<int> UnConfirmedOrders = new List<int>();
+            foreach (Customer customer in customers)
             {
-                var customer= await db.Customers.Where(a=>a.Id == item.CustomerId).FirstOrDefaultAsync();
                 customer.hasOrder = false;
-                // return Quantity to product
-                 await  DeleteOrder(item.Id);
-                 await db.SaveChangesAsync();
+                Order order = await db.Order.FirstOrDefaultAsync(o => o.Id == customer.CurrentOrderId);
+                UnConfirmedOrders.Add(order.Id);
+                await DeleteOrder(order.Id);     
             }
+            
+            foreach (int orderId in UnConfirmedOrders)
+            {
+                var orderItems = await db.OrderItems.Where(o => o.OrderId == orderId).ToListAsync();
+                foreach (var item in orderItems)
+                {
+                    var product = await db.Products.FirstOrDefaultAsync(p => p.Id == item.ProductId);
+                    product.Quantity += item.Quantity;
+                    await db.SaveChangesAsync();
+                }
+            }
+
+            db.SaveChanges();
+
+
+
         }
     }
 }

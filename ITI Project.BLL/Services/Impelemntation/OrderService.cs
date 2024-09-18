@@ -67,9 +67,9 @@ namespace ITI_Project.BLL.Services.Impelemntation
         {
            await _orderRepository.DeleteOrder(id);
         }
-        public void DeleteUnconfirmedOrders()
+        public async Task DeleteUnconfirmedOrders()
         {
-            _orderRepository.DeleteUnconfirmedOrders();
+            await _orderRepository.DeleteUnconfirmedOrders();
         }
 
     }
