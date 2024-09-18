@@ -3,12 +3,17 @@ using ITI_Project.BLL.ModelVM;
 using ITI_Project.BLL.Services.Impelemntation;
 using ITI_Project.BLL.Services.Interface;
 using ITI_Project.DAL.Entites;
+
 using MailKit.Search;
+
+using Microsoft.AspNetCore.Authorization;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ITI_Project.Controllers
 {
+    [Authorize(Roles = "Customer")]
     public class OrderController : Controller
     {
         private readonly IOrderService _orderService;
