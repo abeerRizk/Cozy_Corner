@@ -35,11 +35,11 @@ namespace ITI_Project.Controllers
             this.favoriteService = favoriteService;
             this.notificationService = notificationService;
         }
-
+       
         public async Task<IActionResult> Read()
         {
             var result = await productService.GetAll();
-            if ( User.Identity.IsAuthenticated)
+            if (User.IsInRole("Customer"))
             {
                 var user = await userManager.GetUserAsync(User);
                 int customerId = await customerService.GetCustomerId_ByUserId(user.Id);
@@ -52,7 +52,7 @@ namespace ITI_Project.Controllers
 
             return View(result);
         }
-
+        [Authorize(Roles = "Vendor")]
         public async Task <IActionResult> VendorGallery()
         {
             var user = await userManager.GetUserAsync(User);
@@ -63,7 +63,7 @@ namespace ITI_Project.Controllers
             return View(new_result);
         }
 
-
+        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> ViewProduct(int id)
         {
             var result = await productService.GetByProductId(id);
@@ -143,6 +143,7 @@ namespace ITI_Project.Controllers
       
 
         [HttpGet]
+        [Authorize(Roles = "Vendor")]
         public async Task<IActionResult> Delete(int id)
         {
             var data = await productService.GetByProductId(id);
@@ -151,6 +152,7 @@ namespace ITI_Project.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "Vendor")]
         public async Task<IActionResult> Delete(GetProductVM product)
         {
             try
@@ -179,6 +181,7 @@ namespace ITI_Project.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "Vendor")]
         public async Task<IActionResult> Update(int id)
         {
             var data = await productService.GetByProductId(id);
@@ -188,6 +191,7 @@ namespace ITI_Project.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "Vendor")]
         public async Task<IActionResult> Update(UpdateProductVM product, IFormFileCollection images)
         {
             try

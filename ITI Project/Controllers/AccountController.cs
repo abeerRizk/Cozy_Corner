@@ -72,7 +72,8 @@ namespace ITI_Project.Controllers
                         return RedirectToAction("VendorGallery", "Product");
 
                     }
-                    else
+                    
+                    else if(newUserVM.IsCustomer.HasValue && newUserVM.IsCustomer.Value)
                     {
                         CreateCustomerVM customer = new CreateCustomerVM
                         {
@@ -94,9 +95,24 @@ namespace ITI_Project.Controllers
 
 
                     }
+                    else 
+                    {
+                        CreateAdminVM admin = new CreateAdminVM
+                        {
+                            Name = newUserVM.UserName,
+                            Email = newUserVM.Email,
+                            userId = userModel.Id,
+                            Location = newUserVM.Location,
+                            Phone_Number = newUserVM.Phone_Number
+                        };
+
+                        await userManager.AddToRoleAsync(userModel, "Admin");
+                        await signInManager.SignInAsync(userModel, false);
+                        return RedirectToAction("Read", "Product");
+                    }
 
 
-                    
+
                 }
                 else
                 {
@@ -155,15 +171,61 @@ namespace ITI_Project.Controllers
             }
             return View(userVM);
         }
+      
+        [Authorize(Roles = "Vendor,Customer,Admin")]
         public IActionResult LogOut()
         {
             signInManager.SignOutAsync();
             return RedirectToAction("Login");
         }
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        public IActionResult AddAdmin()
+        {
+            return View();
+        }
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AddAdmin(RegisterUserVM newUserVM)
+        {
+            if (ModelState.IsValid)
+            {
+                User userModel = new User();
+                userModel.UserName = newUserVM.UserName;
+                userModel.address = newUserVM.Location;
+                userModel.Email = newUserVM.Email;
+                userModel.PasswordHash = newUserVM.Password;
+                IdentityResult Result = await userManager.CreateAsync(userModel, newUserVM.Password);
+                if (Result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(userModel, "Admin");
+
+                    await signInManager.SignInAsync(userModel, false);
+                  
+
+                    return RedirectToAction("Read", "Product");
 
 
-        
+                }
+                else
+                {
+                    foreach (var error in Result.Errors)
+                    {
+                        ModelState.AddModelError("Password", error.Description);
+                    }
+                }
+
+
+
+            }
+            return View(newUserVM);
+        }
 
 
     }
+
+
+
+
+
 }

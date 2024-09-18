@@ -3,12 +3,14 @@ using ITI_Project.BLL.ModelVM;
 using ITI_Project.BLL.Services.Impelemntation;
 using ITI_Project.BLL.Services.Interface;
 using ITI_Project.DAL.Entites;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace ITI_Project.Controllers
 {
+    [Authorize(Roles = "Customer")]
     public class FavoritesController : Controller
     {
         private readonly IProductService _productService;

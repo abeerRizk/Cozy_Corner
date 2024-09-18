@@ -1,4 +1,5 @@
 ﻿using ITI_Project.BLL.ModelVM;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,11 +18,13 @@ namespace ITI_Project.Controllers
             return View();
         }
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult New()
         {
             return View();
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> New(RoleVM rolevm)
         {
             if (ModelState.IsValid == true)
