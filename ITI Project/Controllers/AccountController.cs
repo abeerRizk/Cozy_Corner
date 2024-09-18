@@ -42,7 +42,7 @@ namespace ITI_Project.Controllers
                     UserName = newUserVM.UserName,
                     Email = newUserVM.Email,
                     address = newUserVM.Location,
-                    
+                    PhoneNumber = newUserVM.Phone_Number,
                     
                 };
 

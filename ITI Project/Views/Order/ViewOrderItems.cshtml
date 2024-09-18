@@ -1,0 +1,81 @@
+﻿@model IEnumerable<ITI_Project.BLL.ModelVM.OrderItemsVM>
+
+@{
+    ViewData["Title"] = "ViewOrderItems";
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="order-container">
+    <p class="text-brown text-center" style="font-family: 'Times New Roman', serif; font-size: 30px; color: #674636;"> <b>Orders</b> <i class='far fa-edit'></i></p>
+
+<table class="nested-table">
+    <thead>
+        <tr>
+            <th>Prodcut Name :</th>
+            <th> Price <i class='fas fa-dollar-sign'></i> :</th>
+            <th> Quantity :</th>
+            <th> Total Price <i class='fas fa-dollar-sign'></i>  :</th>
+        </tr>
+
+    </thead>
+    <tbody>
+        @foreach (var Items in Model)
+        {
+            <tr>
+                <td>
+                    @Items.ProductName
+                </td>
+                <td>
+                    @Items.UnitPrice <i class='fas fa-dollar-sign'></i>
+                </td>
+                <td>
+                    @Items.Quantity
+                </td>
+                <td>
+                    @Items.TotalPrice <i class='fas fa-dollar-sign'></i>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+</div>        
+
+<style>
+    body {
+        background-color: #FFFBF5;
+        padding-top: 70px;
+    }
+
+    .order-container {
+        max-width: 100%;
+        background-color: #F7EFE5;
+        margin: 50px auto;
+        background: #fff;
+        padding: 20px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+   
+    .nested-table {
+        width: 100%;
+        border-color: #674636;
+        border-radius:60px;
+    }
+           .nested-table th .nested-table td{
+            border: 1px solid #ccc;
+            background-color: #F7EFE5;
+            border-radius: 60px;
+            padding: 10px;
+            text-align: left;
+            color: #674636;
+        }
+        .nested-table td {
+            border: 1px solid #ccc;
+            background-color: #FCFAEE;
+            padding: 10px;
+            text-align: left;
+        }
+
+
+        </style>

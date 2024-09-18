@@ -11,6 +11,8 @@ namespace ITI_Project.DAL.Repo.Interface
     {
  
         public Task<OrderItem> GetById(int id);
-        public Task<IEnumerable<OrderItem>> GetAll();
+        public Task<IEnumerable<OrderItem>> GetAll(int OrderId , int vendorId);
+        public Task Delete(int itemId);
+
     }
 }

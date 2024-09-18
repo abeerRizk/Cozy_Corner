@@ -18,9 +18,12 @@ namespace ITI_Project.BLL.ModelVM
         public string? Email { get; set; }
         [Range(10, 100)]
         public int? Age { get; set; }
-        
+
+        [Required]
         public string? Phone_Number { get; set; }
+        [Required]
         public string? Location { get; set; }
+        
         public List<Product>? Products { get; set; }
 
         public string userId { get; set; }

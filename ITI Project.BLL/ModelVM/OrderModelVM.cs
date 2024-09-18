@@ -26,6 +26,9 @@ namespace ITI_Project.BLL.ModelVM
 
         public bool IsDeleted { get; set; }
 
+        public int VendorId { get; set; }
+        public string Phone_Number { get; set; }
+
 
     }
 }

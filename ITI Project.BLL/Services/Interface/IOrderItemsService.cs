@@ -12,7 +12,8 @@ namespace ITI_Project.BLL.Services.Interface
     {
 
         public  Task<OrderItemsVM> GetById(int id);
-        public Task< IEnumerable<OrderItemsVM>> GetAll();
+        public Task< IEnumerable<OrderItemsVM>> GetAll(int OrderId , int vendorId);
+        public  Task Delete(int itemId);
 
 
     }
