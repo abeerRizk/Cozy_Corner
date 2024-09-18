@@ -23,6 +23,7 @@ namespace ITI_Project.BLL.ModelVM
         [DataType(DataType.EmailAddress)]
         public string? Email { get; set; }
         public bool? IsVendor { get; set; }
+        public bool? IsCustomer { get; set; }
         public string? Phone_Number { get; set; }
 
     }
