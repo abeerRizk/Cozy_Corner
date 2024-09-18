@@ -53,16 +53,9 @@ namespace ITI_Project.Controllers
 
             foreach(var order in orders)
             {
-                bool exist = false;
-                foreach(var item in order.Items)
-                {
-                    if (item.VendorId == vendorId)
-                    {
-                        exist = true;
-                        break;
-                    }
-                }
-                if(exist)
+                var items = await orderItemsService.GetAll(order.Id, vendorId);
+  
+                if(items.Count() != 0)
                 {
                    OrderModelVM new_order = new OrderModelVM();
                     new_order.OrderDate = order.OrderDate;
@@ -75,6 +68,7 @@ namespace ITI_Project.Controllers
                     new_order.Status = order.Status;
                     new_order.VendorId = vendorId;
                     new_order.Id = order.Id;
+                    new_order.Phone_Number = order.Phone_Number;
                     lst.Add(new_order);
                     
                 }

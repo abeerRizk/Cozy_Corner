@@ -15,6 +15,7 @@ namespace ITI_Project.DAL.Entites
         public string? Image { get; set; }
         public string? FullName { get; set; }
         public bool? IsVendor {  get; set; }
-        
+        public bool? IsCustomer {  get; set; }
+
     }
 }

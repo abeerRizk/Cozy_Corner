@@ -64,7 +64,7 @@
                                     {
                                         <div class="carousel-item @(i == 0 ? "active" : "")">
                                             <!-- Redirect anonymous users to Login if they click -->
-                                            <a href="@Url.Action(User.Identity.IsAuthenticated ? "ViewProduct" : "Login", User.Identity.IsAuthenticated ? "Product" : "Account", new { id = product.Id })">
+                                            <a href="@Url.Action((User.Identity.IsAuthenticated && (!User.IsInRole("Admin"))) ? "ViewProduct" : "Login", (User.Identity.IsAuthenticated && (!User.IsInRole("Admin"))) ? "Product" : "Account", new { id = product.Id })">
                                                 <img src="~/ImgProduct/Profile/@product.Images[i]" class="d-block w-100 card-img-top" alt="@product.Name">
                                             </a>
                                         </div>
@@ -84,13 +84,13 @@
 
                             <!-- Favorite icon -->
                             <button type="button" class="btn position-absolute top-0 end-0 p-2 no-focus-outline"
-                                    onclick="event.stopPropagation(); window.location.href='@Url.Action(User.Identity.IsAuthenticated ? "ToggleFavorite" : "Login", User.Identity.IsAuthenticated ? "Favorites" : "Account", new { productId = @product.Id })'">
+                                    onclick="event.stopPropagation(); window.location.href='@Url.Action((User.Identity.IsAuthenticated && (!User.IsInRole("Admin")))? "ToggleFavorite" : "Login",(User.Identity.IsAuthenticated && (!User.IsInRole("Admin")))? "Favorites" : "Account", new { productId = @product.Id })'">
                                 <i class="fa fa-heart favorite-icon @(product.isFavorite ? "favorite-active" : "")" id="favoriteIcon-@product.Id"></i>
                             </button>
                         </div>
 
                         <!-- Redirect anonymous users to Login if they click -->
-                        <a href="@Url.Action(User.Identity.IsAuthenticated ? "ViewProduct" : "Login", User.Identity.IsAuthenticated ? "Product" : "Account", new { id = product.Id })">
+                        <a href="@Url.Action( (User.Identity.IsAuthenticated && (!User.IsInRole("Admin"))) ? "ViewProduct" : "Login", (User.Identity.IsAuthenticated && (!User.IsInRole("Admin"))) ? "Product" : "Account", new { id = product.Id })">
                             <div class="card-body px-3">
                                 <!-- Flex container for name and price -->
                                 <div class="d-flex justify-content-between" style="padding: 5px 10px;">

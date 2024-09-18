@@ -27,10 +27,9 @@ namespace ITI_Project.BLL.ModelVM
         public bool? IsVendor { get; set; }
 
 
-        [Required]
-
         public bool? IsCustomer { get; set; }
 
+        [Required]
         public string? Phone_Number { get; set; }
         [Required]
         public string? Location { get; set; }

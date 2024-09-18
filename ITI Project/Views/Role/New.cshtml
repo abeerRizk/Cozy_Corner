@@ -2,14 +2,13 @@
 
 @{
     ViewData["Title"] = "New";
-    ViewData["HideHeaderFooter"] = true;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-<div class="row">
-    <div class="Role-container">
+<div class="form-section d-flex justify-content-center align-items-center">
+    <div class="col-md-5 p-4 shadow-sm rounded form-container" style="padding-top:0px; margin-bottom:0px;  background: #fff;">
         <p class="text-brown text-center" style="font-family: 'Times New Roman', serif; font-size: 30px; color: #674636;"> <b>New Role</b> <i class="fas fa-marker"></i></p>
 
         <form asp-action="New" style="border: none; padding: 20px;">
@@ -29,10 +28,10 @@
       
 
             <div class="form-group mb-4">
-                <button type="submit" class="button1 w-100">Add Role <i class="fas fa-plus-circle"></i></button>
+                <button type="submit" class="button1 w-100 ">Add Role <i class="fas fa-plus-circle"></i></button>
             </div>
 
-            <a asp-action="Index" asp-controller="Role" class="button1 w-100">Cancel</a>
+            <a asp-action="Index" asp-controller="Role" class="button1 w-100 ">Cancel</a>
         </form>
     </div>
 </div>
@@ -45,25 +44,18 @@
         padding-top: 70px;
     }
 
-    .Role-container {
-        max-width: 100%;
-        background-color: #F7EFE5;
-        margin: 50px auto;
-        background: #fff;
-        padding: 20px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    }
+
 
     .button1 {
         background-color: #dfbe9f;
         color: #734d26;
-        padding: 10px 32px;
+        padding: 7px 7px;
         text-align: center;
         font-weight: bold;
         display: inline-block;
-        font-size: 20px;
-        width: 485px;
-        border-radius: 30px;
+        font-size: 15px;
+        
+        border-radius: 15px;
         border: none;
     }
 
@@ -98,7 +90,7 @@
     .transparent-input {
         background-color: #F7EFE5; /* Cream background */
         color: #674636; /* Dark brown text */
-        border-radius: 30px; /* Rounded corners */
+        border-radius: 15px; /* Rounded corners */
         border: none;
         transition: background-color 0.3s ease;
     }
@@ -129,14 +121,6 @@
         margin-bottom: 20px;
     }
 
-    .input-group-append label {
-        cursor: pointer;
-        background-color: #dfbe9f !important;
-        border-radius: 30px; /* Add rounded corners */
-        color: #734d26; /* Text color set to #FFF8E7 */
-        padding: 7px 32px;
-        text-align: center;
-        display: inline-block;
-        font-size: 20px;
-    }
+
+ 
 </style>
