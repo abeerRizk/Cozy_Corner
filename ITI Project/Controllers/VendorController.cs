@@ -3,6 +3,7 @@ using ITI_Project.BLL.ModelVM;
 using ITI_Project.BLL.Services.Impelemntation;
 using ITI_Project.BLL.Services.Interface;
 using ITI_Project.DAL.Entites;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -24,6 +25,7 @@ namespace ITI_Project.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Vendor")]
         public async Task< IActionResult> Edit()
         {
             var user = await userManager.GetUserAsync(User);
@@ -39,6 +41,7 @@ namespace ITI_Project.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Vendor")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult>  Edit( UpdateVendorVM vendorVM)
         {

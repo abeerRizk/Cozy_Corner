@@ -22,78 +22,89 @@
                     <div class="container-fluid">
                     @if (User.IsInRole("Vendor"))
                     {
-                                <a class="navbar-brand text-light" href="@Url.Action("VendorGallery", "Product")">
-                                    Cozy Corner
-                                </a>
+                            <a class="navbar-brand text-light" href="@Url.Action("VendorGallery", "Product")">
+                                Cozy Corner
+                            </a>
                     }
                     else
                     {
-                                <a class="navbar-brand text-light" href="@Url.Action("Read", "Product")">
-                                    Cozy Corner
-                                </a>
+                            <a class="navbar-brand text-light" href="@Url.Action("Read", "Product")">
+                                Cozy Corner
+                            </a>
                     }
                         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                             <ul class="navbar-nav">
-                            @if (!User.IsInRole("Vendor"))
+                            @if (!User.IsInRole("Vendor,Admin"))
                             {
-                                        <!-- Favorite Icon -->
-                                        <li class="nav-item">
-                                            <a class="nav-link text-light d-flex align-items-center" href="@Url.Action( User.Identity.IsAuthenticated ? "FavoriteProducts" : "Login",  User.Identity.IsAuthenticated ?  "Favorites" : "Account" )" title="Favorite Products">
-                                                <i class="fa fa-heart" aria-hidden="true" style="font-size: 24px;"></i>
-                                            </a>
-                                        </li>
+                                    <!-- Favorite Icon -->
+                                    <li class="nav-item">
+                                        <a class="nav-link text-light d-flex align-items-center" href="@Url.Action(User.Identity.IsAuthenticated ? "FavoriteProducts" : "Login", User.Identity.IsAuthenticated ? "Favorites" : "Account")" title="Favorite Products">
+                                            <i class="fa fa-heart" aria-hidden="true" style="font-size: 24px;"></i>
+                                        </a>
+                                    </li>
                             }
 
-                            @if (!User.IsInRole("Vendor"))
+                            @if (!User.IsInRole("Vendor,Admin"))
                             {
-                                        <!-- Cart Icon -->
-                                        <li class="nav-item">
-                                            <a class="nav-link text-light d-flex align-items-center" href="@Url.Action(User.Identity.IsAuthenticated ? "details" : "Login", User.Identity.IsAuthenticated ? "Order" : "Account")" title="View Cart">
-                                                <i class="fa fa-shopping-cart" aria-hidden="true" style="font-size: 24px;"></i>
-                                            </a>
-                                        </li>
+                                    <!-- Cart Icon -->
+                                    <li class="nav-item">
+                                        <a class="nav-link text-light d-flex align-items-center" href="@Url.Action(User.Identity.IsAuthenticated ? "details" : "Login", User.Identity.IsAuthenticated ? "Order" : "Account")" title="View Cart">
+                                            <i class="fa fa-shopping-cart" aria-hidden="true" style="font-size: 24px;"></i>
+                                        </a>
+                                    </li>
                             }
                             else
                             {
-                                        <!-- Order Icon -->
-                                        <li class="nav-item">
-                                            <a class="nav-link text-light d-flex align-items-center" href="@Url.Action("Index", "Order")" title="View Orders" style="padding: 0;">
-                                                <i class="bi bi-shop" aria-hidden="true" style="font-size: 24px; line-height: 1.5;"></i>
-                                            </a>
-                                        </li>
+                                    <!-- Order Icon -->
+                                    <li class="nav-item">
+                                        <a class="nav-link text-light d-flex align-items-center" href="@Url.Action("Index", "Order")" title="View Orders" style="padding: 0;">
+                                            <i class="bi bi-shop" aria-hidden="true" style="font-size: 24px; line-height: 1.5;"></i>
+                                        </a>
+                                    </li>
                             }
 
-                                <!-- My Account Dropdown -->
-                                <li class="nav-item dropdown custom-dropdown">
+                            <!-- Admin Links (only for Admins) -->
+                            @if (User.IsInRole("Admin"))
+                            {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-light" href="@Url.Action("AddAdmin", "Account")">Add Admin</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-light" href="@Url.Action("New", "Role")">Add Role</a>
+                                    </li>
+                            }
+
+                            <!-- My Account Dropdown -->
+                            <li class="nav-item dropdown custom-dropdown">
                                 @if (User.Identity.IsAuthenticated)
                                 {
-                                            <a class="navbar-brand text-light dropdown-toggle d-flex align-items-center" href="#" id="myAccountDropdown" role="button">
-                                                <i class="fa fa-user-circle" aria-hidden="true"></i> @User.Identity.Name
-                                            </a>
-                                            <ul class="dropdown-menu dropdown-custom" aria-labelledby="myAccountDropdown">
-                                                @if(User.IsInRole("Vendor"))
+                                    <a class="navbar-brand text-light dropdown-toggle d-flex align-items-center" href="#" id="myAccountDropdown" role="button">
+                                        <i class="fa fa-user-circle" aria-hidden="true"></i> @User.Identity.Name
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-custom" aria-labelledby="myAccountDropdown">
+                                        @if (User.IsInRole("Vendor"))
                                         {
-                                            <li><a class="dropdown-item" asp-controller="Vendor" asp-action="Edit" >Edit Profile</a></li>
+                                                <li><a class="dropdown-item" asp-controller="Vendor" asp-action="Edit">Edit Profile</a></li>
                                         }
                                         else
                                         {
-                                            <li><a class="dropdown-item" asp-controller="Customer" asp-action="Update">Edit Profile</a></li>
+                                                <li><a class="dropdown-item" asp-controller="Customer" asp-action="Update">Edit Profile</a></li>
                                         }
-                                       <!-- Added Edit Profile option -->
-                                                <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a></li>
-                                            </ul>
+                                        <!-- Added Edit Profile option -->
+                                        <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a></li>
+                                    </ul>
                                 }
                                 else
                                 {
-                                            <a class="navbar-brand text-light dropdown-toggle d-flex align-items-center" href="#" id="myAccountDropdown" role="button">
-                                                <i class="fa fa-user-circle" aria-hidden="true"></i> Account
-                                            </a>
-                                            <ul class="dropdown-menu dropdown-custom" aria-labelledby="myAccountDropdown">
-                                                <li><a class="dropdown-item" asp-controller="Account" asp-action="Login">Login</a></li>
-                                                <li><a class="dropdown-item" asp-controller="Account" asp-action="Register">Register</a></li>
-                                            </ul>
+                                    <a class="navbar-brand text-light dropdown-toggle d-flex align-items-center" href="#" id="myAccountDropdown" role="button">
+                                        <i class="fa fa-user-circle" aria-hidden="true"></i> Account
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-custom" aria-labelledby="myAccountDropdown">
+                                        <li><a class="dropdown-item" asp-controller="Account" asp-action="Login">Login</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Account" asp-action="Register">Register</a></li>
+                                    </ul>
                                 }
-                                </li>
+                            </li>
                             </ul>
                         </div>
                     </div>
@@ -119,6 +130,7 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
 
 <style>
     /* Navbar styling */

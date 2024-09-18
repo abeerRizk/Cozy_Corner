@@ -13,15 +13,15 @@
         <div class="container-fluid">
             @if (User.IsInRole("Vendor"))
             {
-                <a class="navbar-brand text-light" href="@Url.Action("VendorGallery", "Product")">
-                    Cozy Corner
-                </a>
+                    <a class="navbar-brand text-light" href="@Url.Action("VendorGallery", "Product")">
+                        Cozy Corner
+                    </a>
             }
             else
             {
-                <a class="navbar-brand text-light" href="@Url.Action("Read", "Product")">
-                    Cozy Corner
-                </a>
+                    <a class="navbar-brand text-light" href="@Url.Action("Read", "Product")">
+                        Cozy Corner
+                    </a>
             }
         </div>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
@@ -79,21 +79,6 @@
                     <label asp-for="Phone_Number" class="control-label text-darker-brown">Phone Number</label>
                     <input asp-for="Phone_Number" class="form-control transparent-input border-dark-brown" autocomplete="off" />
                     <span asp-validation-for="Phone_Number" class="text-dark-brown"></span>
-                </div>
- 
-                <div class="form-group mb-3">
-                    <label class="text-darker-brown">Are you registering as:</label>
-                    <div class="form-check">
-                        <input asp-for="IsVendor" class="form-check-input transparent-input" type="radio" value="true" id="vendorOption" />
-                        <label class="form-check-label text-darker-brown" for="vendorOption">Vendor</label>
-                    </div>
-                    <span asp-validation-for="IsVendor" class="text-dark-brown"></span>
-                    <div class="form-check">
-                        <input asp-for="IsCustomer" class="form-check-input transparent-input" type="radio" value="false" id="customerOption" />
-                        <label class="form-check-label text-darker-brown" for="customerOption">Customer</label>
-                    </div>
-                    <span asp-validation-for="IsCustomer" class="text-dark-brown"></span>
-                    
                 </div>
                 <div class="form-group mb-4">
                     <input class="button1 w-100" type="submit" value="Create" />
@@ -267,3 +252,5 @@
     }
 
 </style>
+
+
