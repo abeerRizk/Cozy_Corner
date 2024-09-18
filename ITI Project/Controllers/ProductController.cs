@@ -39,7 +39,9 @@ namespace ITI_Project.Controllers
         public async Task<IActionResult> Read()
         {
             var result = await productService.GetAll();
-            if (User.IsInRole("Customer"))
+
+            if ( User.IsInRole("Customer"))
+
             {
                 var user = await userManager.GetUserAsync(User);
                 int customerId = await customerService.GetCustomerId_ByUserId(user.Id);
