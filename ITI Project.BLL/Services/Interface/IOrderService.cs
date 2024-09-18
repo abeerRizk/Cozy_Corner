@@ -20,7 +20,7 @@ namespace ITI_Project.BLL.Services.Interface
         public Task UpdateOrder(OrderModelVM orderViewModel);
         Task UpdateOrderStatus(OrderModelVM orderViewModel);
         public Task DeleteOrder(int id);
-        public void DeleteUnconfirmedOrders();
+        public Task DeleteUnconfirmedOrders();
 
     }
 }
