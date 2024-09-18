@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ITI_Project.Controllers
 {
-    [Authorize(Roles = "Customer")]
+    
     public class OrderController : Controller
     {
         private readonly IOrderService _orderService;
@@ -82,7 +82,7 @@ namespace ITI_Project.Controllers
             return View(lst);
         }
 
-
+        [Authorize(Roles = "Vendor,Customer")]
         public async Task <IActionResult> Details()
         {
             var user = await userManager.GetUserAsync(User);
@@ -100,7 +100,7 @@ namespace ITI_Project.Controllers
         }
 
 
-
+        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> AddToCart(OrderItemsVM new_order)
         {
             var user = await userManager.GetUserAsync(User);
@@ -120,7 +120,7 @@ namespace ITI_Project.Controllers
             return RedirectToAction("Details", "Order");
         }
 
-
+        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> RemoveOrderFromCart(OrderItemsVM new_order)
         {
             var user = await userManager.GetUserAsync(User);
@@ -141,7 +141,7 @@ namespace ITI_Project.Controllers
         }
 
 
-
+        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> EmptyTheCart()
         {
             var user = await userManager.GetUserAsync(User);
@@ -169,7 +169,7 @@ namespace ITI_Project.Controllers
 
 
 
-
+        [Authorize(Roles = "Customer")]
         public async Task<IActionResult>  ConfirmOrder(int orderId,int customerId)
         {
 

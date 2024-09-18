@@ -161,6 +161,10 @@ namespace ITI_Project.Controllers
                         {
                             return RedirectToAction("read", "Product");
                         }
+                        else if(User.IsInRole("Admin"))
+                        {
+                            return RedirectToAction("read", "Product");
+                        }
 
 
                     }
@@ -218,7 +222,7 @@ namespace ITI_Project.Controllers
 
 
             }
-            return View(newUserVM);
+            return RedirectToAction("AddAdmin", "Account");
         }
 
 
