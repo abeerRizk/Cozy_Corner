@@ -9,27 +9,24 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <nav class="navbar navbar-expand-lg navbar-light bg-brown w-100">
     <div class="container-fluid">
-      
-            <div class="container-fluid">
-                @if (User.IsInRole("Vendor"))
-                {
-                    <a class="navbar-brand text-light" href="@Url.Action("VendorGallery", "Product")">
-                        Cozy Corner
-                    </a>
-                }
-                else
-                {
-                    <a class="navbar-brand text-light" href="@Url.Action("Read", "Product")">
-                        Cozy Corner
-                    </a>
-                }
-                </div>
+        <div class="container-fluid">
+            @if (User.IsInRole("Vendor"))
+            {
+                <a class="navbar-brand text-light" href="@Url.Action("VendorGallery", "Product")">
+                    Cozy Corner
+                </a>
+            }
+            else
+            {
+                <a class="navbar-brand text-light" href="@Url.Action("Read", "Product")">
+                    Cozy Corner
+                </a>
+            }
+        </div>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
-
                 <!-- My Account Dropdown -->
                 <li class="nav-item dropdown custom-dropdown">
-
                     <a class="navbar-brand text-light dropdown-toggle d-flex align-items-center" href="#" id="myAccountDropdown" role="button">
                         <i class="fa fa-user-circle" aria-hidden="true"></i> Account
                     </a>
@@ -37,49 +34,41 @@
                         <li><a class="dropdown-item" asp-controller="Account" asp-action="Login">Login</a></li>
                         <li><a class="dropdown-item" asp-controller="Account" asp-action="Register">Register</a></li>
                     </ul>
-
                 </li>
             </ul>
         </div>
     </div>
 </nav>
+
 <div class="blurred-background">
     <div class="row justify-content-center align-items-center" style="min-height: 100vh;">
-      
         <div class="col-md-6 p-4 shadow-sm rounded">
             <p class="text-brown text-center" style="font-family: 'Times New Roman', serif; font-size: 35px; color: #865439; margin-top: auto;">Login</p>
 
-            <form asp-action="Login" style=" border: none; padding: 20px;">
-                <!-- No background color for form -->
+            <form asp-action="Login" style="border: none; padding: 20px;">
                 <div asp-validation-summary="ModelOnly" class="text-dark-brown"></div>
-                <div class="form-group mb-4 ">
-                    <!-- Added margin-bottom for spacing -->
+                <div class="form-group mb-4">
                     <label asp-for="UserName" class="control-label text-darker-brown"></label>
-                    <input asp-for="UserName" class="form-control transparent-input border-dark-brown " autocomplete="off" />
+                    <input asp-for="UserName" class="form-control transparent-input border-dark-brown" autocomplete="off" />
                     <span asp-validation-for="UserName" class="text-dark-brown"></span>
                 </div>
                 <div class="form-group mb-4">
-                    <!-- Added margin-bottom for spacing -->
                     <label asp-for="Password" class="control-label text-darker-brown"></label>
                     <input asp-for="Password" class="form-control transparent-input border-dark-brown" type="password" autocomplete="off" />
                     <span asp-validation-for="Password" class="text-dark-brown"></span>
                 </div>
-                <div class="form-group form-check mb-4">
-                    
-                        <label class="form-check-label">
-                            <input class="form-check-input" asp-for="RemenberMe" /> @Html.DisplayNameFor(model => model.RemenberMe)
-                        </label>
-                    
+                <div class="form-group form-inline justify-content-between align-items-center mb-4">
+                    <label class="form-check-label text-darker-brown">
+                        <input class="form-check-input" asp-for="RemenberMe" /> @Html.DisplayNameFor(model => model.RemenberMe)
+                    </label>
+                    <a class="text-right link2" href="@Url.Action("Register", "Account")" class="text-darker-brown">Have an account?</a>
                 </div>
                 <div class="form-group mb-4">
-                    <!-- Added margin-bottom for spacing -->
                     <input class="button1 w-100" type="submit" value="login" />
                 </div>
-
             </form>
         </div>
     </div>
-
 </div>
 
 @section Scripts {
@@ -97,6 +86,7 @@
         top: 0;
         z-index: 1000;
     }
+
     .bg-brown {
         background-color: #865439;
     }
@@ -108,18 +98,6 @@
         .nav-link:hover {
             color: #FFF8E7 !important;
         }
-
-    .create-account-heading {
-        margin-top: 0;
-        font-size: 24px;
-    }
-
-    .form-section {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-    }
 
     .button1 {
         background-color: #865439;
@@ -145,8 +123,6 @@
         margin: 0;
         padding: 0;
         padding-top: 100px;
-        padding-bottom: 100px;
-        padding-right: 120px;
     }
 
     .blurred-background {
@@ -174,20 +150,7 @@
             height: 100vh;
         }
 
-    .form-section {
-        position: relative;
-        z-index: 1;
-    }
-
-    .text-brown {
-        color: #8B4513;
-    }
-
     .text-darker-brown {
-        color: #4A2D12;
-    }
-
-    .text-dark-brown {
         color: #4A2D12;
     }
 
@@ -210,40 +173,18 @@
             border-color: #FFF8E7;
         }
 
-        .transparent-input::placeholder {
-            color: #888888;
+    .link2 {
+        color: #4A2D12;
+    }
+
+        .link2:hover {
+            color: #4A2D12;
+            box-shadow: none;
         }
 
-    .row {
+    .form-inline {
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
     }
-
-    .shadow-sm {
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .form-group {
-        margin-bottom: 15px;
-    }
-
-    a {
-        text-decoration: none;
-    }
-
-        a:hover {
-            color: #8B4513;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-    .form-container {
-        max-width: 600px;
-        padding: 20px;
-    }
-
-
-
-
-
 </style>

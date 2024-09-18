@@ -26,13 +26,14 @@
                                 Cozy Corner
                             </a>
                     }
-                    else
+                    else 
                     {
                             <a class="navbar-brand text-light" href="@Url.Action("Read", "Product")">
                                 Cozy Corner
-                            </a>
+                        </a>
                     }
-                        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                   
+                    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                             <ul class="navbar-nav">
                             @if (!(User.IsInRole("Vendor") || User.IsInRole("Admin")))
                             {
@@ -76,7 +77,7 @@
 
                             <!-- My Account Dropdown -->
                             <li class="nav-item dropdown custom-dropdown">
-                                @if (User.Identity.IsAuthenticated)
+                                @if ( !User.IsInRole("Admin")  && (User.Identity.IsAuthenticated))
                                 {
                                     <a class="navbar-brand text-light dropdown-toggle d-flex align-items-center" href="#" id="myAccountDropdown" role="button">
                                         <i class="fa fa-user-circle" aria-hidden="true"></i> @User.Identity.Name
@@ -94,6 +95,17 @@
                                         <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a></li>
                                     </ul>
                                 }
+                                else if(User.IsInRole("Admin"))
+                                {
+                                    <a class="navbar-brand text-light dropdown-toggle d-flex align-items-center" href="#" id="myAccountDropdown" role="button">
+                                        <i class="fa fa-user-circle" aria-hidden="true"></i> @User.Identity.Name
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-custom" aria-labelledby="myAccountDropdown">
+                                       
+                                        <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a></li>
+                                    </ul>
+                                }
+
                                 else
                                 {
                                     <a class="navbar-brand text-light dropdown-toggle d-flex align-items-center" href="#" id="myAccountDropdown" role="button">

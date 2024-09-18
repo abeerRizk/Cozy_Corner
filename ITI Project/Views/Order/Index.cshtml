@@ -2,81 +2,56 @@
 
 @{
     ViewData["Title"] = "Index";
-
     Layout = "~/Views/Shared/_Layout.cshtml";
-
 }
-
-
-@* <p>
-    <a asp-action="Create">Create New</a>
-</p> *@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 <div class="order-container">
-    <p class="text-brown text-center" style="font-family: 'Times New Roman', serif; font-size: 30px; color: #674636;"> <b>Orders</b> <i class='far fa-edit'></i></p>
-
-    <table class="base-table">
-        <thead>
-            <tr>
-                <th class="Customer-Name">
-                 Customer Name : 
-             </th>
-                <th class="Order-Date">
-                    Order Date <i class='fas fa-calendar-alt'></i> :
-                </th>
-                <th class="Customer-Location">
-                    Customer Location <i class="material-icons" style="width:20px">add_location</i> :
-                </th>
-                <th class="Customer-Number">
-                     Phone Number :
-                </th>
-                <th class="Customer-Items">
-                    Actions <i class='fas fa-cart-arrow-down'></i> :
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach(var item in Model)
-            {
+    <p class="text-brown text-center" style="font-family: 'Times New Roman', serif; font-size: 30px; color: #674636;">
+        <b>Orders</b> <i class='far fa-edit'></i>
+    </p>
+    @if (Model == null || Model.Count() == 0)
+    {
+        <p style="color: #674636">You do not have any orders yet! </p>
+    }
+    else
+    {
+        <table class="base-table">
+            <thead>
                 <tr>
-                    <td>
-                        @item.CustomerName
-                        Customer
-
-                    </td>
-                    <td>
-                        @item.OrderDate
-                    </td>
-                    <td>
-                        @item.ShippingAddress
-                        
-                    </td>
-                    <td>
-                        @item.Phone_Number
-                        
-                    </td>
-                    <td>
-                        <a href="@Url.Action("ViewOrderItems" , "Order" , new {OrderId = item.Id , vendorId = item.VendorId })">  View</a>
-                        <a href="@Url.Action("DeleteOrder" , "Order" , new {OrderId = item.Id  , vendorId = item.VendorId})">  Delete</a>
-                    </td>
-                    
-                    
-                      
-
+                    <th class="Customer-Name">Customer Name</th>
+                    <th class="Order-Date">Order Date <i class='fas fa-calendar-alt'></i>:</th>
+                    <th class="Customer-Location">Customer Location</th>
+                    <th class="Customer-Number">Phone Number</th>
+                    <th class="Customer-Items">Actions </th>
                 </tr>
-            }
-        </tbody>
-</table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.CustomerName</td>
+                        <td>@item.OrderDate</td>
+                        <td>@item.ShippingAddress</td>
+                        <td>@item.Phone_Number</td>
+                        <td>
+                            <a class="link" href="@Url.Action("ViewOrderItems", "Order", new { OrderId = item.Id, vendorId = item.VendorId })">View</a>
+                            <a class="link" href="@Url.Action("DeleteOrder", "Order", new { OrderId = item.Id, vendorId = item.VendorId })">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
 
-    <button> <a href="@Url.Action("DeleteOrder" , "Order" )">  Delete</a>   </button>
+        <div class="button-container">
+      <a class="button1" href="@Url.Action("DeleteOrders", "Order")">Clear History</a>
+        </div>
+    }
 </div>
 
-
 <style>
-
     body {
         background-color: #FFFBF5;
         padding-top: 70px;
@@ -98,14 +73,12 @@
 
         .base-table th, .base-table td {
             border: 1px solid #ccc;
-            height:auto;
             background-color: #F7EFE5;
             padding: 10px;
             text-align: left;
             color: #674636;
+            text-align: center;
         }
-
-
 
         .base-table td {
             border: 1px solid #ccc;
@@ -114,28 +87,42 @@
             text-align: left;
         }
 
-    /* Nested table styling */
-    .nested-table {
-        width: 100%;
-        border-color: #674636;
-        border-radius:60px;
-    }
-           .nested-table th .nested-table td{
-            border: 1px solid #ccc;
-            background-color: #F7EFE5;
-            border-radius: 60px;
-            padding: 10px;
-            text-align: left;
-            color: #674636;
-        }
-        .nested-table td {
-            border: 1px solid #ccc;
-            background-color: #FCFAEE;
-            padding: 10px;
-            text-align: left;
-        }
-        a{
+    .link {
         color: #674636;
-        font-weight:bold;
+        text-decoration: none;
+        padding-left: 35px;
+        box-shadow: none;
+        text-align:center;
+    }
+
+        .link:hover {
+            text-decoration: none;
+            color: #674636;
+            text-decoration: none;
+         
+            box-shadow: none;
         }
+
+    /* Button styling */
+    .button1 {
+        border: 1px solid #ccc;
+        background-color: #F7EFE5;
+        padding: 10px 20px;
+        text-align: center;
+        color: #674636;
+        display: inline-block;
+        font-weight:bold;
+    }
+
+        .button1:hover {
+            box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+    .button-container {
+        text-align: center;
+        margin-top: 20px;
+    }
+
 </style>

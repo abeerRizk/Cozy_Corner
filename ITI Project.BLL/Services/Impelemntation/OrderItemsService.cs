@@ -37,7 +37,7 @@ namespace ITI_Project.BLL.Services.Impelemntation
 
         public async Task Delete(int itemId)
         {
-            orderItemRepo.Delete(itemId);
+            await orderItemRepo.Delete(itemId);
         }
     }
 }
