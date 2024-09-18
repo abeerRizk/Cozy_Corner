@@ -36,7 +36,7 @@ namespace ITI_Project.DAL.Repo.Impelemntation
         }
         public async Task Delete(int itemId)
         {
-            var item = await db.OrderItems.Where(a => a.Id == id).FirstOrDefaultAsync();
+            var item = await db.OrderItems.Where(a => a.Id == itemId).FirstOrDefaultAsync();
             item.IsDeleted = true;
             await db.SaveChangesAsync();
         }
