@@ -23,9 +23,9 @@ namespace ITI_Project.DAL.Repo.Impelemntation
 
 
 
-        public async Task< IEnumerable<OrderItem>> GetAll()
+        public async Task< IEnumerable<OrderItem>> GetAll(int OrderId , int vendorId)
         {
-            var data = await db.OrderItems.Where(a => a.IsDeleted != true).ToListAsync();
+            var data = await db.OrderItems.Where(a => a.IsDeleted != true && a.OrderId== OrderId && a.VendorId == vendorId).ToListAsync();
             return data;
         }
 
@@ -33,6 +33,12 @@ namespace ITI_Project.DAL.Repo.Impelemntation
         {
             var item = await db.OrderItems.Where(a => a.Id == id).FirstOrDefaultAsync();
             return item;
+        }
+        public async Task Delete(int itemId)
+        {
+            var item = await db.OrderItems.Where(a => a.Id == id).FirstOrDefaultAsync();
+            item.IsDeleted = true;
+            await db.SaveChangesAsync();
         }
 
 

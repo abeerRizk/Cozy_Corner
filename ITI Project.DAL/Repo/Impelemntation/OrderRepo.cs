@@ -82,6 +82,7 @@ namespace ITI_Project.DAL.Repo.Impelemntation
                         Items = new List<OrderItem> { item },
                         CustomerName = customer.Name,
                         Status = "ordered",
+                        Phone_Number = customer.Phone_Number
                     };
 
                    await  db.Order.AddAsync(order);

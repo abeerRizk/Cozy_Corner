@@ -19,11 +19,17 @@ namespace ITI_Project.BLL.ModelVM
         [DataType(DataType.Password)]
         [Compare("Password")]
         public string ConfirmPassword { get; set; }
-        public string Location { get; set; }
-        [DataType(DataType.EmailAddress)]
-        public string? Email { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+
         public bool? IsVendor { get; set; }
+
+        [Required]
         public string? Phone_Number { get; set; }
+        [Required]
+        public string? Location { get; set; }
 
     }
 }

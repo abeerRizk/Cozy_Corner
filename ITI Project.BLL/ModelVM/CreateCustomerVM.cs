@@ -21,7 +21,10 @@ namespace ITI_Project.BLL.ModelVM
         [Range(10,100) ]
         public int? Age { get; set; }
         public bool? IsDeleted { get; set; }
+
+        [Required]
         public string? Phone_Number { get; set; }
+        [Required]
         public string? Location { get; set; }
 
         public string userId { get; set; }

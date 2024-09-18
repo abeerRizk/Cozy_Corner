@@ -29,11 +29,15 @@ namespace ITI_Project.BLL.Services.Impelemntation
             return mapper.Map<OrderItemsVM>(item);
         }
 
-        public async Task <IEnumerable<OrderItemsVM>> GetAll()
+        public async Task <IEnumerable<OrderItemsVM>> GetAll(int OrderId , int vendorId)
         {
-            var data = await orderItemRepo.GetAll();
+            var data = await orderItemRepo.GetAll(OrderId , vendorId);
             return mapper.Map<IEnumerable<OrderItemsVM>>(data);
         }
 
+        public async Task Delete(int itemId)
+        {
+            orderItemRepo.Delete(itemId);
+        }
     }
 }

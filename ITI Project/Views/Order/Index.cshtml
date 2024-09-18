@@ -30,8 +30,11 @@
                 <th class="Customer-Location">
                     Customer Location <i class="material-icons" style="width:20px">add_location</i> :
                 </th>
+                <th class="Customer-Number">
+                     Phone Number :
+                </th>
                 <th class="Customer-Items">
-                    Order Items <i class='fas fa-cart-arrow-down'></i> :
+                    Actions <i class='fas fa-cart-arrow-down'></i> :
                 </th>
             </tr>
         </thead>
@@ -49,39 +52,15 @@
                     </td>
                     <td>
                         @item.ShippingAddress
-                        Dammita
+                        
                     </td>
                     <td>
-                        <table class="nested-table">
-                            <thead>
-                                <tr>
-                                    <th>Prodcut Name :</th>
-                                    <th> Price <i class='fas fa-dollar-sign'></i> :</th>
-                                    <th> Quantity :</th>
-                                    <th> Total Price <i class='fas fa-dollar-sign'></i>  :</th>
-                                </tr>
-
-                            </thead>
-                            <tbody>
-                                @foreach (var Items in item.Items)
-                                {
-                                    <tr>
-                                        <td>
-                                            @Items.ProductName
-                                        </td>
-                                        <td>
-                                            @Items.UnitPrice <i class='fas fa-dollar-sign'></i>
-                                        </td>
-                                        <td>
-                                            @Items.Quantity
-                                        </td>
-                                        <td>
-                                            @Items.TotalPrice <i class='fas fa-dollar-sign'></i>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
+                        @item.Phone_Number
+                        
+                    </td>
+                    <td>
+                        <a href="@Url.Action("ViewOrderItems" , "Order" , new {OrderId = item.Id , vendorId = item.VendorId })">  View</a>
+                        <a href="@Url.Action("DeleteOrder" , "Order" , new {OrderId = item.Id  , vendorId = item.VendorId})">  Delete</a>
                     </td>
                     
                     
@@ -91,33 +70,12 @@
             }
         </tbody>
 </table>
+
+    <button> <a href="@Url.Action("DeleteOrder" , "Order" )">  Delete</a>   </button>
 </div>
 
 
 <style>
-    .navbar {
-        padding: 5px;
-        width: 100%;
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        z-index: 1000;
-    }
-
-    .bg-brown {
-        background-color: #865439;
-    }
-
-    .navbar-brand, .nav-link {
-        font-size: 18px;
-        color: #FFF8E7 !important;
-    }
-
-        .nav-link:hover, .dropdown-item:hover {
-            color: #FFF8E7 !important;
-            background-color: #654321 !important;
-        }
 
     body {
         background-color: #FFFBF5;
@@ -175,5 +133,9 @@
             background-color: #FCFAEE;
             padding: 10px;
             text-align: left;
+        }
+        a{
+        color: #674636;
+        font-weight:bold;
         }
 </style>

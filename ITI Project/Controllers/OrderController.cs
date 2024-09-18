@@ -3,6 +3,7 @@ using ITI_Project.BLL.ModelVM;
 using ITI_Project.BLL.Services.Impelemntation;
 using ITI_Project.BLL.Services.Interface;
 using ITI_Project.DAL.Entites;
+using MailKit.Search;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,11 +18,13 @@ namespace ITI_Project.Controllers
         private readonly IInvoiceService invoiceService;
         private readonly IProductService productService;
         private readonly IVendorService vendorService;
+        private readonly IOrderItemsService orderItemsService;
 
         public OrderController(IOrderService orderService , UserManager<User> userManager
             , ICustomerService customerService , IMapper mapper,      
           IInvoiceService  invoiceService , IProductService productService
-            , IVendorService vendorService)
+            , IVendorService vendorService , 
+          IOrderItemsService orderItemsService)
         {
             _orderService = orderService;
             this.userManager = userManager;
@@ -30,6 +33,7 @@ namespace ITI_Project.Controllers
             this.invoiceService = invoiceService;
             this.productService = productService;
             this.vendorService = vendorService;
+            this.orderItemsService = orderItemsService;
         }
 
         public async Task  <IActionResult> Index()
@@ -41,6 +45,7 @@ namespace ITI_Project.Controllers
              var orders = temp.Where(a=> a.Status == "confirmed");
 
             List <OrderModelVM> lst = new List <OrderModelVM>();
+
             foreach(var order in orders)
             {
                 bool exist = false;
@@ -63,18 +68,10 @@ namespace ITI_Project.Controllers
                     new_order.CustomerLocation = order.CustomerLocation;
                     new_order.ExpectedDeliveryDate = order.ExpectedDeliveryDate;
                     new_order.Status = order.Status;
-                    new_order.Items = new List<OrderItemsVM>();
-                    foreach (var item in order.Items)
-                    {
-                        if (item.VendorId == vendorId)
-                        {
-                            if (item != null)
-                            {
-                                new_order.Items.Add(item);
-                            }
-                        }
-                    }
+                    new_order.VendorId = vendorId;
+                    new_order.Id = order.Id;
                     lst.Add(new_order);
+                    
                 }
             }
             return View(lst);
@@ -115,7 +112,7 @@ namespace ITI_Project.Controllers
 
          
              await _orderService.AddOrderItem(customerId, new_order); // Add the order item
-            return RedirectToAction("ViewProduct", "Product", new { id = new_order.ProductId });
+            return RedirectToAction("Details", "Order");
         }
 
 
@@ -204,6 +201,53 @@ namespace ITI_Project.Controllers
             return RedirectToAction("Read", "Invoice"  , new {id =InvoiceId});
         }
 
+
+        public async Task<IActionResult> ViewOrderItems(int OrderId , int vendorId )
+        {
+
+
+            var items = await orderItemsService.GetAll(OrderId , vendorId);
+            
+
+            return View(items);
+        }
+
+
+        
+
+         public async Task<IActionResult> DeleteOrder(int orderId , int VendorId)
+        {
+            var items = await orderItemsService.GetAll(orderId, VendorId);
+            foreach(var item in items )
+            {
+             
+                await orderItemsService.Delete(item.Id);
+            }
+           
+            
+            return RedirectToAction("Index", "Order");
+        }
+
+
+        public async Task<IActionResult> DeleteOrders( )
+        {
+            var user = await userManager.GetUserAsync(User);
+            var VendorId = await vendorService.GetVendorId_ByUserId(user.Id);
+
+            var temp = await _orderService.GetAllOrders();
+            var orders = temp.Where(a => a.Status == "confirmed");
+            foreach(var order in orders)
+            {
+                var items = await orderItemsService.GetAll(order.Id, VendorId);
+                foreach (var item in items)
+                {
+                   
+                    await orderItemsService.Delete(item.Id);
+                }
+            }
+            return RedirectToAction("Index", "Order");
+        }
+        
 
     }
 
