@@ -42,12 +42,27 @@
                 <input asp-for="Price" placeholder="Edit Price Of Product" class="form-control transparent-input border-dark-brown" type="number" autocomplete="off" />
                 <span asp-validation-for="Price" class="text-dark-brown"></span>
             </div>
-            <div class="form-group mb-4">
+
+
+
+                        <div class="form-group mb-4">
                 <label asp-for="Category" class="control-label text-darker-brown"></label>
-                <input asp-for="Category" placeholder="Edit The Category Of Product" class="form-control transparent-input border-dark-brown" type="text" autocomplete="off" />
+                <select asp-for="Category" class="form-control transparent-input border-dark-brown" style="color: #674636; background-color: #F7EFE5;">
+                    <option value="" disabled selected>Select Category</option>
+                    <option value="Chairs">Chairs</option>
+                    <option value="Tables">Tables</option>
+                    <option value="Beds">Beds</option>
+                    <option value="Sofas">Sofas</option>
+                    <option value="Desks">Desks</option>
+                    <option value="Cabinets">Cabinets</option>
+                    <option value="Outdoor">Outdoor</option>
+                    <option value="Lighting">Lighting</option>
+                    <option value="Storage">Storage</option>
+                    <option value="Accessories">Accessories</option>
+                    <option value="Rugs">Rugs</option>
+                </select>
                 <span asp-validation-for="Category" class="text-dark-brown"></span>
             </div>
-
 
             
             <!-- Custom Image Upload input-->
@@ -66,7 +81,7 @@
                 <button type="submit" class="button1 w-100">Edit <i class="fas fa-marker"></i></button>
             </div>
           
-            <a asp-action="Index" asp-controller="Home" class="button1 w-100">Cancel</a>
+            <a asp-action="VendorGallery" asp-controller="Product" class="button1 w-100">Cancel</a>
         </form>
     </div>
 </div>

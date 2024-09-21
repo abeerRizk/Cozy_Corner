@@ -4,6 +4,7 @@ using System.Diagnostics;
 
 namespace ITI_Project.Controllers
 {
+
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -12,6 +13,7 @@ namespace ITI_Project.Controllers
         {
             _logger = logger;
         }
+
 
         public async Task<IActionResult> Index()
         {

@@ -71,7 +71,7 @@
 
         </tbody>
     </table>
-    <center><button class="button2  mt-3" onclick="window.location.href='@Url.Action("EmptyTheCart", "Order")'">Delete  <span class="glyphicon glyphicon-trash"></span> </button>
+    <center><button class="button3  mt-3" onclick="window.location.href='@Url.Action("EmptyTheCart", "Order")'">Delete  <span class="glyphicon glyphicon-trash"></span> </button>
             <button class="button2  mt-3" onclick="window.location.href='@Url.Action("ConfirmOrder", "Order" , new { orderId = @Model.Id ,customerId=Model.CustomerId})'"> Confirm   </button>
     </center>
 }
@@ -142,8 +142,7 @@
 
 
     .button1 {
-        background-color: #dfbe9f;
-        color: #734d26;
+      
         padding: 8px 12px;
         text-align: center;
         font-weight: bold;
@@ -151,32 +150,64 @@
         font-size: 15px;
         width: 85px;
         border-radius: 100px;
-        border: none;
+        
+        background-color: #FFFBF5;
+        color: #C49A6C;
+        border: solid 0.5px #C49A6C;
     }
 
         .button1:hover {
             box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
             transition: all 0.3s ease;
             text-decoration: none;
+            background-color: #865439;
+            color: #FFFFFF;
         }
 
     .button2 {
         
-        background-color: #dfbe9f;
+        
         align-content: center;
         align-self:center;
-        color: #734d26;
+        
         padding: 10px 32px;
         text-align: center;
         font-weight: bold;
         display: inline-block;
         font-size: 20px;
-        width: 285px;
+        width: 205px;
         border-radius: 3000px;
         border: none;
+        background-color: #C49A6C;
+        color: #FFFFFF;
+
     }
 
         .button2:hover {
+            box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+            transition: all 0.3s ease;
+        }
+
+    .button3{
+        
+        align-content: center;
+        align-self: center;
+       
+        padding: 10px 32px;
+        text-align: center;
+        font-weight: bold;
+        display: inline-block;
+        font-size: 20px;
+        width: 205px;
+        border-radius: 3000px;
+        background-color: #FFFBF5;
+        color: #C49A6C;
+        border: solid 0.5px #C49A6C;
+    }
+
+        .button3:hover {
+            background-color: #865439;
+            color: #FFFFFF;
             box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
             transition: all 0.3s ease;
         }

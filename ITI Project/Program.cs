@@ -77,17 +77,17 @@ var app = builder.Build();
 app.UseHangfireDashboard();
 
 
+//RecurringJob.AddOrUpdate<IOrderService>(
+//    "delete-unconfirmed-orders",
+//    orderService => orderService.DeleteUnconfirmedOrders(),
+//    "* * * * *"); // Every one minute
+
+
+
 RecurringJob.AddOrUpdate<IOrderService>(
     "delete-unconfirmed-orders",
     orderService => orderService.DeleteUnconfirmedOrders(),
-    "* * * * *"); // Every one minute
-
-
-
-//RecurringJob.AddOrUpdate<IOrderService>(
-//    "delete-unconfirmed-orders",  
-//    orderService => orderService.DeleteUnconfirmedOrders(), 
-//    "0 */12 * * *");  // Every 12 hours
+    "0 */12 * * *");  // Every 12 hours
 
 
 

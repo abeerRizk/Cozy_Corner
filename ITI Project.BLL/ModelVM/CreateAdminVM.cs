@@ -10,18 +10,24 @@ namespace ITI_Project.BLL.ModelVM
     public class CreateAdminVM
     {
         [Required]
-        public string Name { get; set; }
-
+        public string UserName { get; set; }
+        [Required]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+        [Required]
+        [DataType(DataType.Password)]
+        [Compare("Password")]
+        public string ConfirmPassword { get; set; }
 
         [Required]
         [EmailAddress]
         public string Email { get; set; }
-        [Range(10, 100)]
-        public int? Age { get; set; }
-        public bool? IsDeleted { get; set; }
+
+        [Required]
         public string? Phone_Number { get; set; }
+        [Required]
         public string? Location { get; set; }
 
-        public string userId { get; set; }
+
     }
 }

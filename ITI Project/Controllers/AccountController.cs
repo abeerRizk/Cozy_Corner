@@ -43,7 +43,8 @@ namespace ITI_Project.Controllers
                     Email = newUserVM.Email,
                     address = newUserVM.Location,
                     PhoneNumber = newUserVM.Phone_Number,
-                    
+                   
+
                 };
 
                 // Attempt to create the user
@@ -95,21 +96,7 @@ namespace ITI_Project.Controllers
 
 
                     }
-                    else 
-                    {
-                        CreateAdminVM admin = new CreateAdminVM
-                        {
-                            Name = newUserVM.UserName,
-                            Email = newUserVM.Email,
-                            userId = userModel.Id,
-                            Location = newUserVM.Location,
-                            Phone_Number = newUserVM.Phone_Number
-                        };
 
-                        await userManager.AddToRoleAsync(userModel, "Admin");
-                        await signInManager.SignInAsync(userModel, false);
-                        return RedirectToAction("Read", "Product");
-                    }
 
 
 
@@ -188,41 +175,65 @@ namespace ITI_Project.Controllers
         {
             return View();
         }
+
+
+
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AddAdmin(RegisterUserVM newUserVM)
+        public async Task<IActionResult> AddAdmin(CreateAdminVM newUserVM)
         {
             if (ModelState.IsValid)
             {
-                User userModel = new User();
-                userModel.UserName = newUserVM.UserName;
-                userModel.address = newUserVM.Location;
-                userModel.Email = newUserVM.Email;
-                userModel.PasswordHash = newUserVM.Password;
+                User userModel = new User
+                {
+                    UserName = newUserVM.UserName,
+                    Email = newUserVM.Email,
+                    address = newUserVM.Location,
+                    PhoneNumber = newUserVM.Phone_Number,
+
+
+                };
                 IdentityResult Result = await userManager.CreateAsync(userModel, newUserVM.Password);
                 if (Result.Succeeded)
                 {
+                    CreateAdminVM admin = new CreateAdminVM
+                    {
+                        UserName = newUserVM.UserName,
+                        Email = newUserVM.Email,
+                       
+                        Location = newUserVM.Location,
+                        Phone_Number = newUserVM.Phone_Number
+                    };
+
                     await userManager.AddToRoleAsync(userModel, "Admin");
-
                     await signInManager.SignInAsync(userModel, false);
-                  
-
                     return RedirectToAction("Read", "Product");
 
+                 
 
                 }
                 else
                 {
+                    // If user creation failed, add errors to the model state
                     foreach (var error in Result.Errors)
                     {
-                        ModelState.AddModelError("Password", error.Description);
+                        ModelState.AddModelError(string.Empty, error.Description);
                     }
                 }
 
 
 
             }
-            return RedirectToAction("AddAdmin", "Account");
+            else
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
+                foreach (var error in errors)
+                {
+                    Console.WriteLine(error.ErrorMessage); // Log the error message
+                }
+            }
+            return View(newUserVM);
         }
 
 

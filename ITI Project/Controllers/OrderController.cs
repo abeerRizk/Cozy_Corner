@@ -41,6 +41,7 @@ namespace ITI_Project.Controllers
             this.orderItemsService = orderItemsService;
         }
 
+        [Authorize(Roles = "Vendor")]
         public async Task  <IActionResult> Index()
         {
             var user = await userManager.GetUserAsync(User);
@@ -76,7 +77,7 @@ namespace ITI_Project.Controllers
             return View(lst);
         }
 
-        [Authorize(Roles = "Vendor,Customer")]
+        [Authorize(Roles = "Customer")]
         public async Task <IActionResult> Details()
         {
             var user = await userManager.GetUserAsync(User);
@@ -201,6 +202,7 @@ namespace ITI_Project.Controllers
         }
 
 
+        [Authorize(Roles = "Vendor")]
         public async Task<IActionResult> ViewOrderItems(int OrderId , int vendorId )
         {
 
@@ -212,9 +214,9 @@ namespace ITI_Project.Controllers
         }
 
 
-        
 
-         public async Task<IActionResult> DeleteOrder(int orderId , int VendorId)
+        [Authorize(Roles = "Vendor")]
+        public async Task<IActionResult> DeleteOrder(int orderId , int VendorId)
         {
             var items = await orderItemsService.GetAll(orderId, VendorId);
             foreach(var item in items )
@@ -228,6 +230,7 @@ namespace ITI_Project.Controllers
         }
 
 
+        [Authorize(Roles = "Vendor")]
         public async Task<IActionResult> DeleteOrders( )
         {
             var user = await userManager.GetUserAsync(User);

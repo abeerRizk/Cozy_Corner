@@ -35,12 +35,14 @@ namespace ITI_Project.Controllers
             this.favoriteService = favoriteService;
             this.notificationService = notificationService;
         }
-       
+
+        [AllowAnonymous]
+        [Authorize(Roles = "Customer")]
         public async Task<IActionResult> Read()
         {
             var result = await productService.GetAll();
 
-            if ( User.IsInRole("Customer"))
+            if (User.IsInRole("Customer"))
 
             {
                 var user = await userManager.GetUserAsync(User);
@@ -203,30 +205,43 @@ namespace ITI_Project.Controllers
 
                     // delete Existing images
                     var data = await productService.GetByProductId(product.Id);
-                    foreach (var oldImage in data.Images)
+                  
+                    if (data.ImageFiles != null && images.Count != 0)
                     {
-                        var oldImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ImgProduct/Profile", oldImage);
-                        if (System.IO.File.Exists(oldImagePath))
+                        foreach (var oldImage in data.Images)
                         {
-                            System.IO.File.Delete(oldImagePath);
-                        }
-                    }
-                    data.Images.Clear();
-                    foreach (var image in images)
-                    {
-                        if (image != null && image.Length > 0)
-                        {
-                            var fileName = Path.GetFileName(image.FileName);
-                            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ImgProduct/Profile", fileName);
-
-                            using (var stream = new FileStream(filePath, FileMode.Create))
+                            var oldImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ImgProduct/Profile", oldImage);
+                            if (System.IO.File.Exists(oldImagePath))
                             {
-                                await image.CopyToAsync(stream);
+                                System.IO.File.Delete(oldImagePath);
                             }
-
-                            // Add the image URL to the product's image list
-                            product.Images.Add(fileName);
                         }
+                        data.Images.Clear();
+                    }
+                    if (images.Count != 0)
+                    {
+                        foreach (var image in images)
+                        {
+                            if (image != null && image.Length > 0)
+                            {
+                                var fileName = Path.GetFileName(image.FileName);
+                                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ImgProduct/Profile", fileName);
+
+                                using (var stream = new FileStream(filePath, FileMode.Create))
+                                {
+                                    await image.CopyToAsync(stream);
+                                }
+
+                                // Add the image URL to the product's image list
+                                product.Images.Add(fileName);
+                            }
+                        }
+                     
+                    }
+                    else
+                    {
+                        product.ImageFiles = data.ImageFiles;
+                        product.Images = data.Images;
                     }
                     await productService.Update(product);
                     return RedirectToAction("VendorGallery", "Product");

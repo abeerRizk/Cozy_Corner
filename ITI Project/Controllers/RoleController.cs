@@ -13,6 +13,7 @@ namespace ITI_Project.Controllers
         {
             this.roleManager = roleManager;
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             return View();

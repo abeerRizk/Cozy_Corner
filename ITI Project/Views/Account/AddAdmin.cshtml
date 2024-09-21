@@ -1,4 +1,4 @@
-﻿@model ITI_Project.BLL.ModelVM.RegisterUserVM
+﻿@model ITI_Project.BLL.ModelVM.CreateAdminVM
 
 @{
     ViewData["Title"] = "Register";
@@ -48,7 +48,7 @@
     <div class="form-section d-flex justify-content-center align-items-center">
         <div class="col-md-5 p-4 shadow-sm rounded form-container" style="padding-top:0px; margin-bottom:0px">
             <p class="text-brown text-center create-account-heading" style="font-family: 'Times New Roman', serif; font-size: 30px; color: #865439;">Create An Account</p>
-            <form asp-action="Register" asp-controller="Account" style="border: none; padding-left:15px; padding-right:15px; margin-top:5px;">
+            <form asp-action="AddAdmin" asp-controller="Account" style="border: none; padding-left:15px; padding-right:15px; margin-top:5px;">
                 <div asp-validation-summary="ModelOnly" class="text-dark-brown"></div>
                 <div class="form-group mb-3">
                     <label asp-for="UserName" class="control-label text-darker-brown"></label>
